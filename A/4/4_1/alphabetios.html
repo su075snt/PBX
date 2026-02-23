@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>アルファベット - Kyoko Voice</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --pink: #ff8fab;
+            --bg: #fffbf0;
+            --border: #ffcad4;
+            --blue: #4fc3f7;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: var(--pink);
+            font-size: 1.5rem;
+            margin: 10px 0 20px 0;
+            background: white;
+            padding: 8px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 0 var(--border);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .card {
+            background: white;
+            border: 3px solid var(--border);
+            border-radius: 20px;
+            height: 95px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 5px 0 var(--border);
+            position: relative;
+        }
+
+        .card:active {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 var(--border);
+            background-color: #fff9c4;
+        }
+
+        .letter-group { display: flex; align-items: baseline; gap: 2px; }
+        .upper { font-size: 2rem; color: var(--blue); }
+        .lower { font-size: 1.4rem; color: var(--blue); }
+
+        .reading {
+            font-size: 0.8rem;
+            color: var(--pink);
+            margin-top: 2px;
+            font-weight: bold;
+            opacity: 0;
+        }
+
+        .card.active .reading { opacity: 1; }
+        .card.active .upper, .card.active .lower { color: var(--pink); }
+    </style>
+</head>
+<body>
+
+    <h1>🌸 アルファベット 🌸</h1>
+    <div class="grid" id="alphabetGrid"></div>
+
+    <script>
+        const alphabet = [
+            ['A','a','エー'],['B','b','ビー'],['C','c','シー'],['D','d','ディー'],['E','e','イー'],
+            ['F','f','エフ'],['G','g','ジー'],['H','h','エイチ'],['I','i','アイ'],['J','j','ジェー'],
+            ['K','k','ケイ'],['L','l','エル'],['M','m','エム'],['N','n','エヌ'],['O','o','オー'],
+            ['P','p','ピー'],['Q','q','キュー'],['R','r','アール'],['S','s','エス'],['T','t','ティー'],
+            ['U','u','ユー'],['V','v','ヴィー'],['W','w','ダブリュー'],['X','x','エックス'],['Y','y','ワイ'],['Z','z','ゼット']
+        ];
+
+        let femaleVoice = null;
+
+        // Hàm tìm giọng nữ Kyoko
+        function setVoice() {
+            const voices = window.speechSynthesis.getVoices();
+            // Ưu tiên Kyoko (Giọng nữ Nhật chuẩn nhất trên iOS)
+            femaleVoice = voices.find(v => v.name.includes('Kyoko')) || 
+                          voices.find(v => v.lang === 'ja-JP');
+        }
+
+        // Fix lỗi iOS không load voice ngay lập tức
+        window.speechSynthesis.onvoiceschanged = setVoice;
+        setVoice();
+
+        const grid = document.getElementById('alphabetGrid');
+
+        alphabet.forEach(([up, lo, kana]) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `<div class="letter-group"><span class="upper">${up}</span><span class="lower">${lo}</span></div><div class="reading">${kana}</div>`;
+
+            const handleAction = (e) => {
+                e.preventDefault();
+                
+                // Hiệu ứng
+                card.classList.add('active');
+                setTimeout(() => card.classList.remove('active'), 800);
+
+                // Phát âm
+                const uttr = new SpeechSynthesisUtterance(kana);
+                if (femaleVoice) uttr.voice = femaleVoice;
+                uttr.lang = 'ja-JP';
+                uttr.rate = 0.9;
+                uttr.pitch = 1.1;
+
+                window.speechSynthesis.cancel();
+                window.speechSynthesis.speak(uttr);
+            };
+
+            // Dùng touchend cho iOS mượt hơn
+            card.addEventListener('touchend', handleAction);
+            card.addEventListener('click', handleAction);
+
+            grid.appendChild(card);
+        });
+
+        // "Mồi" âm thanh cho iOS: Khi bé chạm vào bất cứ đâu lần đầu, hệ thống âm thanh sẽ mở
+        document.addEventListener('touchstart', () => {
+            window.speechSynthesis.speak(new SpeechSynthesisUtterance(''));
+        }, { once: true });
+
+    </script>
+</body>
+</html>

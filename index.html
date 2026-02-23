@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5JGV44WXGP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5JGV44WXGP');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タヌキ日本語</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e6ed;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .visitor-counter {
+            font-size: 0.8rem;
+            background-color: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(52,152,219,0.3);
+        }
+        
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 1600px) {
+            .content-wrapper {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .panel {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eef2f7;
+        }
+        
+        .panel-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .panel-title i {
+            color: #3498db;
+        }
+        
+        .folder-count {
+            background-color: #3498db;
+            color: white;
+            border-radius: 20px;
+            padding: 3px 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .directory-tree {
+            max-height: 700px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        .directory-tree::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .directory-tree::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        
+        .directory-tree::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        
+        .directory-tree::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        .tree {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .tree ul {
+            list-style: none;
+            padding-left: 20px;
+            margin-left: 12px;
+            border-left: 1px dashed #d1d9e6;
+        }
+        
+        .tree li {
+            margin: 6px 0;
+            position: relative;
+        }
+        
+        .folder {
+            font-weight: 600;
+            color: #2c3e50;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        
+        .folder:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .folder i {
+            margin-right: 8px;
+            font-size: 1rem;
+            width: 18px;
+            text-align: center;
+        }
+        
+        .folder .fa-folder {
+            color: #f39c12;
+        }
+        
+        .folder .fa-folder-open {
+            color: #f39c12;
+        }
+        
+        .folder .fa-file {
+            color: #3498db;
+            font-size: 0.85rem;
+        }
+        
+        .file {
+            color: #4a5568;
+            padding: 5px 10px 5px 35px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .file:hover {
+            background-color: #f8fafc;
+            color: #2d3748;
+        }
+        
+        .file i {
+            margin-right: 6px;
+            font-size: 0.85rem;
+        }
+        
+        .collapsed > ul {
+            display: none;
+        }
+        
+        .collapsed > .folder .fa-folder-open {
+            display: none;
+        }
+        
+        .expanded > .folder .fa-folder {
+            display: none;
+        }
+        
+        .file-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            width: 100%;
+        }
+        
+        .file-link:hover {
+            text-decoration: underline;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+        
+        button#expandAll {
+            background-color: #2ecc71;
+        }
+        
+        button#expandAll:hover {
+            background-color: #27ae60;
+            box-shadow: 0 4px 8px rgba(46, 204, 113, 0.3);
+        }
+        
+        button#collapseAll {
+            background-color: #e74c3c;
+        }
+        
+        button#collapseAll:hover {
+            background-color: #c0392b;
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .panel {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                flex-direction: column;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                <i class="fas fa-folder-tree"></i> (ĐANG TEST!!! CÓ NHIỀU TỪ MÁY ĐỌC SAI NHÉ)
+                <span class="visitor-counter" id="visitor-counter">
+                    <i class="fas fa-eye"></i> <span id="count">0</span>
+                </span>
+            </h1>
+            <p class="subtitle">chủ yếu chạy trên máy tính windows. Phần toán có bảng ios cho bài toán cộng và trừ,!!!</p>
+        </header>
+        
+        <div class="content-wrapper">
+            <!-- Cột A -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title"><i class="fas fa-folder"></i> 国語</h2>
+                    <span class="folder-count">お知らせ</span>
+                </div>
+                <div class="directory-tree">
+                    <ul class="tree">
+                        <!-- Thư mục con 1 -->
+                        <li class="expanded">
+                            <div class="folder">
+                                <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> ひらがな-カタカナ
+                            </div>
+                            <ul>
+                                <!-- Thư mục nhỏ 1_1 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> ひらがなーカタカナ
+                                    </div>
+                                    <ul>
+                                        <li><a href="A/1/1_1/104ひらがな.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 104ひらがな-WINDOWS</div></a></li>
+                                        <li><a href="A/1/1_1/104ひらがなIPHONE.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 104ひらがな-IPHONE</div></a></li>
+                                        <li><a href="A/1/1_1/104カタカナ.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 104カタカナ-WINDOWS</div></a></li>
+                                        <li><a href="A/1/1_1/104カタカナIPHONE.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 104カタカナ-IPHONE</div></a></li>
+                                    </ul>
+                                </li>
+                                <!-- Thư mục nhỏ 1_2 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> ひらがなーカタカナ（テスト）
+                                    </div>
+                                    <ul>
+                          <!--              <li><a href="A/1/1_2/ひらがな104テスト.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 104ひらがなテスト-WINDOWS</div></a></li> -->
+                                        <li><a href="A/1/1_2/ひらがな104テストIPHONE.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 104ひらがなーテスト-IPHONE</div></a></li>
+                             <!--           <li><a href="A/1/1_2/カタカナ104テスト.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 104カタカナテスト-WINDOWS</div></a></li>  -->
+                                        <li><a href="A/1/1_2/カタカナ104テストIPHONE.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 104カタカナーテストーIPHONE</div></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <!-- Thư mục con 2 -->
+                        <li class="collapsed">
+                            <div class="folder">
+                                <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> 言葉ー会話
+                            </div>
+                            <ul>
+                                <!-- Thư mục nhỏ 2_1 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> 言葉
+                                    </div>
+                                    <ul>
+                                        <li><a href="A/2/2_1/truonghoc.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 学校関連言葉ーTỪ VỤNG TRƯỜNG HỌC </div></a></li>
+                                        <li><a href="A/2/2_1/kotoba1.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 生活関連言葉ーTỪ VỤNG CUỘC SỐNG HẰNG NGÀY</div></a></li>
+                                        <li><a href="A/2/2_1/sieuthi.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> スーパー関連言葉ーTỪ VỰNG  LIÊN QUAN SIÊU THỊ.html</div></a></li>
+                                        <li><a href="A/2/2_1/benhvien.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 病院関連言葉ーTỪ VỰNG LIÊN QUAN ĐẾN BỆNH VIỆN.html</div></a></li>
+										
+                                    </ul>
+                                </li>
+                                <!-- Thư mục nhỏ 2_2 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> 会話ーHỘI THOẠI
+                                    </div>
+                                    <ul>
+                                        <li><a href="A/2/2_2/gakkokaiwa.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 学校によく使う言葉</div></a></li>
+										 <li><a href="A/2/2_2/khambenh.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 病院よく使う言葉ーKHÁM BỆNH</div></a></li>
+										  <li><a href="A/2/2_2/shiyakusho.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 市役所などよく使う言葉-THỦ TỤC HÀNH CHÍNH</div></a></li>
+										 
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <!-- Thư mục con 3 -->
+                        <li class="collapsed">
+                            <div class="folder">
+                                <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> 漢字
+                            </div>
+                            <ul>
+                                <!-- Thư mục nhỏ 3_1 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> 漢字リスト
+                                    </div>
+                                    <ul>
+                                        <li><a href="A/3/3_1/80kanjilop1.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 1年生80漢字</div></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>  
+                        
+                        <!-- Thư mục con 4 -->
+                        <li class="collapsed">
+                            <div class="folder">
+                                <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> アルファベット
+                            </div>
+                            <ul>
+                                <!-- Thư mục nhỏ 4_1 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> アルファベット表
+                                    </div>
+                                    <ul>
+                                        <li><a href="A/4/4_1/アルファベット.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> アルファベット-WINDOWS</div></a></li>
+                                        <li><a href="A/4/4_1/alphabetios.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> アルファベット-IPHONE</div></a></li>
+                                    </ul>
+                                </li>
+                                <!-- Thư mục nhỏ 4_2 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> アルファベットテスト
+                                    </div>
+                                    <ul>
+                                        <li><a href="A/4/4_2/アルファベットテスト.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> アルファベットーテストーWINDOWS</div></a></li>
+                                        <li><a href="A/4/4_2/アルファベットテストIPHONE.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> アルファベットーテストーIPHONE</div></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Cột B -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title"><i class="fas fa-folder"></i> 算数</h2>
+                    <span class="folder-count">お知らせ!</span>
+                </div>
+                <div class="directory-tree">
+                    <ul class="tree">
+                        <!-- Thư mục con 1 -->
+                        <li class="expanded">
+                            <div class="folder">
+                                <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> 数字ー数え方
+                            </div>
+                            <ul>
+                                <!-- Thư mục nhỏ 1_1 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> 数字ー数え方
+                                    </div>
+                                    <ul>
+                                        <li><a href="B/1/1_1/数字1-100000.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 数字1-100000</div></a></li>
+                                        <li><a href="B/1/1_1/ball.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> ブロック数字-Số bóng</div></a></li>
+                                        <li><a href="B/1/1_1/kazoekata.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 数え方基本.html</div></a></li>
+                                    </ul>
+                                </li>
+                                <!-- Thư mục nhỏ 1_2 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> 数字テスト
+                                    </div>
+                                    <ul>
+                                        <li><a href="B/1/1_2/数字1-100000テスト.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 数字1-100000</div></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <!-- Thư mục con 2 -->
+                        <li class="collapsed">
+                            <div class="folder">
+                                <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> たすひく算
+                            </div>
+                            <ul>
+                                <!-- Thư mục nhỏ 2_1 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> TOÁN 
+                                    </div>
+                                    <ul>
+                                        <li><a href="B/2/2_1/logiccongtru.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> たすひく算の関係ーSỰ LIÊN HỆ GIỬA CỘNG VÀ TRỪ</div></a></li>
+                                    </ul>
+                                </li>
+                                <!-- Thư mục nhỏ 2_2 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> たすひく算宿題ーBÀI TẬP CỘNG TRỪ
+                                    </div>
+                                    <ul>
+                                        <li><a href="B/2/2_1/congtru.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> たすひく算-CỘNG VÀ TRỪ WINDOWS</div></a></li>
+                                        <li><a href="B/2/2_1/congtrutestios.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> CỘNG VÀ TRỪ - IPHONE</div></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                        <!-- Thư mục con 3 -->
+                        <li class="collapsed">
+                            <div class="folder">
+                                <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> かけ算わけ算
+                            </div>
+                            <ul>
+                                <!-- Thư mục nhỏ 3_1 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> かけ算わけ算
+                                    </div>
+                                    <ul>
+                                        <li><a href="B/3/3_1/logicnhanchia.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> かけ算わけ算ーSỰ LIÊN HỆ GIỬA NHÂN VÀ CHIA</div></a></li>
+                                    </ul>
+                                </li>
+                                <!-- Thư mục nhỏ 3_2 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> かけわけ算宿題-BÀI TẬP NHÂN CHIA
+                                    </div>
+                                    <ul>
+                                        <li><a href="B/3/3_2/nhanchia.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i>  かけわけ算宿題-BÀI TẬP NHÂN VÀ CHIA WINDOWS</div></a></li>
+                                        <li><a href="B/3/3_2/nhanchiatestios.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> かけ算わけ算-NHÂN VÀ CHIA-IPHONE</div></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Cột C -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title"><i class="fas fa-folder"></i> 英語</h2>
+                    <span class="folder-count">testing!!</span>
+                </div>
+                <div class="directory-tree">
+                    <ul class="tree">
+                        <!-- Thư mục con 1 -->
+                        <li class="expanded">
+                            <div class="folder">
+                                <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> Alphabet
+                            </div>
+                            <ul>
+                                <!-- Thư mục nhỏ 1_1 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> Alphabet　AND Numbers
+                                    </div>
+                                    <ul>
+                                        <li><a href="C/1/1_1/alphabet.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> Alphabet-WINDOWS</div></a></li>
+                                        <li><a href="C/1/1_1/ALPHABETPHONE.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> Alphabet-IPHONE</div></a></li>
+                                        <li><a href="C/1/1_1/numbers.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> NUMBER-WINDOWS</div></a></li>
+                                        <li><a href="C/1/1_1/NUMBERIPHONE.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> NUMBER-IPHONE</div></a></li>
+                                    </ul>
+                                </li>
+                                <!-- Thư mục nhỏ 1_2 -->
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> Alphabet Test
+                                    </div>
+                                    <ul>
+                                        <li><a href="C/1/1_2/Alphabettest.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> Alphabettest</div></a></li>
+                                        <li><a href="C/1/1_2/numberstest.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> numberstest</div></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Cột D -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title"><i class="fas fa-folder"></i> FREE　</h2>
+                    <span class="folder-count">Testing！！</span>
+                </div>
+                <div class="directory-tree">
+                    <ul class="tree">
+                        <li class="expanded">
+                            <div class="folder">
+                                <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> Relax--
+                            </div>
+                            <ul>
+                                <li class="collapsed">
+                                    <div class="folder">
+                                        <i class="fas fa-folder-open"></i><i class="fas fa-folder"></i> そら
+                                    </div>
+                                    <ul>
+                                        <li><a href="D/1/1_1/太陽系.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> 太陽系</div></a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="expandAll">
+                <i class="fas fa-expand-alt"></i> Mở Rộng Tất Cả
+            </button>
+            <button id="collapseAll">
+                <i class="fas fa-compress-alt"></i> Thu Gọn Tất Cả
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript xử lý mở/đóng thư mục
+        document.addEventListener('DOMContentLoaded', function() {
+            const folders = document.querySelectorAll('.folder');
+            folders.forEach(folder => {
+                folder.addEventListener('click', function(e) {
+                    if (e.target.tagName === 'A' || e.target.parentElement.tagName === 'A') {
+                        return;
+                    }
+                    e.stopPropagation();
+                    const parentLi = this.parentNode;
+                    parentLi.classList.toggle('collapsed');
+                    parentLi.classList.toggle('expanded');
+                });
+            });
+            
+            document.getElementById('expandAll').addEventListener('click', expandAll);
+            document.getElementById('collapseAll').addEventListener('click', collapseAll);
+            
+            const firstFolders = document.querySelectorAll('.panel .tree > li:first-child');
+            firstFolders.forEach(folder => {
+                folder.classList.remove('collapsed');
+                folder.classList.add('expanded');
+            });
+
+            // Cập nhật bộ đếm lượt truy cập
+            updateVisitorCounter();
+        });
+        
+        function expandAll() {
+            const allFolders = document.querySelectorAll('.tree li');
+            allFolders.forEach(folder => {
+                folder.classList.remove('collapsed');
+                folder.classList.add('expanded');
+            });
+        }
+        
+        function collapseAll() {
+            const allFolders = document.querySelectorAll('.tree li');
+            allFolders.forEach(folder => {
+                folder.classList.remove('expanded');
+                folder.classList.add('collapsed');
+            });
+            
+            const firstFolders = document.querySelectorAll('.panel .tree > li:first-child');
+            firstFolders.forEach(folder => {
+                folder.classList.remove('collapsed');
+                folder.classList.add('expanded');
+            });
+        }
+
+        // Hàm cập nhật bộ đếm (dùng countapi.xyz + fallback localStorage)
+        function updateVisitorCounter() {
+            const countElement = document.getElementById('count');
+            // Thử dùng countapi.xyz (cần internet)
+            fetch('https://api.countapi.xyz/hit/tanuki-japanese/visitors')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.value) {
+                        countElement.innerText = data.value;
+                    } else {
+                        throw new Error('Invalid response');
+                    }
+                })
+                .catch(() => {
+                    // Fallback sang localStorage nếu không có mạng
+                    let count = localStorage.getItem('visitorCount');
+                    if (count === null) {
+                        count = 1;
+                    } else {
+                        count = parseInt(count) + 1;
+                    }
+                    localStorage.setItem('visitorCount', count);
+                    countElement.innerText = count;
+                });
+        }
+    </script>
+</body>
+</html>

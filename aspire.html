@@ -128,6 +128,13 @@
     .tree li.hidden {
         display: none;
     }
+	mark {
+    background-color: yellow !important;
+    color: black !important;
+    display: inline-block;
+    padding: 0 2px;
+    border-radius: 2px;
+}
 </style>
 </head>
 <body>
@@ -152,9 +159,20 @@
                                         <li class="collapsible">
                                             <span class="folder-name">10-01 時計カレンダー設定</span><ul><li class="item-name">
 													<details>
-														<summary style="cursor: pointer; list-style: none;">10-01-01</summary>
+														<summary style="cursor: pointer; list-style: none;">	
+														<p class="note-item">10-01-01   年 現在時刻の西暦を設定する。 Ａ － 13～97<br>
+																			10-01-02    月 現在時刻の月を設定する。 Ａ － 01～12<br>
+																			10-01-03    日 現在時刻の日を設定する。 Ａ － 01～31<br>
+																			10-01-04    曜日 現在時刻の曜日を設定する。
+																			
+																			1：日、2：月、3：火、4：
+																			水、5：木、6：金、7：土<br>
+																			10-01-05 時 現在時刻の時を設定する。 Ａ － 00～23<br>
+																			10-01-06 分 現在時刻の分を設定する。 Ａ － 00～59<br>
+																			10-01-07 秒 現在時刻の秒を設定する。 Ａ － 00～59<br> 
+																			</summary>
 														<div style="margin-left: 20px;">
-															<p class="note-item">Ghi chú 1: [Nội dung tex11111111111111111111<br>222222222222<br>333333333333333<br>33333333333<br>4444444444444<br>1t]</p>
+															<p class="note-item">Ghi chú 1: 10-01 時計カレンダー設定 SA ○<br>
 															<p class="note-item">Ghi chú 2: [Nội dung text2222222222222222222222]</p>
 														</div>
 													</details>
@@ -210,12 +228,42 @@
                                                 <li><span class="item-name">10-11-01</span></li>
                                             </ul>
                                         </li>
-                                        <li class="collapsible">
-                                            <span class="folder-name">10-12 CCPUネットワーク設定</span>
-                                            <ul>
-                                                <li><span class="item-name">10-12-01</span></li>
-                                            </ul>
-                                        </li>
+                                         <li class="collapsible">
+											<span class="folder-name">10-12 CCPUネットワーク設定</span><ul><li class="item-name">
+													<details>
+														<summary style="cursor: pointer; list-style: none;">	
+														<p class="note-item">10-12-01 IP アドレス CCPU ユニットの IP アドレスを設定する。 Ａ 192.168.0.10 『付録 2.1. IP アドレス』（⇒ P.6-7）を参照<br>
+10-12-02 サブネットマスク CCPU ユニットのサブネットマスクを設定する。 Ａ 255.255.255.0 『付録 2.2. サブネットマスク』（⇒ P.6-8）を参照<br>
+10-12-03 デフォルトゲートウェイ ルータの IP アドレスを入力する。 Ａ 0.0.0.0 『付録 2.1. IP アドレス』（⇒ P.6-7）を参照<br>
+10-12-04 タイムゾーン 世界標準時からの時間差を設定する。 ※通常は変更不要 PRG 90-56：NTP 設定のタイムゾーンとして使用されます。 Ａ 21 (0：-12 時間 ～ 24：+12 時間)<br>
+10-12-05 NIC 設定 接続先の NIC（ネットワークインタフェースカード）の通信タイプを設定する。 ※通常は、自動検出を設定します。 B 0 (0：自動検出, 1：100M Full, 2：100M Half, 3：10M Full, 4：10M Half, 5：1G Full)<br>
+10-12-07 NAPT ルータ IP アドレス NAPT ルータの WAN 側 IP アドレスを設定する。 Ａ 0.0.0.0 『付録 2.1. IP アドレス』（⇒ P.6-7）を参照<br>
+10-12-08 ICMP リダイレクト ICMP リダイレクトメッセージを受信したときに、自動的に IP ルーティングテーブルの経路情報を更新するかどうかを設定する。 B 0 (0：自動更新する, 1：自動更新しない)<br>
+10-12-09 IP アドレス（VOIPDB） VOIPDB ユニットの LAN IP アドレスを設定する。 A 172.16.0.10 『付録 2.1. IP アドレス』（⇒ P.6-7）を参照<br>10-12-10 サブネットマスク（VOIPDB） VOIPDB ユニットのサブネットマスクを設定する。 A 255.255.0.0 『付録 2.2. サブネットマスク』（⇒ P.6-8）を参照<br>
+10-12-11 NIC 設定（VOIPDB） VOIPDB ユニット利用時に、接続先の NIC の通信タイプを設定する。 ※通常は、自動検出を設定します。 B 0 (0：自動検出, 1：100M Full, 3：10M Full, 5：1G Full)<br>
+10-12-13 DNS プライマリアドレス プライマリ DNS サーバの IP アドレスを設定する。 A 0.0.0.0 『付録 2.1. IP アドレス』（⇒ P.6-7）を参照<br>
+10-12-14 DNS セカンダリアドレス セカンダリ DNS サーバの IP アドレスを設定する。 A 0.0.0.0 『付録 2.1. IP アドレス』（⇒ P.6-7）を参照<br>
+10-12-15 DNS ポート番号 DNS サーバのポート番号を設定する。 A 53 (1～65535)<br>
+10-12-17 VOIPDB ポート設定 PRG10-12-11 を 0：自動検出以外に設定した場合に MDI/MDI-X を設定する。 B 0 (0：MDI, 1：MDI-X)<br>
+10-12-18 CCPU MTU 値 CCPU ユニットの LAN インタフェースの MTU 値を設定する。 A 1450 (1000～1500)<br>
+10-12-19 VOIPDB MTU 値 VOIPDB ユニットの LAN インタフェースの MTU 値を設定する. A 1450 (1000～1500)<br>
+10-12-20 SSLv3 設定 SMTP 送信で暗号化を使用した場合に SSLv3 を使用するかどうかを設定する。 B 0 (0：使用しない, 1：使用する)<br>
+Hãy thận trọng khi sử dụng mã.
+
+
+
+
+
+																			</summary>
+														<div style="margin-left: 20px;">
+															<p class="note-item">Ghi chú 1: 10-01 時計カレンダー設定 SA ○<br>
+															<p class="note-item">Ghi chú 2: [Nội dung text2222222222222222222222]</p>
+														</div>
+													</details>
+										</li>
+									</ul>
+								</li>
+
                                         <li class="collapsible">
                                             <span class="folder-name">10-13 内蔵DHCPサーバ設定</span>
                                             <ul>
@@ -300,13 +348,27 @@
                                                 <li><span class="item-name">10-31-01</span></li>
                                             </ul>
                                         </li>
-                                        <li class="collapsible">
-                                            <span class="folder-name">10-33 SIPRegistrar/Proxy情報基本設定</span>
-                                            <ul>
-                                                <li><span class="item-name">10-33-01</span></li>
-                                            </ul>
-                                        </li>
-                                        <li class="collapsible">
+                                      <li class="collapsible">
+											<span class="folder-name">10-33 SIPRegistrar/Proxy情報基本設定<</span>
+											<ul style="list-style: none; padding-left: 20px; margin: 0;">
+												<!-- Thay class item-name bằng style trực tiếp để tránh bị dính icon folder dư -->
+												<li style="list-style: none; margin-top: 5px;">
+													<details>
+														<summary style="cursor: pointer; list-style: none; outline: none; font-weight: bold; color: #1a73e8; display: flex; align-items: center;">
+															<span style="margin-right: 5px;"></span> 10-33-02K1
+														</summary>
+														<div style="margin-left: 20px; border-left: 1px solid #ddd; padding-left: 15px; margin-top: 5px;">
+															<p class="note-item" style="margin: 0; line-height: 1.6; font-size: 14px;">
+																<strong>10-33Note:</strong><br>
+															    チェックなし
+															</p>
+															<p class="note-item" style="margin-top: 10px; color: #666;">Ghi chú 2: [Nội dung ]</p>
+														</div>
+													</details>
+												</li>
+											</ul>
+										</li>
+                                       <li class="collapsible">
                                             <span class="folder-name">10-36 SIP外線登録情報設定</span>
                                             <ul>
                                                 <li><span class="item-name">10-36-01</span></li>
@@ -336,12 +398,35 @@
                                                 <li><span class="item-name">10-45-01</span></li>
                                             </ul>
                                         </li>
-                                        <li class="collapsible">
-                                            <span class="folder-name">10-46 IP 多機能電話機サーバ情報設定</span>
-                                            <ul>
-                                                <li><span class="item-name">10-46-01</span></li>
-                                            </ul>
-                                        </li>
+                                         <li class="collapsible">
+											<span class="folder-name">IP 多機能電話機サーバ情報設定<</span>
+											<ul style="list-style: none; padding-left: 20px; margin: 0;">
+												<!-- Thay class item-name bằng style trực tiếp để tránh bị dính icon folder dư -->
+												<li style="list-style: none; margin-top: 5px;">
+													<details>
+														<summary style="cursor: pointer; list-style: none; outline: none; font-weight: bold; color: #1a73e8; display: flex; align-items: center;">
+															<span style="margin-right: 5px;"></span> 10-46-01  autologon
+														</summary>
+														<div style="margin-left: 20px; border-left: 1px solid #ddd; padding-left: 15px; margin-top: 5px;">
+															<p class="note-item" style="margin: 0; line-height: 1.6; font-size: 14px;">
+																<strong>1046Note:</strong><br>
+																
+																		IP 電話 auto logon <br>
+																		ログイン　できない　初期<br>
+																		10-46-01ー登録モードプラグプライ<br>
+																		10-33-02 認証機能　オッフ　チェックなし<br>
+
+																		特殊ボタンによるログイン 特殊保留*#<br>
+																		20-07-36 クラス2 チェック 	<br>
+
+															</p>
+															<p class="note-item" style="margin-top: 10px; color: #666;">Ghi chú 2: [Nội dung ]</p>
+														</div>
+													</details>
+												</li>
+											</ul>
+										</li>
+
                                         <li class="collapsible">
                                             <span class="folder-name">10-47 端末ライセンスサーバ情報設定</span>
                                             <ul>
@@ -378,12 +463,29 @@
                                                 <li><span class="item-name">10-52-01</span></li>
                                             </ul>
                                         </li>
-                                        <li class="collapsible">
-                                            <span class="folder-name">10-54 各種ユニットのライセンス設定</span>
-                                            <ul>
-                                                <li><span class="item-name">10-54-01</span></li>
-                                            </ul>
-                                        </li>
+                                     <li class="collapsible">
+											<span class="folder-name">10-54 各種ユニットのライセンス設定<</span>
+											<ul style="list-style: none; padding-left: 20px; margin: 0;">
+												<!-- Thay class item-name bằng style trực tiếp để tránh bị dính icon folder dư -->
+												<li style="list-style: none; margin-top: 5px;">
+													<details>
+														<summary style="cursor: pointer; list-style: none; outline: none; font-weight: bold; color: #1a73e8; display: flex; align-items: center;">
+															<span style="margin-right: 5px;"></span> 10-54-01  ライセンスraisensu
+														</summary>
+														<div style="margin-left: 20px; border-left: 1px solid #ddd; padding-left: 15px; margin-top: 5px;">
+															<p class="note-item" style="margin: 0; line-height: 1.6; font-size: 14px;">
+																<strong>1054Note:</strong><br>
+																
+																IPTU 6400           	
+
+															</p>
+															<p class="note-item" style="margin-top: 10px; color: #666;">Ghi chú 2: [Nội dung ]</p>
+														</div>
+													</details>
+												</li>
+											</ul>
+										</li>
+
                                         <li class="collapsible">
                                             <span class="folder-name">10-55 パッケージネットワーク設定</span>
                                             <ul>
@@ -548,70 +650,116 @@
                                     <span class="folder-name">15 電話機基本データ設定</span>
                                     <ul>
                                         <li class="collapsible"><span class="folder-name">15-01 電話機基本データ設定(仮想内線も含む)</span><ul><li><span class="item-name">15-01-01abc</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">15-02 多機能電話機基本設定</span><ul><li><span class="item-name">15-02-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">15-03 一般電話機基本設定</span><ul><li><span class="item-name">15-03-01</span></li></ul></li>
+                                       
+
+									   <li class="collapsible">
+											<span class="folder-name">15-02 多機能電話機基本設定</span>
+											<ul style="list-style: none; padding-left: 20px; margin: 0;">
+												<!-- Thay class item-name bằng style trực tiếp để tránh bị dính icon folder dư -->
+												<li style="list-style: none; margin-top: 5px;">
+													<details>
+														<summary style="cursor: pointer; list-style: none; outline: none; font-weight: bold; color: #1a73e8; display: flex; align-items: center;">
+															<span style="margin-right: 5px;"></span> 15-02-32-K1
+														</summary>
+														<div style="margin-left: 20px; border-left: 1px solid #ddd; padding-left: 15px; margin-top: 5px;">
+															<p class="note-item" style="margin: 0; line-height: 1.6; font-size: 14px;">
+																<strong>15-02note:</strong><br>
+																
+																           15-02-32 必要分だけではなく基盤が入っている収容分もいれておくように		
+
+
+															</p>
+															<p class="note-item" style="margin-top: 10px; color: #666;">Ghi chú 2: [Nội dung text2222222222222222222222]</p>
+														</div>
+													</details>
+												</li>
+											</ul>
+										</li>
+
+
+                                        <li class="collapsible">
+															<span class="folder-name">15-03 一般電話機基本設定</span>
+															<ul style="list-style: none; padding-left: 20px; margin: 0;">
+																<!-- Thay class item-name bằng style trực tiếp để tránh bị dính icon folder dư -->
+																<li style="list-style: none; margin-top: 5px;">
+																	<details>
+																		<summary style="cursor: pointer; list-style: none; outline: none; font-weight: bold; color: #1a73e8; display: flex; align-items: center;">
+																			<span style="margin-right: 5px;"></span> 15-03-01-K1
+																		</summary>
+																		<div style="margin-left: 20px; border-left: 1px solid #ddd; padding-left: 15px; margin-top: 5px;">
+																			<p class="note-item" style="margin: 0; line-height: 1.6; font-size: 14px;">
+																				<strong>250301note:</strong><br>
+																				
+
+
+
+																			</p>
+																			<p class="note-item" style="margin-top: 10px; color: #666;">Ghi chú 2: [Nội dung text2222222222222222222222]</p>
+																		</div>
+																	</details>
+																</li>
+															</ul>
+										</li>
+
                                         <li class="collapsible"><span class="folder-name">15-04 PHS 端末基本設定</span><ul><li><span class="item-name">15-04-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-05 IP Phone 端末基本設定</span><ul><li><span class="item-name">15-05-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-06 電話機の外線アクセスマップ設定</span><ul><li><span class="item-name">15-06-01</span></li></ul></li>
-                                      
-									   
-                                        
                                         <li class="collapsible">
-    <span class="folder-name">15-07 多機能電話機の機能ボタン設定</span>
-    <ul style="list-style: none; padding-left: 20px; margin: 0;">
-        <!-- Thay class item-name bằng style trực tiếp để tránh bị dính icon folder dư -->
-        <li style="list-style: none; margin-top: 5px;">
-            <details>
-                <summary style="cursor: pointer; list-style: none; outline: none; font-weight: bold; color: #1a73e8; display: flex; align-items: center;">
-                    <span style="margin-right: 5px;"></span> 15-07-01
-                </summary>
-                <div style="margin-left: 20px; border-left: 1px solid #ddd; padding-left: 15px; margin-top: 5px;">
-                    <p class="note-item" style="margin: 0; line-height: 1.6; font-size: 14px;">
-                        <strong>botan-K1:</strong><br>
-                        01 ワンタッチキー<br>
-                        03着信拒否 kyohi<br>
-                        05ヘッドセット<br>
-                        06 転送キー<br>
-                        09 運用モード<br>
-                        10 着信転送<br>
-                        11話中転送<br>
-                        12不応答転送<br>
-                        13話中不応答転送<br>
-                        14-不在転送<br>
-                        19-グループ放送<br>
-                        20-一斉放送 issehousou<br>
-                        21- 内線ページング呼出<br>
-                        22-内線一斉ページング呼出<br>
-                        23-内線ページング呼出応答<br>
-                        24-代理応答 dairioutou<br>
-                        25-他グループ代理応答<br>
-                        26-グループ指定代理<br>
-                        34-通話割り込み wakikomi<br>
-                        35-キャンプオン 予約on/off<br>
-                        36-ステップコール<br>
-                        51-汎用リレー rire<br>
-                        52-着信お待たせ omatase<br>
-                        54-着信お待たせ起動 omatase<br>
-                        55-内線名称編集<br>
-                        67-メールボックス merubox<br>
-                        68-メールボイスサービス<br>
-                        69-通話録音 tsuwarokuon<br>
-                        70-留守番電話 rusuban<br>
-                        71-留守番応答メッセージ切り替え<br>
-                        76-アプリケーションキー<br>
-                        97-ドアホン呼出<br>
-                        *00 内線キー<br>
-                        *01 外線キー<br>
-                        *02 索キー<br>
-                        *03 仮想内線キー kasou<br>
-                        *04 パーク保留 horyu
-                    </p>
-                    <p class="note-item" style="margin-top: 10px; color: #666;">Ghi chú 2: [Nội dung text2222222222222222222222]</p>
-                </div>
-            </details>
-        </li>
-    </ul>
-</li>
+											<span class="folder-name">15-07 多機能電話機の機能ボタン設定</span>
+											<ul style="list-style: none; padding-left: 20px; margin: 0;">
+												<!-- Thay class item-name bằng style trực tiếp để tránh bị dính icon folder dư -->
+												<li style="list-style: none; margin-top: 5px;">
+													<details>
+														<summary style="cursor: pointer; list-style: none; outline: none; font-weight: bold; color: #1a73e8; display: flex; align-items: center;">
+															<span style="margin-right: 5px;"></span> 15-07-01-K1
+														</summary>
+														<div style="margin-left: 20px; border-left: 1px solid #ddd; padding-left: 15px; margin-top: 5px;">
+															<p class="note-item" style="margin: 0; line-height: 1.6; font-size: 14px;">
+																<strong>botan:</strong><br>
+																01 ワンタッチキー<br>
+																03着信拒否 kyohi<br>
+																05ヘッドセット<br>
+																06 転送キー<br>
+																09 運用モード<br>
+																10 着信転送<br>
+																11話中転送<br>
+																12不応答転送<br>
+																13話中不応答転送<br>
+																14-不在転送<br>
+																19-グループ放送<br>
+																20-一斉放送 issehousou<br>
+																21- 内線ページング呼出<br>
+																22-内線一斉ページング呼出<br>
+																23-内線ページング呼出応答<br>
+																24-代理応答 dairioutou<br>
+																25-他グループ代理応答<br>
+																26-グループ指定代理<br>
+																34-通話割り込み wakikomi<br>
+																35-キャンプオン 予約on/off<br>
+																36-ステップコール<br>
+																51-汎用リレー rire<br>
+																52-着信お待たせ omatase<br>
+																54-着信お待たせ起動 omatase<br>
+																55-内線名称編集<br>
+																67-メールボックス merubox<br>
+																68-メールボイスサービス<br>
+																69-通話録音 tsuwarokuon<br>
+																70-留守番電話 rusuban<br>
+																71-留守番応答メッセージ切り替え<br>
+																76-アプリケーションキー<br>
+																97-ドアホン呼出<br>
+																*00 内線キー<br>
+																*01 外線キー<br>
+																*02 索キー<br>
+																*03 仮想内線キー kasou<br>
+																*04 パーク保留 horyu
+															</p>
+															<p class="note-item" style="margin-top: 10px; color: #666;">Ghi chú 2: [Nội dung text2222222222222222222222]</p>
+														</div>
+													</details>
+												</li>
+											</ul>
+										</li>
 						
                                         <li class="collapsible"><span class="folder-name">15-08 仮想内線の着信音選択</span><ul><li><span class="item-name">15-08-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-09 多機能電話機の仮想内線鳴動データ設定</span><ul><li><span class="item-name">15-09-01</span></li></ul></li>
@@ -1323,22 +1471,27 @@
         document.querySelectorAll('.tree mark').forEach(mark => {
             const parent = mark.parentNode;
             if (parent) {
-                parent.replaceChild(document.createTextNode(mark.textContent), mark);
+                const textNode = document.createTextNode(mark.textContent);
+                parent.replaceChild(textNode, mark);
                 parent.normalize();
             }
         });
     }
 
-    // Hàm highlight các từ khóa
+    // Hàm highlight các từ khóa - Đã sửa để đảm bảo tô màu chính xác
     function highlightElement(element, term) {
         if (!term || !element) return;
         const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
         
+        // Sử dụng TreeWalker để lấy các text node, tránh can thiệp vào các thẻ HTML khác
         const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
         const textNodes = [];
         let node;
         while (node = walker.nextNode()) {
-            if (node.parentNode.nodeName !== 'MARK') textNodes.push(node);
+            // Không lấy text bên trong chính thẻ MARK đã tồn tại
+            if (node.parentNode.nodeName !== 'MARK') {
+                textNodes.push(node);
+            }
         }
         
         textNodes.forEach(textNode => {
@@ -1349,6 +1502,7 @@
                 parts.forEach(part => {
                     if (part.toLowerCase() === term.toLowerCase()) {
                         const mark = document.createElement('mark');
+                        // Cưỡng ép style trực tiếp để không bị CSS khác ghi đè
                         mark.style.backgroundColor = 'yellow';
                         mark.style.color = 'black';
                         mark.textContent = part;
@@ -1363,10 +1517,10 @@
     }
 
     function initCollapse() {
-        document.querySelectorAll('.folder-name').forEach(span => {
+        // Hỗ trợ click cho cả folder-name và summary
+        document.querySelectorAll('.folder-name, summary').forEach(span => {
             if (!span.dataset.listener) {
                 span.addEventListener('click', function(e) {
-                    e.stopPropagation();
                     const li = this.closest('li');
                     if (li && li.classList.contains('collapsible')) {
                         li.classList.toggle('collapsed');
@@ -1384,6 +1538,9 @@
         document.querySelectorAll('.tree li.collapsible').forEach(li => {
             li.classList.add('collapsed');
         });
+        // Reset luôn các thẻ details nếu có
+        document.querySelectorAll('.tree details').forEach(d => d.open = false);
+        
         const rootLi = document.getElementById('root-folder');
         if (rootLi) rootLi.classList.remove('collapsed');
         removeAllHighlights();
@@ -1397,18 +1554,18 @@
         // Bước 1: Reset ban đầu
         allLis.forEach(li => {
             li.style.display = '';
-            li.dataset.forceShow = "false"; // Đánh dấu trạng thái hiển thị cưỡng ép
+            li.dataset.forceShow = "false";
         });
         allNotes.forEach(note => note.style.display = '');
         removeAllHighlights();
 
         if (!term || term.trim() === "") return;
-
         term = term.trim().toLowerCase();
 
-        // Bước 2: Duyệt lần 1 để xác định các mục khớp và đánh dấu "Hiện tất cả con"
+        // Bước 2: Duyệt tìm kiếm bao gồm cả thẻ summary
         allLis.forEach(li => {
-            const nameSpan = li.querySelector('.folder-name, .item-name');
+            // QUAN TRỌNG: Thêm summary vào đây để tìm được "K1"
+            const nameSpan = li.querySelector('.folder-name, .item-name, summary');
             const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
             const romajiText = nameSpan ? (nameSpan.getAttribute('data-search') || "").toLowerCase() : "";
             
@@ -1416,46 +1573,47 @@
             
             if (isItemMatch) {
                 highlightElement(nameSpan, term);
-                // Nếu cha khớp, đánh dấu để hiện tất cả con cháu bên dưới
+                // Đánh dấu để hiện các con
+                li.dataset.forceShow = "true";
                 li.querySelectorAll('li, p, div, .note-item').forEach(el => {
                     if (el.tagName === 'LI') el.dataset.forceShow = "true";
                     el.style.display = ''; 
                 });
             }
 
-            // Kiểm tra highlight cho ghi chú
+            // Kiểm tra các đoạn ghi chú bên trong li
             const notes = li.querySelectorAll('p, div, .note-item');
             notes.forEach(note => {
                 if (note.innerText.toLowerCase().includes(term)) {
                     highlightElement(note, term);
-                    li.dataset.forceShow = "true"; // Giữ cho li chứa ghi chú này luôn hiện
+                    li.dataset.forceShow = "true";
                 }
             });
         });
 
-        // Bước 3: Duyệt lần 2 để ẩn các mục không liên quan
+        // Bước 3: Ẩn/Hiện và Tự động mở các cấp cha
         allLis.forEach(li => {
-            const nameSpan = li.querySelector('.folder-name, .item-name');
+            const nameSpan = li.querySelector('.folder-name, .item-name, summary');
             const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
-            const romajiText = nameSpan ? (nameSpan.getAttribute('data-search') || "").toLowerCase() : "";
-            
             const notes = li.querySelectorAll('p, div, .note-item');
             let hasVisibleNote = false;
             notes.forEach(n => { if(n.innerText.toLowerCase().includes(term)) hasVisibleNote = true; });
 
-            const isItemMatch = itemName.includes(term) || romajiText.includes(term);
+            const isItemMatch = itemName.includes(term);
 
-            // Chỉ hiển thị nếu: Bản thân khớp OR Có con khớp OR Được cha "cưỡng ép" hiện
             if (isItemMatch || hasVisibleNote || li.dataset.forceShow === "true") {
                 li.style.display = '';
 
-                // Mở đường dẫn cha
+                // Mở đường dẫn cha và mở thẻ details
                 let parent = li.parentElement.closest('li');
                 while (parent) {
                     parent.style.display = '';
                     parent.classList.remove('collapsed');
-                    const details = parent.querySelector('details');
+                    
+                    // Nếu cha là một thẻ details, mở nó ra để thấy kết quả bên trong
+                    const details = parent.querySelector(':scope > details');
                     if (details) details.open = true;
+
                     parent = parent.parentElement.closest('li');
                 }
             } else {

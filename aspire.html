@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cây thư mục cấu hình PBX</title>
+    <title>MrSu</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -90,7 +90,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Cây thư mục cấu hình PBX</h2>
+       
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Tìm kiếm thư mục..." autocomplete="off">
             <button id="clearBtn">Xóa</button>
@@ -107,18 +107,35 @@
                                     <span class="folder-name">10 システム構成設定</span>
                                     <ul>
                                         <!-- 10-01 時計カレンダー設定 (có 99 con) -->
-                                        <li class="collapsible">
-                                            <span class="folder-name">10-01 時計カレンダー設定</span><ul><li class="item-name">
-													<details>
-														<summary style="cursor: pointer; list-style: none;">10-01-01</summary>
-														<div style="margin-left: 20px;">
-															<p class="note-item">Ghi chú 1: [Nội dung tex11111111111111111111<br>222222222222<br>333333333333333<br>33333333333<br>4444444444444<br>1t]</p>
-															<p class="note-item">Ghi chú 2: [Nội dung text2222222222222222222222]</p>
-														</div>
-													</details>
-												</li>
-									</ul>
-								</li>
+                                        <li class="collapsible"><span class="folder-name">10-01 時計カレンダー設定</span>
+																		<ul>
+																			<li>
+																				<span class="item-name">10-03-01</span>
+																				
+																				<!-- Ghi chú 1 -->
+																				<details style="margin-left: 20px; cursor: pointer; margin-top: 10px;">
+																					<summary>Ghi chú 1 (Ấn để xem 4 cột)</summary>
+																					<div style="display: flex; gap: 10px; margin-top: 10px; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+																						<div style="flex: 1; border-right: 1px solid #ddd; padding: 5px;"><strong>名称</strong><br>名称</div>
+																						<div style="flex: 1; border-right: 1px solid #ddd; padding: 5px;"><strong>データ概要</strong><br>Nội dung B</div>
+																						<div style="flex: 1; border-right: 1px solid #ddd; padding: 5px;"><strong>入力データ</strong><br>Nội dung C</div>
+																						<div style="flex: 1; padding: 5px;"><strong>関連プログラム </strong><br>Nội dung D</div>
+																					</div>
+																				</details>
+
+																				<!-- Ghi chú 2 -->
+																				<details style="margin-left: 20px; cursor: pointer; margin-top: 5px;">
+																					<summary>Ghi chú 2 (Ấn để xem 4 cột)</summary>
+																					<div style="display: flex; gap: 10px; margin-top: 10px; background: #f0f7ff; padding: 10px; border-radius: 5px;">
+																						<div style="flex: 1;"><strong>Mục 1</strong><br>Dữ liệu 1</div>
+																						<div style="flex: 1;"><strong>Mục 2</strong><br>Dữ liệu 2</div>
+																						<div style="flex: 1;"><strong>Mục 3</strong><br>Dữ liệu 3</div>
+																						<div style="flex: 1;"><strong>Mục 4</strong><br>Dữ liệu 4</div>
+																					</div>
+																				</details>
+																			</li>
+																		</ul>
+										</li>
                                         <!-- Các mục 10 khác, mỗi mục đều có một thư mục con "01" -->
                                         <li class="collapsible">
                                             <span class="folder-name">10-02 設置地域設定</span>

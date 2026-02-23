@@ -332,7 +332,7 @@
                     <span class="folder-count">お知らせ</span>
 					 
                </div>
-				<li><a href="aspire.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i> ASPIRE</div></a></li>
+				<li><a href="aspire.html" class="file-link" target="_blank"><div class="file"><i class="fas fa-file"></i>ASPIRE</div></a></li>
                 <div class="directory-tree">
                     <ul class="tree">
                         <!-- Thư mục con 1 -->
@@ -542,81 +542,171 @@
     </div>
 
     <script>
-        // JavaScript xử lý mở/đóng thư mục
-        document.addEventListener('DOMContentLoaded', function() {
-            const folders = document.querySelectorAll('.folder');
-            folders.forEach(folder => {
-                folder.addEventListener('click', function(e) {
-                    if (e.target.tagName === 'A' || e.target.parentElement.tagName === 'A') {
-                        return;
-                    }
-                    e.stopPropagation();
-                    const parentLi = this.parentNode;
-                    parentLi.classList.toggle('collapsed');
-                    parentLi.classList.toggle('expanded');
-                });
-            });
-            
-            document.getElementById('expandAll').addEventListener('click', expandAll);
-            document.getElementById('collapseAll').addEventListener('click', collapseAll);
-            
-            const firstFolders = document.querySelectorAll('.panel .tree > li:first-child');
-            firstFolders.forEach(folder => {
-                folder.classList.remove('collapsed');
-                folder.classList.add('expanded');
-            });
+(function() {
+    // Hàm escape các ký tự đặc biệt trong regex
+    function escapeRegex(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
 
-            // Cập nhật bộ đếm lượt truy cập
-            updateVisitorCounter();
+    // Hàm xóa tất cả highlight (các thẻ <mark>) trong cây
+    function removeAllHighlights() {
+        document.querySelectorAll('.tree mark').forEach(mark => {
+            const parent = mark.parentNode;
+            parent.replaceChild(document.createTextNode(mark.textContent), mark);
+            parent.normalize(); // Gộp các text node liền kề
+        });
+    }
+
+    // Hàm highlight các từ khóa trong một element (chỉ text node)
+    function highlightElement(element, term) {
+        if (!term || !element) return;
+        const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
+        
+        // Duyệt các text node bên trong element (chỉ cấp con, không lồng sâu)
+        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, {
+            acceptNode: function(node) {
+                // Bỏ qua các node đã nằm trong thẻ mark (tránh highlight lồng)
+                if (node.parentNode.nodeName === 'MARK') return NodeFilter.FILTER_REJECT;
+                return NodeFilter.FILTER_ACCEPT;
+            }
         });
         
-        function expandAll() {
-            const allFolders = document.querySelectorAll('.tree li');
-            allFolders.forEach(folder => {
-                folder.classList.remove('collapsed');
-                folder.classList.add('expanded');
-            });
-        }
+        const textNodes = [];
+        while (walker.nextNode()) textNodes.push(walker.currentNode);
         
-        function collapseAll() {
-            const allFolders = document.querySelectorAll('.tree li');
-            allFolders.forEach(folder => {
-                folder.classList.remove('expanded');
-                folder.classList.add('collapsed');
-            });
-            
-            const firstFolders = document.querySelectorAll('.panel .tree > li:first-child');
-            firstFolders.forEach(folder => {
-                folder.classList.remove('collapsed');
-                folder.classList.add('expanded');
-            });
-        }
-
-        // Hàm cập nhật bộ đếm (dùng countapi.xyz + fallback localStorage)
-        function updateVisitorCounter() {
-            const countElement = document.getElementById('count');
-            // Thử dùng countapi.xyz (cần internet)
-            fetch('https://api.countapi.xyz/hit/tanuki-japanese/visitors')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.value) {
-                        countElement.innerText = data.value;
+        textNodes.forEach(textNode => {
+            const text = textNode.textContent;
+            const fragments = text.split(regex);
+            if (fragments.length > 1) {
+                const span = document.createElement('span');
+                fragments.forEach(part => {
+                    if (part.match(regex)) {
+                        const mark = document.createElement('mark');
+                        mark.style.backgroundColor = 'yellow';
+                        mark.style.color = 'black';
+                        mark.textContent = part;
+                        span.appendChild(mark);
                     } else {
-                        throw new Error('Invalid response');
+                        span.appendChild(document.createTextNode(part));
                     }
-                })
-                .catch(() => {
-                    // Fallback sang localStorage nếu không có mạng
-                    let count = localStorage.getItem('visitorCount');
-                    if (count === null) {
-                        count = 1;
-                    } else {
-                        count = parseInt(count) + 1;
-                    }
-                    localStorage.setItem('visitorCount', count);
-                    countElement.innerText = count;
                 });
-        }
-    </script>
+                textNode.parentNode.replaceChild(span, textNode);
+            }
+        });
+    }
+
+    // Khởi tạo sự kiện click cho các thư mục
+    function initCollapse() {
+        document.querySelectorAll('.folder-name').forEach(span => {
+            if (!span.dataset.listener) {
+                span.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const li = this.closest('li');
+                    if (li && li.classList.contains('collapsible')) {
+                        li.classList.toggle('collapsed');
+                    }
+                });
+                span.dataset.listener = 'true';
+            }
+        });
+    }
+
+    // Reset cây về trạng thái ban đầu (tất cả thư mục thu gọn, trừ thư mục gốc) và xóa highlight
+    function resetTree() {
+        document.querySelectorAll('.tree li').forEach(li => {
+            li.style.display = '';
+        });
+        document.querySelectorAll('.tree li.collapsible').forEach(li => {
+            li.classList.add('collapsed');
+        });
+        const rootLi = document.getElementById('root-folder');
+        if (rootLi) rootLi.classList.remove('collapsed');
+        
+        // Xóa tất cả highlight
+        removeAllHighlights();
+    }
+
+    // Tìm kiếm và highlight từ khóa
+    function filterTree(term) {
+        const allLis = document.querySelectorAll('.tree li');
+        const allNotes = document.querySelectorAll('.tree p, .tree div, .tree .note-item');
+
+        // Bước 1: Reset hiển thị và xóa highlight cũ
+        allLis.forEach(li => li.style.display = '');
+        allNotes.forEach(note => note.style.display = '');
+        removeAllHighlights();
+
+        // Nếu ô tìm kiếm trống, thoát
+        if (!term || term.trim() === "") return;
+
+        term = term.trim().toLowerCase();
+
+        allLis.forEach(li => {
+            const nameSpan = li.querySelector('.folder-name, .item-name');
+            const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
+            const romajiText = nameSpan ? (nameSpan.getAttribute('data-search') || "").toLowerCase() : "";
+            
+            const notes = li.querySelectorAll('p, div, .note-item'); 
+            let hasVisibleNote = false;
+
+            // Duyệt từng ghi chú để kiểm tra và highlight
+            notes.forEach(note => {
+                const noteText = note.innerText.toLowerCase();
+                if (noteText.includes(term)) {
+                    note.style.display = '';
+                    highlightElement(note, term);
+                    hasVisibleNote = true;
+                } else {
+                    note.style.display = 'none';
+                }
+            });
+
+            const isItemMatch = itemName.includes(term) || romajiText.includes(term);
+
+            if (isItemMatch || hasVisibleNote) {
+                li.style.display = ''; 
+
+                // Nếu tên mục khớp, hiện tất cả ghi chú và highlight những ghi chú chứa từ khóa
+                if (isItemMatch) {
+                    notes.forEach(n => {
+                        n.style.display = '';
+                        if (n.innerText.toLowerCase().includes(term)) {
+                            highlightElement(n, term);
+                        }
+                    });
+                    // Highlight tên mục
+                    if (nameSpan) highlightElement(nameSpan, term);
+                }
+
+                // Mở tất cả các cấp cha để hiển thị kết quả
+                let parent = li.parentElement.closest('li');
+                while (parent) {
+                    parent.style.display = '';
+                    parent.classList.remove('collapsed');
+                    const details = parent.querySelector('details');
+                    if (details) details.open = true;
+                    parent = parent.parentElement.closest('li');
+                }
+            } else {
+                li.style.display = 'none';
+            }
+        });
+    }
+
+    // Gán sự kiện cho ô tìm kiếm và nút xóa
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearBtn');
+    searchInput.addEventListener('input', function() {
+        filterTree(this.value);
+    });
+    clearBtn.addEventListener('click', function() {
+        searchInput.value = '';
+        resetTree();
+    });
+
+    initCollapse();
+    resetTree(); // Ban đầu tất cả các thư mục đều thu gọn, chỉ mở thư mục gốc
+})();
+</script>
 </body>
 </html>

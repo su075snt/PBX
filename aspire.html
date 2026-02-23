@@ -3,94 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MrSu</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f4;
-            margin: 20px;
-        }
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 20px;
-        }
-        .search-box {
-            display: flex;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
-        #searchInput {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        #clearBtn {
-            padding: 8px 16px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        #clearBtn:hover {
-            background-color: #c82333;
-        }
-        .tree ul {
-            list-style-type: none;
-            padding-left: 20px;
-            margin: 5px 0;
-        }
-        .tree li {
-            margin: 4px 0;
-            line-height: 1.5;
-            position: relative;
-        }
-        .tree li::before {
-            content: "📁 ";
-            color: #f7d354;
-            font-size: 1.2em;
-            margin-right: 5px;
-        }
-        .root > li::before {
-            content: "📂 ";
-            font-size: 1.4em;
-        }
-        .folder-name, .item-name {
-            cursor: pointer;
-            user-select: none;
-        }
-        .folder-name:hover {
-            background-color: #e9e9e9;
-        }
-        li.collapsible > .folder-name::before {
-            content: "▼ ";
-            font-size: 0.8em;
-            color: #666;
-            margin-right: 4px;
-            display: inline-block;
-            transition: transform 0.2s;
-        }
-        li.collapsible.collapsed > .folder-name::before {
-            content: "▶ ";
-        }
-        li.collapsible.collapsed > ul {
-            display: none;
-        }
-        .tree li.hidden {
-            display: none;
-        }
-    </style>
+    <title>Cây thư mục cấu hình PBX</title>
+   <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4;
+        margin: 20px;
+    }
+    .container {
+        max-width: 1100px;
+        margin: auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 20px;
+    }
+
+    /* --- SEARCH BOX --- */
+    .search-box {
+        display: flex;
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+    #searchInput {
+        flex: 1;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    #clearBtn {
+        padding: 8px 16px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    /* --- TREE STRUCTURE --- */
+    .tree ul {
+        list-style-type: none;
+        padding-left: 25px;
+        margin: 5px 0;
+    }
+    .tree li {
+        margin: 6px 0;
+        line-height: 1.6;
+        position: relative;
+        list-style: none; /* Đảm bảo không có dấu chấm mặc định */
+    }
+
+    /* Xóa bỏ icon mặc định của tất cả li để tránh bị thừa */
+    .tree li::before {
+        content: none !important;
+    }
+
+    /* --- ICON CHO FOLDER (THƯ MỤC CHA) --- */
+    /* Chỉ áp dụng cho li có class collapsible */
+    .tree li.collapsible > .folder-name::before {
+        content: "📁 ";
+        color: #f7d354;
+        font-size: 1.1em;
+        margin-right: 5px;
+    }
+
+    /* Thư mục gốc (Root) */
+    .root > li.collapsible > .folder-name::before {
+        content: "📂 ";
+    }
+
+    /* --- ICON CHO FILE (ITEM CON NHƯ 15-07-01) --- */
+    /* Nhắm vào summary hoặc item-name của những li KHÔNG phải collapsible */
+    .tree li:not(.collapsible) summary::before,
+    .tree li:not(.collapsible) .item-name::before {
+        content: "📄 ";
+        font-size: 1em;
+        margin-right: 8px;
+        color: #1a73e8;
+    }
+
+    /* --- HIỆU ỨNG ĐÓNG MỞ (CHO FOLDER) --- */
+    li.collapsible > .folder-name::before {
+        display: inline-block;
+        transition: transform 0.2s;
+    }
+    /* Mũi tên nhỏ bên cạnh tên folder */
+    li.collapsible > .folder-name {
+        cursor: pointer;
+        font-weight: 500;
+    }
+    li.collapsible > .folder-name::after {
+        content: " ▼";
+        font-size: 0.7em;
+        color: #999;
+    }
+    li.collapsible.collapsed > .folder-name::after {
+        content: " ▶";
+    }
+    li.collapsible.collapsed > ul {
+        display: none;
+    }
+
+    /* --- PHẦN GHI CHÚ (NOTE-ITEM) --- */
+    .note-item {
+        margin: 5px 0;
+        padding: 10px;
+        background-color: #fcfcfc;
+        border-left: 3px solid #1a73e8;
+        font-size: 14px;
+        color: #333;
+    }
+
+    /* --- HIGHLIGHT KHI TÌM KIẾM --- */
+    mark {
+        background-color: #ffeb3b;
+        color: #000;
+        padding: 0 2px;
+        border-radius: 2px;
+        font-weight: bold;
+    }
+
+    /* Ẩn các phần tử khi lọc không khớp */
+    .tree li.hidden {
+        display: none;
+    }
+</style>
 </head>
 <body>
     <div class="container">
-       
+        
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Tìm kiếm thư mục..." autocomplete="off">
             <button id="clearBtn">Xóa</button>
@@ -106,24 +148,19 @@
                                 <li class="collapsible">
                                     <span class="folder-name">10 システム構成設定</span>
                                     <ul>
-                                        <!-- 10-01 時計カレンダー設定 (có 99 con) -->
-                                        <li class="collapsible"><span class="folder-name">10-01 時計カレンダー設定</span>
-																		<ul>
-																			<span class="item-name">10-03-01</span>
-    
-																			<!-- Ghi chú 1 -->
-																			<details style="margin-left: 20px; cursor: pointer;">
-																				<summary>Ghi chú 1</summary>
-																				<p>Nội dung ghi chú thứ nhất ở đây.</p>
-																			</details>
-
-																			<!-- Ghi chú 2 -->
-																			<details style="margin-left: 20px; cursor: pointer;">
-																				<summary>Ghi chú 2</summary>
-																				<p>Nội dung ghi chú thứ hai ở đây.</p>
-																			</details>
-																		</ul>
+                                        
+                                        <li class="collapsible">
+                                            <span class="folder-name">10-01 時計カレンダー設定</span><ul><li class="item-name">
+													<details>
+														<summary style="cursor: pointer; list-style: none;">10-01-01</summary>
+														<div style="margin-left: 20px;">
+															<p class="note-item">Ghi chú 1: [Nội dung tex11111111111111111111<br>222222222222<br>333333333333333<br>33333333333<br>4444444444444<br>1t]</p>
+															<p class="note-item">Ghi chú 2: [Nội dung text2222222222222222222222]</p>
+														</div>
+													</details>
 										</li>
+									</ul>
+								</li>
                                         <!-- Các mục 10 khác, mỗi mục đều có một thư mục con "01" -->
                                         <li class="collapsible">
                                             <span class="folder-name">10-02 設置地域設定</span>
@@ -516,55 +553,65 @@
                                         <li class="collapsible"><span class="folder-name">15-04 PHS 端末基本設定</span><ul><li><span class="item-name">15-04-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-05 IP Phone 端末基本設定</span><ul><li><span class="item-name">15-05-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-06 電話機の外線アクセスマップ設定</span><ul><li><span class="item-name">15-06-01</span></li></ul></li>
-                                       <li class="collapsible"><span class="folder-name">15-07 多機能電話機の機能ボタン設定<span class="item-name">15-07-01</span>
-																																		
-																																		<!-- Ghi chú 1 -->
-																																			<details style="margin-left: 20px; cursor: pointer;">
-																																				<summary>botan</summary>
-																																			<p>01 ワンタッチキー<br>
-																																	03着信拒否 kyohi<br>
-																																	05ヘッドセット<br>
-																																	06 転送キー<br>
-																																	09 運用モード unyou<br>
-																																	10 着信転送<br>
-																																	11話中転送<br>
-																																	12不応答転送<br>
-																																	13話中不応答転送<br>
-																																	14-不在転送<br>
-																																	19-グループ放送 Ghousou<br>
-																																	20-一斉放送 issaihousou<br>
-																																	21- 内線ページング呼出<br>
-																																	22-内線一斉ページング呼出<br>
-																																	23-内線ページング呼出応答 <br>
-																																	24-代理応答 <br>
-																																	25-他グループ代理応答<br>
-																																	26-グループ指定代理<br>
-																																	34-通話割り込み warikomi<br>
-																																	35-キャンプオン　予約on/off<br>
-																																	36-ステップコール<br>
-																																	51-汎用リレー ri-re<br>
-																																	52-着信お待たせ omatase<br>
-																																	54-着信お待たせ起動 omatase<br>
-																																	55-内線名称編集<br>
-																																	67-メールボックス me-ru<br>
-																																	68-メールボイスサービス<br>
-																																	69-通話録音 ghiam,rokuon<br>
-																																	70-留守番電話 rusu<br>
-																																	71-留守番応答メッセージ切り替え<br>
-																																	76-アプリケーションキー<br>
-																																	97-ドアホン呼出 doahon<br>
-																																	*00 内線キー<br>
-																																	*01 外線キー<br>
-																																	*02 索キー<br>
-																																	*03 仮想内線キー kasou<br>
-																																	*04 パーク保留 paku<br></p>
-																																		</details>
-
-																																		<!-- Ghi chú 2 -->
-																																		<details style="margin-left: 20px; cursor: pointer;">
-																																			<summary>Ghi chú 2</summary>
-																																			<p>di1</p>
-																																		</details></li></ul></li>				
+                                      
+									   
+                                        
+                                        <li class="collapsible">
+    <span class="folder-name">15-07 多機能電話機の機能ボタン設定</span>
+    <ul style="list-style: none; padding-left: 20px; margin: 0;">
+        <!-- Thay class item-name bằng style trực tiếp để tránh bị dính icon folder dư -->
+        <li style="list-style: none; margin-top: 5px;">
+            <details>
+                <summary style="cursor: pointer; list-style: none; outline: none; font-weight: bold; color: #1a73e8; display: flex; align-items: center;">
+                    <span style="margin-right: 5px;"></span> 15-07-01
+                </summary>
+                <div style="margin-left: 20px; border-left: 1px solid #ddd; padding-left: 15px; margin-top: 5px;">
+                    <p class="note-item" style="margin: 0; line-height: 1.6; font-size: 14px;">
+                        <strong>botan-K1:</strong><br>
+                        01 ワンタッチキー<br>
+                        03着信拒否 kyohi<br>
+                        05ヘッドセット<br>
+                        06 転送キー<br>
+                        09 運用モード<br>
+                        10 着信転送<br>
+                        11話中転送<br>
+                        12不応答転送<br>
+                        13話中不応答転送<br>
+                        14-不在転送<br>
+                        19-グループ放送<br>
+                        20-一斉放送 issehousou<br>
+                        21- 内線ページング呼出<br>
+                        22-内線一斉ページング呼出<br>
+                        23-内線ページング呼出応答<br>
+                        24-代理応答 dairioutou<br>
+                        25-他グループ代理応答<br>
+                        26-グループ指定代理<br>
+                        34-通話割り込み wakikomi<br>
+                        35-キャンプオン 予約on/off<br>
+                        36-ステップコール<br>
+                        51-汎用リレー rire<br>
+                        52-着信お待たせ omatase<br>
+                        54-着信お待たせ起動 omatase<br>
+                        55-内線名称編集<br>
+                        67-メールボックス merubox<br>
+                        68-メールボイスサービス<br>
+                        69-通話録音 tsuwarokuon<br>
+                        70-留守番電話 rusuban<br>
+                        71-留守番応答メッセージ切り替え<br>
+                        76-アプリケーションキー<br>
+                        97-ドアホン呼出<br>
+                        *00 内線キー<br>
+                        *01 外線キー<br>
+                        *02 索キー<br>
+                        *03 仮想内線キー kasou<br>
+                        *04 パーク保留 horyu
+                    </p>
+                    <p class="note-item" style="margin-top: 10px; color: #666;">Ghi chú 2: [Nội dung text2222222222222222222222]</p>
+                </div>
+            </details>
+        </li>
+    </ul>
+</li>
 						
                                         <li class="collapsible"><span class="folder-name">15-08 仮想内線の着信音選択</span><ul><li><span class="item-name">15-08-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-09 多機能電話機の仮想内線鳴動データ設定</span><ul><li><span class="item-name">15-09-01</span></li></ul></li>
@@ -1264,128 +1311,176 @@
             </ul>
         </div>
     </div>
-    <script>
-        (function() {
-            // Khởi tạo sự kiện click cho các thư mục
-            function initCollapse() {
-                document.querySelectorAll('.folder-name').forEach(span => {
-                    if (!span.dataset.listener) {
-                        span.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            const li = this.closest('li');
-                            if (li && li.classList.contains('collapsible')) {
-                                li.classList.toggle('collapsed');
-                            }
-                        });
-                        span.dataset.listener = 'true';
-                    }
-                });
-            }
+  <script>
+(function() {
+    // Hàm escape các ký tự đặc biệt trong regex
+    function escapeRegex(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
 
-            // Reset cây về trạng thái ban đầu (tất cả các thư mục đều thu gọn, trừ thư mục gốc)
-            function resetTree() {
-                document.querySelectorAll('.tree li').forEach(li => {
-                    li.style.display = '';
-                });
-                document.querySelectorAll('.tree li.collapsible').forEach(li => {
-                    li.classList.add('collapsed');
-                });
-                const rootLi = document.getElementById('root-folder');
-                if (rootLi) rootLi.classList.remove('collapsed');
-            }
-
-            // Tìm kiếm thư mục
-          function filterTree(term) {
-    const allLis = document.querySelectorAll('.tree li');
-    const allNotes = document.querySelectorAll('.tree p, .tree div, .tree .note-item');
-
-    // --- BƯỚC 1: RESET & XÓA HIGHLIGHT NHƯNG GIỮ NGUYÊN HTML ---
-    const removeHighlight = (el) => {
-        // Loại bỏ thẻ <mark> nhưng giữ lại các thẻ khác như <br>
-        el.innerHTML = el.innerHTML.replace(/<mark style="[^"]+">|<\/mark>/gi, '');
-    };
-
-    allLis.forEach(li => {
-        li.style.display = '';
-        const nameSpan = li.querySelector('.folder-name, .item-name');
-        if (nameSpan) removeHighlight(nameSpan);
-    });
-
-    allNotes.forEach(note => {
-        note.style.display = '';
-        removeHighlight(note);
-    });
-
-    if (!term || term.trim() === "") return;
-
-    // --- BƯỚC 2: THỰC HIỆN LỌC & HIGHLIGHT ---
-    term = term.trim().toLowerCase();
-    // Regex này chỉ tìm chữ, tránh làm hỏng các thẻ HTML như <br>
-    const regex = new RegExp(`(${term})(?![^<>]*>)`, 'gi');
-
-    allLis.forEach(li => {
-        const nameSpan = li.querySelector('.folder-name, .item-name');
-        const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
-        const romajiText = nameSpan ? (nameSpan.getAttribute('data-search') || "").toLowerCase() : "";
-        const notes = li.querySelectorAll('p, div, .note-item'); 
-        
-        let hasVisibleNote = false;
-
-        notes.forEach(note => {
-            // Kiểm tra trên innerText để tìm kiếm chính xác
-            if (note.innerText.toLowerCase().includes(term)) {
-                note.style.display = '';
-                // Thay thế trên innerHTML để giữ lại thẻ <br>
-                note.innerHTML = note.innerHTML.replace(regex, '<mark style="background: yellow; color: black;">$1</mark>');
-                hasVisibleNote = true;
-            } else {
-                note.style.display = 'none';
+    // Hàm xóa tất cả highlight (các thẻ <mark>)
+    function removeAllHighlights() {
+        document.querySelectorAll('.tree mark').forEach(mark => {
+            const parent = mark.parentNode;
+            if (parent) {
+                parent.replaceChild(document.createTextNode(mark.textContent), mark);
+                parent.normalize();
             }
         });
+    }
 
-        const isItemMatch = itemName.includes(term) || romajiText.includes(term);
-
-        if (isItemMatch || hasVisibleNote) {
-            li.style.display = ''; 
-
-            if (isItemMatch && nameSpan) {
-                nameSpan.innerHTML = nameSpan.innerHTML.replace(regex, '<mark style="background: yellow; color: black;">$1</mark>');
-                notes.forEach(n => {
-                    n.style.display = '';
-                    if (n.innerText.toLowerCase().includes(term)) {
-                        n.innerHTML = n.innerHTML.replace(regex, '<mark style="background: yellow; color: black;">$1</mark>');
+    // Hàm highlight các từ khóa
+    function highlightElement(element, term) {
+        if (!term || !element) return;
+        const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
+        
+        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+        const textNodes = [];
+        let node;
+        while (node = walker.nextNode()) {
+            if (node.parentNode.nodeName !== 'MARK') textNodes.push(node);
+        }
+        
+        textNodes.forEach(textNode => {
+            const text = textNode.textContent;
+            if (regex.test(text)) {
+                const fragment = document.createDocumentFragment();
+                const parts = text.split(regex);
+                parts.forEach(part => {
+                    if (part.toLowerCase() === term.toLowerCase()) {
+                        const mark = document.createElement('mark');
+                        mark.style.backgroundColor = 'yellow';
+                        mark.style.color = 'black';
+                        mark.textContent = part;
+                        fragment.appendChild(mark);
+                    } else {
+                        fragment.appendChild(document.createTextNode(part));
                     }
+                });
+                textNode.parentNode.replaceChild(fragment, textNode);
+            }
+        });
+    }
+
+    function initCollapse() {
+        document.querySelectorAll('.folder-name').forEach(span => {
+            if (!span.dataset.listener) {
+                span.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const li = this.closest('li');
+                    if (li && li.classList.contains('collapsible')) {
+                        li.classList.toggle('collapsed');
+                    }
+                });
+                span.dataset.listener = 'true';
+            }
+        });
+    }
+
+    function resetTree() {
+        document.querySelectorAll('.tree li').forEach(li => {
+            li.style.display = '';
+        });
+        document.querySelectorAll('.tree li.collapsible').forEach(li => {
+            li.classList.add('collapsed');
+        });
+        const rootLi = document.getElementById('root-folder');
+        if (rootLi) rootLi.classList.remove('collapsed');
+        removeAllHighlights();
+    }
+
+    // Tìm kiếm và highlight từ khóa
+    function filterTree(term) {
+        const allLis = document.querySelectorAll('.tree li');
+        const allNotes = document.querySelectorAll('.tree p, .tree div, .tree .note-item');
+
+        // Bước 1: Reset ban đầu
+        allLis.forEach(li => {
+            li.style.display = '';
+            li.dataset.forceShow = "false"; // Đánh dấu trạng thái hiển thị cưỡng ép
+        });
+        allNotes.forEach(note => note.style.display = '');
+        removeAllHighlights();
+
+        if (!term || term.trim() === "") return;
+
+        term = term.trim().toLowerCase();
+
+        // Bước 2: Duyệt lần 1 để xác định các mục khớp và đánh dấu "Hiện tất cả con"
+        allLis.forEach(li => {
+            const nameSpan = li.querySelector('.folder-name, .item-name');
+            const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
+            const romajiText = nameSpan ? (nameSpan.getAttribute('data-search') || "").toLowerCase() : "";
+            
+            const isItemMatch = itemName.includes(term) || romajiText.includes(term);
+            
+            if (isItemMatch) {
+                highlightElement(nameSpan, term);
+                // Nếu cha khớp, đánh dấu để hiện tất cả con cháu bên dưới
+                li.querySelectorAll('li, p, div, .note-item').forEach(el => {
+                    if (el.tagName === 'LI') el.dataset.forceShow = "true";
+                    el.style.display = ''; 
                 });
             }
 
-            let parent = li.parentElement.closest('li');
-            while (parent) {
-                parent.style.display = '';
-                parent.classList.remove('collapsed');
-                const details = parent.querySelector('details');
-                if (details) details.open = true;
-                parent = parent.parentElement.closest('li');
+            // Kiểm tra highlight cho ghi chú
+            const notes = li.querySelectorAll('p, div, .note-item');
+            notes.forEach(note => {
+                if (note.innerText.toLowerCase().includes(term)) {
+                    highlightElement(note, term);
+                    li.dataset.forceShow = "true"; // Giữ cho li chứa ghi chú này luôn hiện
+                }
+            });
+        });
+
+        // Bước 3: Duyệt lần 2 để ẩn các mục không liên quan
+        allLis.forEach(li => {
+            const nameSpan = li.querySelector('.folder-name, .item-name');
+            const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
+            const romajiText = nameSpan ? (nameSpan.getAttribute('data-search') || "").toLowerCase() : "";
+            
+            const notes = li.querySelectorAll('p, div, .note-item');
+            let hasVisibleNote = false;
+            notes.forEach(n => { if(n.innerText.toLowerCase().includes(term)) hasVisibleNote = true; });
+
+            const isItemMatch = itemName.includes(term) || romajiText.includes(term);
+
+            // Chỉ hiển thị nếu: Bản thân khớp OR Có con khớp OR Được cha "cưỡng ép" hiện
+            if (isItemMatch || hasVisibleNote || li.dataset.forceShow === "true") {
+                li.style.display = '';
+
+                // Mở đường dẫn cha
+                let parent = li.parentElement.closest('li');
+                while (parent) {
+                    parent.style.display = '';
+                    parent.classList.remove('collapsed');
+                    const details = parent.querySelector('details');
+                    if (details) details.open = true;
+                    parent = parent.parentElement.closest('li');
+                }
+            } else {
+                li.style.display = 'none';
             }
-        } else {
-            li.style.display = 'none';
-        }
-    });
-}
+        });
+    }
 
-            // Gán sự kiện cho ô tìm kiếm và nút xóa
-            const searchInput = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('clearBtn');
-            searchInput.addEventListener('input', function() {
-                filterTree(this.value);
-            });
-            clearBtn.addEventListener('click', function() {
-                searchInput.value = '';
-                resetTree();
-            });
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearBtn');
+    if(searchInput) {
+        searchInput.addEventListener('input', function() {
+            filterTree(this.value);
+        });
+    }
+    if(clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            resetTree();
+        });
+    }
 
-            initCollapse();
-            resetTree(); // Ban đầu tất cả các thư mục đều thu gọn, chỉ mở thư mục gốc
-        })();
-    </script>
+    initCollapse();
+    resetTree();
+})();
+</script>
 </body>
 </html>

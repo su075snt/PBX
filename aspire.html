@@ -579,9 +579,9 @@ Hãy thận trọng khi sử dụng mã.
                                         <li class="collapsible"><span class="folder-name">11-01 番号計画</span><ul><li>
 										<span class="item-name">11-01-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">11-02 内線番号設定</span><ul><li><span class="item-name">11-02-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">11-04 仮想内線番号設定</span><ul><li><span class="item-name">11-04-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">11-04 仮想内線番号設定</span><ul><li><span class="item-name">11-04-01-K1</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">11-06 ACI 内線番号設定</span><ul><li><span class="item-name">11-06-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">11-07 内線代表呼出番号設定</span><ul><li><span class="item-name">11-07-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">11-07 内線代表呼出番号設定</span><ul><li><span class="item-name">11-07-01-K1</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">11-08 ACI 代表呼出番号設定</span><ul><li><span class="item-name">11-08-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">11-09 外線アクセスダイヤル設定</span><ul><li><span class="item-name">11-09-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">11-10 サービス特番(管理者用)設定</span><ul><li><span class="item-name">11-10-01</span></li></ul></li>
@@ -649,10 +649,10 @@ Hãy thận trọng khi sử dụng mã.
                                 <li class="collapsible">
                                     <span class="folder-name">15 電話機基本データ設定</span>
                                     <ul>
-                                        <li class="collapsible"><span class="folder-name">15-01 電話機基本データ設定(仮想内線も含む)</span><ul><li><span class="item-name">15-01-<br>
+                                        <li class="collapsible"><span class="folder-name">15-01 電話機基本データ設定(仮想内線も含む)</span><ul><li><span class="item-name">15-01-02 K1-FAX<br>
 																																										01-カナ名称<br>
 																																										01-漢字名称<br>
-																																										02-オフフック時の外線自動捕捉<br>
+																																										02-オフフック時の外線自動捕捉-K1<br>
 																																										03-SMDRプリント出力<br>
 																																										04-発信者番号通知(ISDN発信時)<br>
 																																										05-発信規制除外ポート<br>
@@ -667,7 +667,7 @@ Hãy thận trọng khi sử dụng mã.
 																																																			   
 
 										
-										<li class="collapsible"><span class="folder-name">15-02 多機能電話機基本設定</span><ul><li><span class="item-name">15-02-<br>01-LCD表示言語選択<br>
+										<li class="collapsible"><span class="folder-name">15-02 多機能電話機基本設定</span><ul><li><span class="item-name">15-02-32-K1<br>01-LCD表示言語選択<br>
 																																									02-外線着信タイプ(周波数)<br>
 																																									03-内線着信タイプ(周波数)<br>
 																																									04-短縮ボタン機能<br>
@@ -717,7 +717,7 @@ Hãy thận trọng khi sử dụng mã.
 																																									80 - VM新着時のアイコン表示<br>
 																																									このプログラムは、各多機能電話機の基本データを設定します。<br></span></li></ul></li>
 										<li class="collapsible"><span class="folder-name">15-03 一般電話機基本設定</span><ul><li><span class="item-name">15-03-<br>01-一般電話機タイプDP/PB<br>
-																																								03-端末タイプ<br>
+																																								03-端末タイプ-FAX<br>
 																																								04-フッキング<br>
 																																								05-外線リバース<br>
 																																								06- 内線リバース<br>
@@ -788,64 +788,46 @@ Hãy thận trọng khi sử dụng mã.
 																																									57-SIP內線識別<br>
 																																									このプログラムはIP Phone端末の基本設定をします。</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-06 電話機の外線アクセスマップ設定</span><ul><li><span class="item-name">15-06-01</span></li></ul></li>
-                                        <li class="collapsible">
-											<span class="folder-name">15-07 多機能電話機の機能ボタン設定</span>
-											<ul style="list-style: none; padding-left: 20px; margin: 0;">
-												<!-- Thay class item-name bằng style trực tiếp để tránh bị dính icon folder dư -->
-												<li style="list-style: none; margin-top: 5px;">
-													<details>
-														<summary style="cursor: pointer; list-style: none; outline: none; font-weight: bold; color: #1a73e8; display: flex; align-items: center;">
-															<span style="margin-right: 5px;"></span> 15-07-01-K1
-														</summary>
-														<div style="margin-left: 20px; border-left: 1px solid #ddd; padding-left: 15px; margin-top: 5px;">
-															<p class="note-item" style="margin: 0; line-height: 1.6; font-size: 14px;">
-																<strong>botan:</strong><br>
-																01 ワンタッチキー<br>
-																03着信拒否 kyohi<br>
-																05ヘッドセット<br>
-																06 転送キー<br>
-																09 運用モード<br>
-																10 着信転送<br>
-																11話中転送<br>
-																12不応答転送<br>
-																13話中不応答転送<br>
-																14-不在転送<br>
-																19-グループ放送<br>
-																20-一斉放送 issehousou<br>
-																21- 内線ページング呼出<br>
-																22-内線一斉ページング呼出<br>
-																23-内線ページング呼出応答<br>
-																24-代理応答 dairioutou<br>
-																25-他グループ代理応答<br>
-																26-グループ指定代理<br>
-																34-通話割り込み wakikomi<br>
-																35-キャンプオン 予約on/off<br>
-																36-ステップコール<br>
-																51-汎用リレー rire<br>
-																52-着信お待たせ omatase<br>
-																54-着信お待たせ起動 omatase<br>
-																55-内線名称編集<br>
-																67-メールボックス merubox<br>
-																68-メールボイスサービス<br>
-																69-通話録音 tsuwarokuon<br>
-																70-留守番電話 rusuban<br>
-																71-留守番応答メッセージ切り替え<br>
-																76-アプリケーションキー<br>
-																97-ドアホン呼出<br>
-																*00 内線キー<br>
-																*01 外線キー<br>
-																*02 索キー<br>
-																*03 仮想内線キー kasou<br>
-																*04 パーク保留 horyu
-															</p>
-															<p class="note-item" style="margin-top: 10px; color: #666;">Ghi chú 2: [Nội dung text2222222222222222222222]</p>
-														</div>
-													</details>
-												</li>
-											</ul>
-										</li>
+										<li class="collapsible"><span class="folder-name">15-07 多機能電話機の機能ボタン設定KS1</span><ul><li><span class="item-name">15-07-botan<br>01 ワンタッチキー<br>
+																																											03着信拒否 kyohi<br>
+																																											05ヘッドセット<br>
+																																											06 転送キー<br>
+																																											09 運用モード<br>
+																																											10 着信転送<br>
+																																											11話中転送<br>
+																																											12不応答転送<br>
+																																											13話中不応答転送<br>
+																																											14-不在転送<br>
+																																											19-グループ放送<br>
+																																											20-一斉放送 issehousou<br>
+																																											21- 内線ページング呼出<br>
+																																											22-内線一斉ページング呼出<br>
+																																											23-内線ページング呼出応答<br>
+																																											24-代理応答 dairioutou<br>
+																																											25-他グループ代理応答<br>
+																																											26-グループ指定代理<br>
+																																											34-通話割り込み wakikomi<br>
+																																											35-キャンプオン 予約on/off<br>
+																																											36-ステップコール<br>
+																																											51-汎用リレー rire<br>
+																																											52-着信お待たせ omatase<br>
+																																											54-着信お待たせ起動 omatase<br>
+																																											55-内線名称編集<br>
+																																											67-メールボックス merubox<br>
+																																											68-メールボイスサービス<br>
+																																											69-通話録音 tsuwarokuon<br>
+																																											70-留守番電話 rusuban<br>
+																																											71-留守番応答メッセージ切り替え<br>
+																																											76-アプリケーションキー<br>
+																																											97-ドアホン呼出<br>
+																																											*00 内線キー<br>
+																																											*01 外線キー<br>
+																																											*02 索キー<br>
+																																											*03 仮想内線キー kasouK1<br>
+																																											*04 パーク保留 horyu</span></li></ul></li>
+                                        
 						
-                                        <li class="collapsible"><span class="folder-name">15-08 仮想内線の着信音選択</span><ul><li><span class="item-name">15-08-01<br>トーンパターン1<br>
+                                        <li class="collapsible"><span class="folder-name">15-08 仮想内線の着信音選択ーmelody</span><ul><li><span class="item-name">15-08-01<br>トーンパターン1<br>
 トーンパターン2<br>
 トーンパターン3<br>
 トーンパターン4<br>
@@ -859,19 +841,19 @@ Hãy thận trọng khi sử dụng mã.
 トーンパターン6<br>
 トーンパターン7<br>
 トーンパターン8<br></span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">15-09 多機能電話機の仮想内線鳴動データ設定</span><ul><li><span class="item-name">15-09-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">15-09 多機能電話機の仮想内線鳴動データ設定</span><ul><li><span class="item-name">15-09-01-K1</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-10 多機能電話機の仮想内線着信音優先順位</span><ul><li><span class="item-name">15-10-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-11 多機能電話機の仮想内線遅延鳴動設定</span><ul><li><span class="item-name">15-11-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">15-12 電話機毎の通話録音先設定</span><ul><li><span class="item-name">15-12-<br>01-通話録音先内線番号<br>
-02-自動通話録音　　８３９<br>
-03-録音先ボックスの指定 :ダイヤルによる指定／自ボックス<br>
-04-発信時の自動通話録音<br>
-05-ネットワークシステム先の外線通話時の通話録音<br>
-このプログラムは、各電話機の通話録音のデータを設定します。<br>
-通話録音先はボイスメール又は、ACIに接続された録音装置になります。<br>
-通話録音先内線番号については、(PRG11-06) ACI内線番号、(PRG11-08) ACI代表呼出番号、VM呼出番号で設定します。<br>
-(PRG14-09) でデータ設定されている場合は、本プログラムが優先されます。<br>
-入力可能な内線番号は、多機能電話機,一般電話機、PHS, IP電話機として使用可能な内線番号です。仮想内線番号は入力できません。<br></span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">15-12 電話機毎の通話録音先設定</span><ul><li><span class="item-name">15-12-tsuroku<br>01-通話録音先内線番号<br>
+																																									02-自動通話録音　　８３９<br>
+																																									03-録音先ボックスの指定 :ダイヤルによる指定／自ボックス<br>
+																																									04-発信時の自動通話録音<br>
+																																									05-ネットワークシステム先の外線通話時の通話録音<br>
+																																									このプログラムは、各電話機の通話録音のデータを設定します。<br>
+																																									通話録音先はボイスメール又は、ACIに接続された録音装置になります。<br>
+																																									通話録音先内線番号については、(PRG11-06) ACI内線番号、(PRG11-08) ACI代表呼出番号、VM呼出番号で設定します。<br>
+																																									(PRG14-09) でデータ設定されている場合は、本プログラムが優先されます。<br>
+																																									入力可能な内線番号は、多機能電話機,一般電話機、PHS, IP電話機として使用可能な内線番号です。仮想内線番号は入力できません。<br></span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-16 電話機毎のSIP レジスターID 設定</span><ul><li><span class="item-name">15-16-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-18 仮想内線キー拡張設定</span><ul><li><span class="item-name">15-18-01<br>15-18-03 転送時　仮想内線か実内線<br>den sang hien thi so nhung khong do chuong</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-19 センター電話帳設定</span><ul><li><span class="item-name">15-19-01</span></li></ul></li>
@@ -881,7 +863,7 @@ Hãy thận trọng khi sử dụng mã.
                                         <li class="collapsible"><span class="folder-name">15-23 仮想内線着信の大型ランプ設定</span><ul><li><span class="item-name">15-23-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-24 REGISTER なし SIP 内線端末の登録設定</span><ul><li><span class="item-name">15-24-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-25 多機能電話機の表示面設定</span><ul><li><span class="item-name">15-25-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">15-26 仮想内線グループボタン動作設定</span><ul><li><span class="item-name">15-26-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">15-26 仮想内線グループボタン動作設定</span><ul><li><span class="item-name">15-26-01-K1</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-27 パワーセーブ設定</span><ul><li><span class="item-name">15-27-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">15-29 カールコードレス子機の機能ボタン設定</span><ul><li><span class="item-name">15-29-01</span></li></ul></li>
                                     </ul>
@@ -891,7 +873,7 @@ Hãy thận trọng khi sử dụng mã.
                                     <span class="folder-name">16 内線代表グループデータ設定</span>
                                     <ul>
                                         <li class="collapsible"><span class="folder-name">16-01 内線代表グループデータ設定</span><ul><li><span class="item-name">16-01-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">16-02 電話機の内線グループ設定</span><ul><li><span class="item-name">16-02-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">16-02 電話機の内線グループ設定</span><ul><li><span class="item-name">16-02-01-K1</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">16-03 第2 内線代表グループ設定</span><ul><li><span class="item-name">16-03-01</span></li></ul></li>
                                     </ul>
                                 </li>
@@ -910,16 +892,169 @@ Hãy thận trọng khi sử dụng mã.
                                         <li class="collapsible"><span class="folder-name">20-03 一般電話機のシステム機能設定</span><ul><li><span class="item-name">20-03-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">20-04 仮想内線のシステム機能設定</span><ul><li><span class="item-name">20-04-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">20-05 課金サービスのシステム機能設定</span><ul><li><span class="item-name">20-05-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">20-06 内線毎の機能クラス設定</span><ul><li><span class="item-name">20-06-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">20-07 機能クラスの機能可否（管理者レベル）</span><ul><li><span class="item-name">20-07-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">20-08 機能クラスの機能可否（発信サービス）</span><ul><li><span class="item-name">20-08-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">20-09 機能クラスの機能可否（着信サービス）</span><ul><li><span class="item-name">20-09-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">20-10 機能クラスの機能可否（応答サービス）</span><ul><li><span class="item-name">20-10-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">20-11 機能クラスの機能可否（保留・転送サービス）</span><ul><li><span class="item-name">20-11-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">20-12 機能クラスの機能可否（課金サービス）</span><ul><li><span class="item-name">20-12-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">20-13 機能クラスの機能可否（付加サービス）</span><ul><li><span class="item-name">20-13-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">20-06 内線毎の機能クラス設定</span><ul><li><span class="item-name">20-06-01-K1</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">20-07 機能クラスの機能可否（管理者レベル）class</span><ul><li><span class="item-name">20-07-<br>01-運用モード切替<br>
+																																											02-保留音曲目変更<br>
+																																											03-時刻データ設定<br>
+																																											04-共通・グループ短縮登録<br>
+																																											05-外線毎の自動転送設定・解除機能<br>
+																																											06-積算料金表示<br>
+																																											07-定額料金設定(積算料金消去操作の場合も有効)<br>
+																																											08-ダイレクト料金明細プリントアウト<br>
+																																											09-ID登録可否<br>
+																																											10-機能ボタンプログラム(管理者レベル)<br>
+																																											11-強制外線切断(アナログ回線のみ)<br>
+																																											12-外線閉塞<br>
+																																											13-VRSメッセージ編集<br>
+																																											14-VRS同報メッセージの再生<br>
+																																											15-VRS同報メッセージの録音・消去<br>
+																																											16-未使用<br>
+																																											17-未使用<br>
+																																											18-内線番号毎のSMDR集計出力<br>
+																																											19-内線グループ毎のSMDR集計出力<br>
+																																											20-アカウントコード毎のSMDR集計出力<br>
+																																											21-未使用<br>
+																																											22-インカムグループ通話モニタ<br>
+																																											23-未使用<br>
+																																											24-発番号非通知拒否設定・解除機能<br>
+																																											25-発番号による着信拒否設定・解除機能<br>
+																																											26-ダイヤルイン呼番号毎のモード切替<br>
+																																											27-Do-Not-Call機能管理者<br>
+																																											28-外線留守番サービスの送出ガイダンス番号設定<br>
+																																											29-ガイドホン通報パターン切替<br>
+																																											30-日付データ設定<br>
+																																											31-未使用<br>
+																																											32-センターサービス特番操作可否<br>
+																																											33-未使用<br>
+																																											34-システムアラームレポート消去特番操作可否<br>
+																																											35-RTP統計情報ファイル保存可否<br>
+																																											36-特殊ボタンによるログイン可否<br>
+																																											37-発信者番号選択発信許可ダイヤル設定可否<br></span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">20-08 機能クラスの機能可否（発信サービス）class</span><ul><li><span class="item-name">20-08-<br>01-内線発信<br>
+																																											02-外線発信<br>
+																																											03-共通短縮ダイヤル発信<br>
+																																											04-グループ短縮ダイヤル発信<br>
+																																											05-プリセットダイヤル<br>
+																																											06-発信規制一時解除<br>
+																																											07-リピートダイヤル<br>
+																																											08-ダイヤルブロック<br>
+																																											09-ホットライン<br>
+																																											10-信号音声呼出切替<br>
+																																											11-音声／信号切替の規制（被呼出側の設定）<br>
+																																											12-ステップコール<br>
+																																											13-発番号通知<br>
+																																											14-発サブアドレス通知<br>
+																																											15-未使用<br>
+																																											16-未使用<br>
+																																											17-未使用<br>
+																																											18-未使用<br>
+																																											19-未使用<br>
+																																											20-プリセット自動発信<br>
+																																											21-未使用<br>
+																																											22-未使用<br>
+																																											23-セキュリティセンサ異常表示<br>
+																																											24-リモート確認時の未応答表示<br></span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">20-09 機能クラスの機能可否（着信サービス）class</span><ul><li><span class="item-name">20-09-<br>01 - 個別着信時の通話中着信<br>
+																																												02 - 発信者情報表示-発信番号表示なし-an so nguoi goi<br>
+																																												03 - 発サブアドレス表示<br>
+																																												04 - 着信履歴有りのLCD表示<br>
+																																												05 - 信号着信、音声着信設定<br>
+																																												06 - 未使用<br>
+																																												07 - 個別着信のキューイング<br>
+																																												08 - CCIS着信時の発信者情報表示<br>
+																																												09 - 未使用<br>
+																																												10 - 転送元電話番号表示<br>
+																																												11 - 未使用<br>
+																																												12 - 未使用<br>
+																																												13 - 着信中のDND機能動作設定<br></span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">20-10 機能クラスの機能可否（応答サービス）class</span><ul><li><span class="item-name">20-10-<br>01-グループ代理応答<br>
+																																											02-他グループ代理応答<br>
+																																											03-グループ指定代理応答<br>
+																																											04-被ピックアップ電話機(他電話機の代理応答)<br>
+																																											05-内線指定呼代理応答<br>
+																																											06-放送応答<br>
+																																											07-オフフック自動応答-K1-jioutou<br>
+																																											08-仮想内線着信のオフフック自動応答<br>
+																																											09-コールバックの代理応答可否設定<br>
+																																											10-応答プリセット<br></span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">20-11 機能クラスの機能可否（保留・転送サービス）class</span><ul><li><span class="item-name">20-11-<br>01-着信転送<br>
+																																												02-話中着信転送<br>
+																																												03-不応答転送<br>
+																																												04-不在着信転送(設定電話機と転送先電話機の両方鳴動)<br>
+																																												05-フォローミー<br>
+																																												06-呼出状態転送<br>
+																																												07-被保留転送<br>
+																																												08-転送情報表示(着信音転送時の転送元表示)<br>
+																																												09-内線グループ保留登録<br>
+																																												10-内線グループ保留応答<br>
+																																												11-オンフック自動転送<br>
+																																												12-外線への着信転送<br>
+																																												13-保留リコール後のオペレーター転送<br>
+																																												14-外線－外線転送規制<br>
+																																												15-未使用<br>
+																																												16-コールリダイレクト<br>
+																																												17-電話機グループ毎の転送設定<br>
+																																												18-保留リコール規制<br>
+																																												19-未使用<br>
+																																												20-未使用<br>
+																																												21-未使用<br>
+																																												22-会議通話からの外線－外線転送規制<br>
+																																												23-未使用<br>
+																																												24-パーク保留時の外線保留モード<br>
+																																												25-未使用<br>
+																																												26-未使用<br>
+																																												27-未使用<br>
+																																												28-同時着信排他モード<br>
+																																												29-未使用<br>
+																																												30-未使用<br>
+																																												31-リモートカンファレンスへの転送操作<br></span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">20-12 機能クラスの機能可否（課金サービス）class</span><ul><li><span class="item-name">20-12-<br>01 - 大度数通話警告<br>
+																																											02 - ISDN通話料金表示<br>
+																																											03 - 通話料金表示<br>
+																																											04 - 残額表示<br>
+																																											05 - 定額発信規制<br></span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">20-13 機能クラスの機能可否（付加サービス）class</span><ul><li><span class="item-name">20-13-<br>01 - 長時間通話警告<br>
+																																											02 - 長時間通話強制切断(着信時)<br>
+																																											03 - 長時間通話強制切断(発信時)<br>
+																																											04 - バイパスコール(着信拒否電話機強制呼出)<br>
+																																											05 - 待機中通知(発信側電話機)<br>
+																																											06 - 被待機中通知(着信側電話機)<br>
+																																											07 - 伝言<br>
+																																											08 - 会議通話<br>
+																																											09 - 口頭会議召集<br>
+																																											10 - 秘話解除時送話カット<br>
+																																											11 - ルームモニター<br>
+																																											12 - 被ルームモニター<br>
+																																											13 - 内線通話中PB音送出<br>
+																																											14 - 被代表呼出電話機(代表呼びを受ける)<br>
+																																											15 - 通話割り込み(仮想内線への通話割り込みは不可)<br>
+																																											16 - 被通話割り込み<br>
+																																											17 - 通話割込時割込音<br>
+																																											18 - 機能ボタン設定(一般機能レベル)<br>
+																																											19 - テキストメッセージ<br>
+																																											20 - 発信規制時のオペレータコール<br>
+																																											21 - 内線名称入力<br>
+																																											22 - 呼出先の状態詳細表示<br>
+																																											23 - 転送理由表示<br>
+																																											24 - 外線ボタン押下による通話割込(秘話解除)<br>
+																																											25 - 外線－外線転送中通話割込時送話カット<br>
+																																											26 - グループリスニング<br>
+																																											27 - 仮想内線捕捉時話中<br>
+																																											28 - 未使用<br>
+																																											29 - 内線グループ呼び出し(ページング)表示<br>
+																																											30 - BGM<br>
+																																											31 - 未使用<br>
+																																											32 - 未使用<br>
+																																											33 - 監督台による切替操作<br>
+																																											34 - 話中呼出規制<br>
+																																											35 - キャンプオン規制<br>
+																																											36 - 通話時間表示<br>
+																																											37 - INSフレックスホン通信中転送<br>
+																																											38 - 未使用<br>
+																																											39 - ACD待ち呼情報表示<br>
+																																											40 - 着信拒否設定<br></span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">20-14 DISA／専用線の機能クラスの機能可否</span><ul><li><span class="item-name">20-14-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">20-15 鳴動周期設定</span><ul><li><span class="item-name">20-15-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">20-15 鳴動周期設定</span><ul><li><span class="item-name">20-15-01-K1-shuki</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">20-16 テキストメッセージ設定</span><ul><li><span class="item-name">20-16-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">20-17 オペレータ電話機設定</span><ul><li><span class="item-name">20-17-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">20-18 サービストーシタイマ設定</span><ul><li><span class="item-name">20-18-01</span></li></ul></li>
@@ -957,7 +1092,21 @@ Hãy thận trọng khi sử dụng mã.
                                 <li class="collapsible">
                                     <span class="folder-name">21 発信サービス設定</span>
                                     <ul>
-                                        <li class="collapsible"><span class="folder-name">21-01 発信サービスのシステム機能設定</span><ul><li><span class="item-name">21-01-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">21-01 発信サービスのシステム機能設定</span><ul><li><span class="item-name">21-01-K1<br>01-発信外線ルートモード<br>
+																																										02-内線桁間<br>
+																																										03-外線桁間-5 (K1 ketasuu<br>
+																																										04-ダイヤルトーン検出<br>
+																																										05-ダイヤルトーン未検出時の切断タイマ<br>
+																																										06-1桁目ダイヤルポーズ<br>
+																																										07-発信規制一時解除<br>
+																																										08-プリセットダイヤル表示保持<br>
+																																										09-ホットライン開始<br>
+																																										15-着信トランク発信規制<br>
+																																										16-発信規制ダイヤル検出タイマー<br>
+																																										17-発信規制ダイヤル桁数<br>
+																																										18-外線捕捉失敗時の追加ダイヤル受付<br>
+																																										19-Do-Not-Call機能設定<br>
+																																										このプログラムは、発信サービスのシステム機能データとタイマ値を設定します。<br></span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">21-02 内線毎の発信外線ルート設定</span><ul><li><span class="item-name">21-02-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">21-03 外線毎の発信外線ルート設定</span><ul><li><span class="item-name">21-03-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">21-04 発信規制クラス設定</span><ul><li><span class="item-name">21-04-01</span></li></ul></li>
@@ -966,8 +1115,8 @@ Hãy thận trọng khi sử dụng mã.
                                         <li class="collapsible"><span class="folder-name">21-07 リピートダイヤル設定</span><ul><li><span class="item-name">21-07-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">21-08 ダイヤルブロック設定</span><ul><li><span class="item-name">21-08-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">21-10 電話機毎のダイヤルブロック規制クラス設定</span><ul><li><span class="item-name">21-10-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">21-11 電話機のホットライン設定</span><ul><li><span class="item-name">21-11-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">21-12 外線毎の ISDN 発番号設定</span><ul><li><span class="item-name">21-12-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">21-11 電話機のホットライン設定</span><ul><li><span class="item-name">21-11-01hotline</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">21-12 外線毎の ISDN 発番号設定 </span><ul><li><span class="item-name">21-12-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">21-13 内線毎の ISDN 発番号設定</span><ul><li><span class="item-name">21-13-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">21-15 内線毎の第 2 外線アクセス発信ルート設定</span><ul><li><span class="item-name">21-15-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">21-16 ネットワーキングシステム毎の発信外線ルート設定</span><ul><li><span class="item-name">21-16-01</span></li></ul></li>
@@ -976,7 +1125,8 @@ Hãy thận trọng khi sử dụng mã.
                                         <li class="collapsible"><span class="folder-name">21-19 内線毎の IP トランク (SIP) 発番号設定</span><ul><li><span class="item-name">21-19-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">21-20 内線毎の SIP トランク通話先識別機能設定</span><ul><li><span class="item-name">21-20-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">21-21 外線毎の発信規制クラス設定</span><ul><li><span class="item-name">21-21-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">21-23 発信ボタン押下時の仮想内線捕捉優先順位設定</span><ul><li><span class="item-name">21-23-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">21-23 発信ボタン押下時の仮想内線捕捉優先順位設定ー上ー仮想内線　順位検索ーK1</span><ul><li><span class="item-name">21-23-01</span></li></ul></li>
+										<li class="collapsible"><span class="folder-name">21-23 発信ボタン押下時の仮想内線捕捉優先順位設定（内線を仮想Gをする-K1）</span><ul><li><span class="item-name">21-23-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">21-25 内線毎の拡張発信者番号設定</span><ul><li><span class="item-name">21-25-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">21-29 発信者番号選択リスト設定</span><ul><li><span class="item-name">21-29-01</span></li></ul></li>
                                     </ul>
@@ -1086,7 +1236,7 @@ Hãy thận trọng khi sử dụng mã.
                                 </li>
                                 <!-- 31 放送・ページング設定 -->
                                 <li class="collapsible">
-                                    <span class="folder-name">31 放送・ページング設定</span>
+                                    <span class="folder-name">31 放送・ページング設定-housou</span>
                                     <ul>
                                         <li class="collapsible"><span class="folder-name">31-01 放送・ページングのシステム機能設定</span><ul><li><span class="item-name">31-01-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">31-02 電話機の内線ページンググループ設定</span><ul><li><span class="item-name">31-02-01</span></li></ul></li>
@@ -1103,7 +1253,7 @@ Hãy thận trọng khi sử dụng mã.
                                 </li>
                                 <!-- 32 ドアホン・センサー設定 -->
                                 <li class="collapsible">
-                                    <span class="folder-name">32 ドアホン・センサー設定</span>
+                                    <span class="folder-name">32 ドアホン・センサー設定doa</span>
                                     <ul>
                                         <li class="collapsible"><span class="folder-name">32-01 ドアホンのタイマ設定</span><ul><li><span class="item-name">32-01-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">32-02 ドアホンの鳴動電話機の設定</span><ul><li><span class="item-name">32-02-01</span></li></ul></li>
@@ -1159,14 +1309,34 @@ Hãy thận trọng khi sử dụng mã.
                             <ul>
                                 <!-- 40 ボイスメール設定 -->
                                 <li class="collapsible">
-                                    <span class="folder-name">40 ボイスメール設定</span>
+                                    <span class="folder-name">40 ボイスメール設定-voice</span>
                                     <ul>
-                                        <li class="collapsible"><span class="folder-name">40-01 ボイスメール基本設定</span><ul><li><span class="item-name">40-01-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">40-02 メールボックス番号設定</span><ul><li><span class="item-name">40-02-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">40-01 ボイスメール基本設定</span><ul><li><span class="item-name">40-01-<br>01-ボイスメール専用チャネル指定<br>
+																																								02-タイムスタンプ指定<br>
+																																								03-転送時の通話録音動作<br>
+																																								04-自動着信代行<br>
+																																								05-メンテナンス時刻の設定<br>
+																																								06-メッセージ自動消去の設定<br>
+																																								07-着信代行中のDSPDB-VM離脱機能の可否設定<br>
+																																								08-録音メッセージ再生中の発ID表示機能の設定<br>
+																																								10-着信代行時の内線グループ着信<br>
+																																								11-着信代行の動作設定<br>
+																																								12-着信代行の動作モード<br>
+																																								13-メッセージ自動削除<br>
+																																								14-メールボックス一括パスワード<br>
+																																								15-ユーザーマネジメントツールログアウトタイマー<br>
+																																								16-ボイスメール残量の確保時間<br>
+																																								17-ボイスメール残量確保の毎時設定<br>
+																																								18-通話録音中のPB信号送出 -送出する（tsuroku）<br></span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">40-02 メールボックス番号設定-box</span><ul><li><span class="item-name">40-02-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">40-03 留守録動作設定</span><ul><li><span class="item-name">40-03-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">40-04 通話録音動作設定</span><ul><li><span class="item-name">40-04-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">40-04 通話録音動作設定</span><ul><li><span class="item-name">40-04-tsuroku<br>01-宛先未設定時の処理<br>
+																																										02-宛先不明メッセージ用ボックス ーーー呼び出し動作／宛先不明ボックス登録<br>
+																																										03-通話録音表示<br>
+																																										04-宛先不明時の呼び返し先ーーー通話録音を起動した内線／最後に通話した内線<br>
+																																										このプログラムは、ボイスメールの通話録音動作について、定義します。<br></span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">40-05 着信通知動作設定</span><ul><li><span class="item-name">40-05-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">40-06 外線留守録動作設定</span><ul><li><span class="item-name">40-06-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">40-06 外線留守録動作設定-rusu</span><ul><li><span class="item-name">40-06-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">40-07 固定ガイダンス言語設定(システム単位)</span><ul><li><span class="item-name">40-07-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">40-08 固定ガイダンス言語設定(メールボックス単位)</span><ul><li><span class="item-name">40-08-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">40-09 同報グループ設定</span><ul><li><span class="item-name">40-09-01</span></li></ul></li>
@@ -1535,7 +1705,7 @@ Hãy thận trọng khi sử dụng mã.
                                 <li class="collapsible">
                                     <span class="folder-name">92 コピーコマンド</span>
                                     <ul>
-                                        <li class="collapsible"><span class="folder-name">92-01 コピーコマンド</span><ul><li><span class="item-name">92-01-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">92-01 コピーコマンド</span><ul><li><span class="item-name">92-01-01 </span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">92-02 内線番号全消去</span><ul><li><span class="item-name">92-02-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">92-03 ポート番号指定によるコピーコマンド</span><ul><li><span class="item-name">92-03-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">92-04 端末リロケーションコマンド</span><ul><li><span class="item-name">92-04-01</span></li></ul></li>
@@ -1565,7 +1735,7 @@ Hãy thận trọng khi sử dụng mã.
             </ul>
         </div>
     </div>
-  <script>
+ <script>
 (function() {
     // Hàm escape các ký tự đặc biệt trong regex
     function escapeRegex(string) {
@@ -1584,17 +1754,15 @@ Hãy thận trọng khi sử dụng mã.
         });
     }
 
-    // Hàm highlight các từ khóa - Đã sửa để đảm bảo tô màu chính xác
+    // Hàm highlight các từ khóa
     function highlightElement(element, term) {
         if (!term || !element) return;
         const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
         
-        // Sử dụng TreeWalker để lấy các text node, tránh can thiệp vào các thẻ HTML khác
         const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
         const textNodes = [];
         let node;
         while (node = walker.nextNode()) {
-            // Không lấy text bên trong chính thẻ MARK đã tồn tại
             if (node.parentNode.nodeName !== 'MARK') {
                 textNodes.push(node);
             }
@@ -1608,7 +1776,6 @@ Hãy thận trọng khi sử dụng mã.
                 parts.forEach(part => {
                     if (part.toLowerCase() === term.toLowerCase()) {
                         const mark = document.createElement('mark');
-                        // Cưỡng ép style trực tiếp để không bị CSS khác ghi đè
                         mark.style.backgroundColor = 'yellow';
                         mark.style.color = 'black';
                         mark.textContent = part;
@@ -1623,7 +1790,6 @@ Hãy thận trọng khi sử dụng mã.
     }
 
     function initCollapse() {
-        // Hỗ trợ click cho cả folder-name và summary
         document.querySelectorAll('.folder-name, summary').forEach(span => {
             if (!span.dataset.listener) {
                 span.addEventListener('click', function(e) {
@@ -1644,86 +1810,99 @@ Hãy thận trọng khi sử dụng mã.
         document.querySelectorAll('.tree li.collapsible').forEach(li => {
             li.classList.add('collapsed');
         });
-        // Reset luôn các thẻ details nếu có
         document.querySelectorAll('.tree details').forEach(d => d.open = false);
         
         const rootLi = document.getElementById('root-folder');
         if (rootLi) rootLi.classList.remove('collapsed');
         removeAllHighlights();
+
+        // Hiện lại tất cả các ghi chú
+        document.querySelectorAll('.tree p, .tree div, .tree .note-item').forEach(note => {
+            note.style.display = '';
+        });
     }
 
-    // Tìm kiếm và highlight từ khóa
+    // Tìm kiếm và chỉ hiển thị các dòng có chứa từ khóa (kèm tổ tiên)
     function filterTree(term) {
         const allLis = document.querySelectorAll('.tree li');
         const allNotes = document.querySelectorAll('.tree p, .tree div, .tree .note-item');
 
-        // Bước 1: Reset ban đầu
-        allLis.forEach(li => {
-            li.style.display = '';
-            li.dataset.forceShow = "false";
-        });
-        allNotes.forEach(note => note.style.display = '');
+        // Ẩn tất cả ban đầu
+        allLis.forEach(li => li.style.display = 'none');
+        allNotes.forEach(note => note.style.display = 'none');
         removeAllHighlights();
 
-        if (!term || term.trim() === "") return;
+        if (!term || term.trim() === "") {
+            // Nếu không có từ khóa, hiện lại toàn bộ
+            allLis.forEach(li => li.style.display = '');
+            allNotes.forEach(note => note.style.display = '');
+            return;
+        }
         term = term.trim().toLowerCase();
 
-        // Bước 2: Duyệt tìm kiếm bao gồm cả thẻ summary
+        // Tập hợp các dòng khớp và các ghi chú khớp
+        const matchingLis = new Set();
+        const matchingNotes = new Set();
+
+        // Kiểm tra các dòng (thẻ li)
         allLis.forEach(li => {
-            // QUAN TRỌNG: Thêm summary vào đây để tìm được "K1"
             const nameSpan = li.querySelector('.folder-name, .item-name, summary');
             const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
             const romajiText = nameSpan ? (nameSpan.getAttribute('data-search') || "").toLowerCase() : "";
             
-            const isItemMatch = itemName.includes(term) || romajiText.includes(term);
-            
-            if (isItemMatch) {
+            if (itemName.includes(term) || romajiText.includes(term)) {
+                matchingLis.add(li);
                 highlightElement(nameSpan, term);
-                // Đánh dấu để hiện các con
-                li.dataset.forceShow = "true";
-                li.querySelectorAll('li, p, div, .note-item').forEach(el => {
-                    if (el.tagName === 'LI') el.dataset.forceShow = "true";
-                    el.style.display = ''; 
-                });
             }
-
-            // Kiểm tra các đoạn ghi chú bên trong li
-            const notes = li.querySelectorAll('p, div, .note-item');
-            notes.forEach(note => {
-                if (note.innerText.toLowerCase().includes(term)) {
-                    highlightElement(note, term);
-                    li.dataset.forceShow = "true";
-                }
-            });
         });
 
-        // Bước 3: Ẩn/Hiện và Tự động mở các cấp cha
-        allLis.forEach(li => {
-            const nameSpan = li.querySelector('.folder-name, .item-name, summary');
-            const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
-            const notes = li.querySelectorAll('p, div, .note-item');
-            let hasVisibleNote = false;
-            notes.forEach(n => { if(n.innerText.toLowerCase().includes(term)) hasVisibleNote = true; });
-
-            const isItemMatch = itemName.includes(term);
-
-            if (isItemMatch || hasVisibleNote || li.dataset.forceShow === "true") {
-                li.style.display = '';
-
-                // Mở đường dẫn cha và mở thẻ details
-                let parent = li.parentElement.closest('li');
-                while (parent) {
-                    parent.style.display = '';
-                    parent.classList.remove('collapsed');
-                    
-                    // Nếu cha là một thẻ details, mở nó ra để thấy kết quả bên trong
-                    const details = parent.querySelector(':scope > details');
-                    if (details) details.open = true;
-
-                    parent = parent.parentElement.closest('li');
+        // Kiểm tra các ghi chú bên trong
+        allNotes.forEach(note => {
+            if (note.innerText.toLowerCase().includes(term)) {
+                matchingNotes.add(note);
+                const parentLi = note.closest('li');
+                if (parentLi) {
+                    matchingLis.add(parentLi); // Đảm bảo dòng cha cũng được hiện
                 }
+                highlightElement(note, term);
+            }
+        });
+
+        // Tìm tất cả tổ tiên của các dòng khớp
+        const ancestors = new Set();
+        matchingLis.forEach(li => {
+            let parent = li.parentElement.closest('li');
+            while (parent) {
+                ancestors.add(parent);
+                parent = parent.parentElement.closest('li');
+            }
+        });
+
+        // Hợp nhất: các dòng cần hiển thị = dòng khớp + tổ tiên
+        const toShow = new Set([...matchingLis, ...ancestors]);
+
+        // Hiển thị các dòng đó và mở rộng đường dẫn
+        toShow.forEach(li => {
+            li.style.display = '';
+
+            // Mở các details cha và bỏ collapsed
+            let parent = li.parentElement.closest('li');
+            while (parent) {
+                parent.style.display = ''; // đảm bảo tổ tiên hiện
+                parent.classList.remove('collapsed');
+                const details = parent.querySelector(':scope > details');
+                if (details) details.open = true;
+                parent = parent.parentElement.closest('li');
+            }
+        });
+
+        // Chỉ hiển thị các ghi chú khớp nằm trong dòng đã hiện
+        allNotes.forEach(note => {
+            const parentLi = note.closest('li');
+            if (parentLi && toShow.has(parentLi) && matchingNotes.has(note)) {
+                note.style.display = '';
             } else {
-                li.style.display = 'none';
+                note.style.display = 'none';
             }
         });
     }

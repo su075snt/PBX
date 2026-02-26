@@ -11,7 +11,7 @@
         margin: 20px;
     }
     .container {
-        max-width: 1200px;
+        max-width: 1100px;
         margin: auto;
         background-color: #fff;
         border-radius: 8px;
@@ -51,15 +51,16 @@
         margin: 6px 0;
         line-height: 1.6;
         position: relative;
-        list-style: none;
+        list-style: none; /* Đảm bảo không có dấu chấm mặc định */
     }
 
-    /* Xóa bỏ icon mặc định */
+    /* Xóa bỏ icon mặc định của tất cả li để tránh bị thừa */
     .tree li::before {
         content: none !important;
     }
 
     /* --- ICON CHO FOLDER (THƯ MỤC CHA) --- */
+    /* Chỉ áp dụng cho li có class collapsible */
     .tree li.collapsible > .folder-name::before {
         content: "📁 ";
         color: #f7d354;
@@ -72,7 +73,8 @@
         content: "📂 ";
     }
 
-    /* --- ICON CHO FILE (ITEM CON) --- */
+    /* --- ICON CHO FILE (ITEM CON NHƯ 15-07-01) --- */
+    /* Nhắm vào summary hoặc item-name của những li KHÔNG phải collapsible */
     .tree li:not(.collapsible) summary::before,
     .tree li:not(.collapsible) .item-name::before {
         content: "📄 ";
@@ -86,6 +88,7 @@
         display: inline-block;
         transition: transform 0.2s;
     }
+    /* Mũi tên nhỏ bên cạnh tên folder */
     li.collapsible > .folder-name {
         cursor: pointer;
         font-weight: 500;
@@ -102,95 +105,20 @@
         display: none;
     }
 
-    /* --- CẢI THIỆN HIỂN THỊ BẢNG --- */
-    .table-container {
-        margin-left: 20px;
-        width: 100%;
-        overflow-x: auto;
-    }
-    
-    .config-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 15px;
-        font-size: 14px;
-        table-layout: fixed; /* Cố định layout bảng */
-    }
-    
-    .config-table th,
-    .config-table td {
-        border: 1px solid #ccc;
+    /* --- PHẦN GHI CHÚ (NOTE-ITEM) --- */
+    .note-item {
+        margin: 5px 0;
         padding: 10px;
-        vertical-align: top;
-        word-wrap: break-word; /* Xuống dòng khi nội dung dài */
-    }
-    
-    /* Cột ProG chiếm 30% chiều rộng */
-    .config-table th:first-child,
-    .config-table td:first-child {
-        width: 30%;
-        font-weight: 600;
-        background-color: #f8f9fa;
-    }
-    
-    /* Cột nội dung chiếm 70% chiều rộng */
-    .config-table th:last-child,
-    .config-table td:last-child {
-        width: 70%;
-    }
-    
-    /* Header bảng */
-    .config-table thead tr {
-        background-color: #e9ecef;
-        font-weight: 600;
-    }
-    
-    .config-table thead th {
-        color: #495057;
-        border-bottom: 2px solid #adb5bd;
-    }
-    
-    /* --- CẢI THIỆN HIỂN THỊ GHI CHÚ --- */
-    .note-section {
-        margin-left: 20px;
-        margin-top: 15px;
-        padding: 15px;
-        background-color: #f8f9fa;
-        border-left: 4px solid #1a73e8;
-        border-radius: 0 4px 4px 0;
+        background-color: #fcfcfc;
+        border-left: 3px solid #1a73e8;
         font-size: 14px;
         color: #333;
-        line-height: 1.6;
     }
-    
-    .note-title {
-        font-weight: 600;
-        color: #1a73e8;
-        margin-bottom: 8px;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-    
-    .note-title::before {
-        content: "📝";
-        font-size: 1.1em;
-    }
-    
-    .note-content {
-        margin: 0;
-        white-space: pre-line; /* Giữ xuống dòng trong nội dung */
-    }
-    
-    .note-content p {
-        margin: 5px 0;
-    }
-    
-    /* Highlight khi tìm kiếm */
+
+    /* --- HIGHLIGHT KHI TÌM KIẾM --- */
     mark {
-        background-color: #ffeb3b !important;
-        color: #000 !important;
-        display: inline-block;
+        background-color: #ffeb3b;
+        color: #000;
         padding: 0 2px;
         border-radius: 2px;
         font-weight: bold;
@@ -200,24 +128,13 @@
     .tree li.hidden {
         display: none;
     }
-    
-    /* Responsive cho mobile */
-    @media (max-width: 768px) {
-        .container {
-            padding: 10px;
-        }
-        
-        .config-table th,
-        .config-table td {
-            padding: 8px;
-            font-size: 13px;
-        }
-        
-        .note-section {
-            margin-left: 10px;
-            padding: 12px;
-        }
-    }
+	mark {
+    background-color: yellow !important;
+    color: black !important;
+    display: inline-block;
+    padding: 0 2px;
+    border-radius: 2px;
+}
 </style>
 </head>
 <body>
@@ -229,408 +146,471 @@
         </div>
         <div class="tree">
             <ul class="root">
-                <li class="collapsible">
-                    <span class="folder-name" style="font-weight: bold; cursor: pointer;">通話録音</span>
-                    <ul>
-                        <li class="item-name">
-                            <div class="table-container">
-                                <table class="config-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ProG</th>
-                                            <th>tsuroku</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>10-01-01</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-02</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-03</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-04</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="note-section">
-                                <div class="note-title">Ghi chú</div>
-                                <div class="note-content">
-                                    <p>tsuroku;</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="collapsible">
-                    <span class="folder-name" style="font-weight: bold; cursor: pointer;">遡りー通話録音</span>
-                    <ul>
-                        <li class="item-name">
-                            <div class="table-container">
-                                <table class="config-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ProG</th>
-                                            <th>sakanobori-tsuroku</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>10-01-01</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-02</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-03</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-04</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="note-section">
-                                <div class="note-title">Ghi chú</div>
-                                <div class="note-content">
-                                    <p>sakanobori;</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="collapsible">
-                    <span class="folder-name" style="font-weight: bold; cursor: pointer;">着信拒否</span>
-                    <ul>
-                        <li class="item-name">
-                            <div class="table-container">
-                                <table class="config-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ProG</th>
-                                            <th>chakushinkyohi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>13-02</td>
-                                            <td>G64 1000-1999</td>
-                                        </tr>
-                                        <tr>
-                                            <td>14-01-27</td>
-                                            <td>☑️</td>
-                                        </tr>
-                                        <tr>
-                                            <td>22-16-01</td>
-                                            <td>G(64)</td>
-                                        </tr>
-                                        <tr>
-                                            <td>40-10-07 発番号による着信拒否</td>
-                                            <td>VRS なし 0、 VRS 番号101とか</td>
-                                        </tr>
-                                        <tr>
-                                            <td>40-10-06 発番号非通知 - doi voi cuoc goi an so</td>
-                                            <td>VRS なし 0、 VRS 番号101とか</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="note-section">
-                                <div class="note-title">Ghi chú</div>
-                                <div class="note-content">
-                                    <p>chakukyohi</p>
-                                    <p>SP *34 開始と解除</p>
-                                    <p>着信を拒否する電話番号を登録する</p>
-                                    <p>SP *33 登録 登録したい番号 登録</p>
-                                    <p>発信者番号が非通知の着信を拒否する</p>
-                                    <p>SP *32 開始と解除</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="collapsible">
-                    <span class="folder-name" style="font-weight: bold; cursor: pointer;">留守電</span>
-                    <ul>
-                        <li class="item-name">
-                            <div class="table-container">
-                                <table class="config-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ProG</th>
-                                            <th>rusu</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>10-01-01</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-02</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-03</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-04</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="note-section">
-                                <div class="note-title">Ghi chú</div>
-                                <div class="note-content">
-                                    <p>rusu;</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="collapsible">
-                    <span class="folder-name" style="font-weight: bold; cursor: pointer;">着信代行</span>
-                    <ul>
-                        <li class="item-name">
-                            <div class="table-container">
-                                <table class="config-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ProG</th>
-                                            <th>chakishindaikou</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>10-01-01</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-02</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-03</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-04</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="note-section">
-                                <div class="note-title">Ghi chú</div>
-                                <div class="note-content">
-                                    <p>ghi chu</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="collapsible">
-                    <span class="folder-name" style="font-weight: bold; cursor: pointer;">IP 多機能電話</span>
-                    <ul>
-                        <li class="item-name">
-                            <div class="table-container">
-                                <table class="config-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ProG</th>
-                                            <th>iptakinou</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>10-01-01</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-02</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-03</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-04</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="note-section">
-                                <div class="note-title">Ghi chú</div>
-                                <div class="note-content">
-                                    <p>ghi chu</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="collapsible">
-                    <span class="folder-name" style="font-weight: bold; cursor: pointer;">PHS</span>
-                    <ul>
-                        <li class="item-name">
-                            <div class="table-container">
-                                <table class="config-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ProG</th>
-                                            <th>phs</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>10-01-01</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-02</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-03</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-04</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="note-section">
-                                <div class="note-title">Ghi chú</div>
-                                <div class="note-content">
-                                    <p>ghi chu</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="collapsible">
-                    <span class="folder-name" style="font-weight: bold; cursor: pointer;">初期</span>
-                    <ul>
-                        <li class="item-name">
-                            <div class="table-container">
-                                <table class="config-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ProG</th>
-                                            <th>shoki</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>IPTU</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-02</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-03</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-04</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                        <tr>
-                                            <td>10-01-05</td>
-                                            <td>text111111</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="note-section">
-                                <div class="note-title">Ghi chú</div>
-                                <div class="note-content">
-                                    <p>ghi chu</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+						<li class="collapsible">
+							<span class="folder-name" style="font-weight: bold; cursor: pointer;">通話録音</span>
+							<ul>
+								<li class="item-name">
+									<p style="margin: 5px 0; font-weight: bold; color: #333;">   </p>
+									
+									<div style="margin-left: 20px;">
+										<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 14px;">
+											<thead>
+												<tr style="background-color: #f2f2f2;">
+													<th style="border: 1px solid #ccc; padding: 8px;">ProG</th>
+													<th style="border: 1px solid #ccc; padding: 8px;">tsuroku</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-01</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-02</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-03</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-04</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+											</tbody>
+											
+										</table>
+										<p style="margin-top: 5px; font-style: italic;">tsuroku;</p>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="collapsible">
+							<span class="folder-name" style="font-weight: bold; cursor: pointer;">遡りー通話録音</span>
+							<ul>
+								<li class="item-name">
+									<p style="margin: 5px 0; font-weight: bold; color: #333;">   </p>
+									
+									<div style="margin-left: 20px;">
+										<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 14px;">
+											<thead>
+												<tr style="background-color: #f2f2f2;">
+													<th style="border: 1px solid #ccc; padding: 8px;">ProG</th>
+													<th style="border: 1px solid #ccc; padding: 8px;">sakanobori-tsuroku</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-01</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-02</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-03</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-04</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+											</tbody>
+										</table>
+										<p style="margin-top: 5px; font-style: italic;">sakanobori;</p>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="collapsible">
+							<span class="folder-name" style="font-weight: bold; cursor: pointer;">着信拒否</span>
+							<ul>
+								<li class="item-name">
+									<p style="margin: 5px 0; font-weight: bold; color: #333;">   </p>
+									
+									<div style="margin-left: 20px;">
+										<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 14px;">
+											<thead>
+												<tr style="background-color: #f2f2f2;">
+													<th style="border: 1px solid #ccc; padding: 8px;">ProG</th>
+													<th style="border: 1px solid #ccc; padding: 8px;">chakushinkyohi</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">13-02 </td>
+													<td style="border: 1px solid #ccc; padding: 8px;">G64 1000-1999</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">14-01-27</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">☑️</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">22-16-01  </td>
+													<td style="border: 1px solid #ccc; padding: 8px;">G(64)</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">40-10 -07 発番号による着信拒否<br></td>
+													<td style="border: 1px solid #ccc; padding: 8px;">VRS なし　０、　VRS 番号101とか</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">40-10 -06 発番号非通知-doi voi cuoc goi an so</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">VRS なし　０、　VRS 番号101とか</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+											</tbody>
+										</table>
+										<p style="margin-top: 5px; font-style: italic;">chakukyohi<br>SP *34      開始と解除<br>着信を拒否する電話番号を登録する<br>ＳＰ＊３３　登録　登録したい番号　登録<br>発信者番号が非通知の着信を拒否する<br>
+Ｓｐ＊３２　開始と解除</p>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="collapsible">
+							<span class="folder-name" style="font-weight: bold; cursor: pointer;">留守電</span>
+							<ul>
+								<li class="item-name">
+									<p style="margin: 5px 0; font-weight: bold; color: #333;">   </p>
+									
+									<div style="margin-left: 20px;">
+										<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 14px;">
+											<thead>
+												<tr style="background-color: #f2f2f2;">
+													<th style="border: 1px solid #ccc; padding: 8px;">ProG</th>
+													<th style="border: 1px solid #ccc; padding: 8px;">rusu</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-01</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-02</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-03</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-04</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+											</tbody>
+										</table>
+										<p style="margin-top: 5px; font-style: italic;">rusu;</p>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="collapsible">
+							<span class="folder-name" style="font-weight: bold; cursor: pointer;">着信代行</span>
+							<ul>
+								<li class="item-name">
+									<p style="margin: 5px 0; font-weight: bold; color: #333;">   </p>
+									
+									<div style="margin-left: 20px;">
+										<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 14px;">
+											<thead>
+												<tr style="background-color: #f2f2f2;">
+													<th style="border: 1px solid #ccc; padding: 8px;">ProG</th>
+													<th style="border: 1px solid #ccc; padding: 8px;">chakishindaikou</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-01</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-02</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-03</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-04</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+											</tbody>
+										</table>
+										<p style="margin-top: 5px; font-style: italic;">ghi chu</p>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="collapsible">
+							<span class="folder-name" style="font-weight: bold; cursor: pointer;">IP 多機能電話</span>
+							<ul>
+								<li class="item-name">
+									<p style="margin: 5px 0; font-weight: bold; color: #333;">   </p>
+									
+									<div style="margin-left: 20px;">
+										<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 14px;">
+											<thead>
+												<tr style="background-color: #f2f2f2;">
+													<th style="border: 1px solid #ccc; padding: 8px;">ProG</th>
+													<th style="border: 1px solid #ccc; padding: 8px;">iptakinou</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-01</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-02</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-03</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-04</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+											</tbody>
+										</table>
+										<p style="margin-top: 5px; font-style: italic;">ghi chu</p>
+									</div>
+								</li>
+							</ul>
+						</li><li class="collapsible">
+							<span class="folder-name" style="font-weight: bold; cursor: pointer;">PHS</span>
+							<ul>
+								<li class="item-name">
+									<p style="margin: 5px 0; font-weight: bold; color: #333;">   </p>
+									
+									<div style="margin-left: 20px;">
+										<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 14px;">
+											<thead>
+												<tr style="background-color: #f2f2f2;">
+													<th style="border: 1px solid #ccc; padding: 8px;">ProG</th>
+													<th style="border: 1px solid #ccc; padding: 8px;">phs</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-01</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-02</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-03</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-04</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+											</tbody>
+										</table>
+										<p style="margin-top: 5px; font-style: italic;">ghi chu</p>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li class="collapsible">
+							<span class="folder-name" style="font-weight: bold; cursor: pointer;">初期</span>
+							<ul>
+								<li class="item-name">
+									<p style="margin: 5px 0; font-weight: bold; color: #333;">   </p>
+									
+									<div style="margin-left: 20px;">
+										<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 14px;">
+											<thead>
+												<tr style="background-color: #f2f2f2;">
+													<th style="border: 1px solid #ccc; padding: 8px;">ProG</th>
+													<th style="border: 1px solid #ccc; padding: 8px;">shoki</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">IPTU</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-02</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-03</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-04</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+											</tbody>
+										</table>
+										<p style="margin-top: 5px; font-style: italic;">ghi chu</p>
+									</div>
+								</li>
+							</ul>
+						</li><li class="collapsible">
+							<span class="folder-name" style="font-weight: bold; cursor: pointer;">11111</span>
+							<ul>
+								<li class="item-name">
+									<p style="margin: 5px 0; font-weight: bold; color: #333;">   </p>
+									
+									<div style="margin-left: 20px;">
+										<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 14px;">
+											<thead>
+												<tr style="background-color: #f2f2f2;">
+													<th style="border: 1px solid #ccc; padding: 8px;">ProG</th>
+													<th style="border: 1px solid #ccc; padding: 8px;">tsuroku</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-01</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-02</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-03</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-04</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+											</tbody>
+										</table>
+										<p style="margin-top: 5px; font-style: italic;">ghi chu</p>
+									</div>
+								</li>
+							</ul>
+						</li><li class="collapsible">
+							<span class="folder-name" style="font-weight: bold; cursor: pointer;">11111</span>
+							<ul>
+								<li class="item-name">
+									<p style="margin: 5px 0; font-weight: bold; color: #333;">   </p>
+									
+									<div style="margin-left: 20px;">
+										<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 14px;">
+											<thead>
+												<tr style="background-color: #f2f2f2;">
+													<th style="border: 1px solid #ccc; padding: 8px;">ProG</th>
+													<th style="border: 1px solid #ccc; padding: 8px;">tsuroku</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-01</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-02</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-03</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-04</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+												<tr>
+													<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;">10-01-05</td>
+													<td style="border: 1px solid #ccc; padding: 8px;">text111111</td>
+												</tr>
+											</tbody>
+										</table>
+										<p style="margin-top: 5px; font-style: italic;">ghi chu</p>
+									</div>
+								</li>
+							</ul>
+						</li>
+			</ul>
         </div>
     </div>
  <script>
 (function() {
+    // ... CÁC HÀM CŨ CỦA BẠN GIỮ NGUYÊN (escapeRegex, removeAllHighlights, v.v.)
     function escapeRegex(string) {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
@@ -700,15 +680,17 @@
             li.classList.add('collapsed');
         });
         document.querySelectorAll('.tree details').forEach(d => d.open = false);
+        const rootLi = document.getElementById('root-folder');
+        if (rootLi) rootLi.classList.remove('collapsed');
         removeAllHighlights();
-        document.querySelectorAll('.tree p, .tree div, .tree .note-section, .tree .table-container').forEach(note => {
+        document.querySelectorAll('.tree p, .tree div, .tree .note-item').forEach(note => {
             note.style.display = '';
         });
     }
 
     function filterTree(term) {
         const allLis = document.querySelectorAll('.tree li');
-        const allNotes = document.querySelectorAll('.tree p, .tree div, .tree .note-section, .tree .table-container');
+        const allNotes = document.querySelectorAll('.tree p, .tree div, .tree .note-item');
         allLis.forEach(li => li.style.display = 'none');
         allNotes.forEach(note => note.style.display = 'none');
         removeAllHighlights();
@@ -723,7 +705,8 @@
         allLis.forEach(li => {
             const nameSpan = li.querySelector('.folder-name, .item-name, summary');
             const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
-            if (itemName.includes(term)) {
+            const romajiText = nameSpan ? (nameSpan.getAttribute('data-search') || "").toLowerCase() : "";
+            if (itemName.includes(term) || romajiText.includes(term)) {
                 matchingLis.add(li);
                 highlightElement(nameSpan, term);
             }
@@ -769,16 +752,22 @@
     const searchInput = document.getElementById('searchInput');
     const clearBtn = document.getElementById('clearBtn');
 
-    // Tự động focus khi gõ phím
+    // --- PHẦN THÊM MỚI: TỰ ĐỘNG FOCUS KHI GÕ PHÍM ---
     document.addEventListener('keydown', function(event) {
         if (!searchInput) return;
+
+        // Nếu đang gõ ở một ô input khác hoặc textarea thì không nhảy focus
         if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
             return;
         }
+
+        // Bỏ qua các phím điều hướng, phím chức năng (Ctrl, Alt, Shift, CapsLock, v.v.)
+        // event.key.length === 1 đảm bảo đó là phím ký tự (chữ, số, ký hiệu)
         if (event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey) {
             searchInput.focus();
         }
     });
+    // --- KẾT THÚC PHẦN THÊM MỚI ---
 
     if(searchInput) {
         searchInput.addEventListener('input', function() {

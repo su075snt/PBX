@@ -104,10 +104,10 @@
 
     /* --- CẢI THIỆN HIỂN THỊ BẢNG --- */
     .table-container {
-        margin-left: 20px;
-        width: 120%;
-        overflow-x: auto;
-    }
+    margin-left: 0;
+    width: calc(100% - 20px); /* Trừ đi khoảng cách bên phải nếu cần */
+    overflow-x: auto;
+}
     
     .config-table {
     width: 100%;

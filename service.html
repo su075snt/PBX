@@ -103,19 +103,20 @@
     }
 
     /* --- CẢI THIỆN HIỂN THỊ BẢNG --- */
-    .table-container {
-    margin-left: 0;
-    width: calc(100% - 20px); /* Trừ đi khoảng cách bên phải nếu cần */
-    overflow-x: auto;
-}
-    
-    .config-table {
+   .table-container {
+    margin-left: 0; /* Xóa margin-left */
+    margin-right: 0;
     width: 100%;
-    min-width: 800px; /* Đặt chiều rộng tối thiểu */
+    overflow-x: auto;
+    box-sizing: border-box;
+}
+
+.config-table {
+    width: 100%;
     border-collapse: collapse;
     margin-bottom: 15px;
     font-size: 14px;
-    table-layout: auto; /* Đổi sang auto để cột co giãn theo nội dung */
+    table-layout: fixed;
 }
     
     .config-table th,

@@ -110,12 +110,13 @@
     }
     
     .config-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 15px;
-        font-size: 14px;
-        table-layout: fixed; /* Cố định layout bảng */
-    }
+    width: 100%;
+    min-width: 800px; /* Đặt chiều rộng tối thiểu */
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    font-size: 14px;
+    table-layout: auto; /* Đổi sang auto để cột co giãn theo nội dung */
+}
     
     .config-table th,
     .config-table td {

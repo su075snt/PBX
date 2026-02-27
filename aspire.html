@@ -215,7 +215,19 @@
                                         <li class="collapsible">
                                             <span class="folder-name">10-03 各種ユニットの基本構成データ設定</span>
                                             <ul>
-                                                <li><span class="item-name">10-03-01</span></li>
+                                                <li><span class="item-name">10-03-01: ESIパッケージ チャネル1データ設定<br>
+																			10-03-02 ESIパッケージ チャネル2データ設定<br>
+																			10-03-03 SLIパッケージデータ設定<br>
+																			10-03-04 COIパッケージデータ設定<br>
+																			10-03-05 TLIパッケージデータ設定<br>
+																			10-03-06 DIOPUパッケージデータ設定<br>
+																			10-03-07 BRIパッケージデータ設定<br>
+																			10-03-08 PRIパッケージデータ設定<br>
+																			10-03-09 VoIPUパッケージデータ設定<br>
+																			10-03-10 T1IUパッケージデータ設定<br>
+																			10-03-21 IPTUパッケージデータ設定<br>
+																			
+																					</span></li>
                                             </ul>
                                         </li>
                                         <li class="collapsible">
@@ -253,42 +265,94 @@
                                             <ul>
                                                 <li><span class="item-name">10-11-01</span></li>
                                             </ul>
+                                        </li><li class="collapsible">
+                                            <span class="folder-name">10-12 CCPUネットワーク設定</span>
+                                            <ul>
+                                                <li><span class="item-name">10-12-01<br><table class="data">
+	<tr>
+		<th></th>
+		<th colspan='1'></th>
+	</tr>
+	<tr>
+		<th></th>
+		<td colspan='1'></td>
+	</tr>
+	<tr class='typ1'>
+		<td>IPアドレス</td>
+		<td>192.168.0.10</td>
+	</tr>
+	<tr class='typ2'>
+		<td>サブネットマスク</td>
+		<td>255.255.255.0</td>
+	</tr>
+	<tr class='typ1'>
+		<td>デフォルトゲートウェイ</td>
+		<td>0.0.0.0</td>
+	</tr>
+	<tr class='typ2'>
+		<td>タイムゾーン</td>
+		<td>9.0hrs (21)</td>
+	</tr>
+	<tr class='typ1'>
+		<td>NIC設定</td>
+		<td>Automatic detection (0)</td>
+	</tr>
+	<tr class='typ2'>
+		<td>NAPTルータIPアドレス</td>
+		<td>0.0.0.0</td>
+	</tr>
+	<tr class='typ1'>
+		<td>ICMP リダイレクト</td>
+		<td>自動更新する (0)</td>
+	</tr>
+	<tr class='typ2'>
+		<td>VoIP DB IPアドレス</td>
+		<td>172.16.0.10</td>
+	</tr>
+	<tr class='typ1'>
+		<td>VoIP DB サブネットマスク</td>
+		<td>255.255.0.0</td>
+	</tr>
+	<tr class='typ2'>
+		<td>NIC設定</td>
+		<td>AUTO (0)</td>
+	</tr>
+	<tr class='typ1'>
+		<td>DNSプライマリアドレス</td>
+		<td>0.0.0.0</td>
+	</tr>
+	<tr class='typ2'>
+		<td>DNSセカンダリアドレス</td>
+		<td>0.0.0.0</td>
+	</tr>
+	<tr class='typ1'>
+		<td>DNSポート</td>
+		<td>53</td>
+	</tr>
+	<tr class='typ2'>
+		<td>NICポート設定</td>
+		<td>MDI (0)</td>
+	</tr>
+	<tr class='typ1'>
+		<td>CCPU MTU値</td>
+		<td>1450</td>
+	</tr>
+	<tr class='typ2'>
+		<td>VOIPDB MTU値</td>
+		<td>1450</td>
+	</tr>
+	<tr class='typ1'>
+		<td>SSLv3設定</td>
+		<td>使用しない (0)</td>
+	</tr>
+	<tr class='typ2'>
+		<td>Webサーバアクセス用ゲートウェイ</td>
+		<td>0.0.0.0</td>
+	</tr>
+</table></span></li>
+                                            </ul>
                                         </li>
-                                         <li class="collapsible">
-											<span class="folder-name">10-12 CCPUネットワーク設定</span><ul><li class="item-name">
-													<details>
-														<summary style="cursor: pointer; list-style: none;">	
-														<p class="note-item">10-12-01 IP アドレス CCPU ユニットの IP アドレスを設定する。 Ａ 192.168.0.10 『付録 2.1. IP アドレス』（⇒ P.6-7）を参照<br>
-10-12-02 サブネットマスク CCPU ユニットのサブネットマスクを設定する。 Ａ 255.255.255.0 『付録 2.2. サブネットマスク』（⇒ P.6-8）を参照<br>
-10-12-03 デフォルトゲートウェイ ルータの IP アドレスを入力する。 Ａ 0.0.0.0 『付録 2.1. IP アドレス』（⇒ P.6-7）を参照<br>
-10-12-04 タイムゾーン 世界標準時からの時間差を設定する。 ※通常は変更不要 PRG 90-56：NTP 設定のタイムゾーンとして使用されます。 Ａ 21 (0：-12 時間 ～ 24：+12 時間)<br>
-10-12-05 NIC 設定 接続先の NIC（ネットワークインタフェースカード）の通信タイプを設定する。 ※通常は、自動検出を設定します。 B 0 (0：自動検出, 1：100M Full, 2：100M Half, 3：10M Full, 4：10M Half, 5：1G Full)<br>
-10-12-07 NAPT ルータ IP アドレス NAPT ルータの WAN 側 IP アドレスを設定する。 Ａ 0.0.0.0 『付録 2.1. IP アドレス』（⇒ P.6-7）を参照<br>
-10-12-08 ICMP リダイレクト ICMP リダイレクトメッセージを受信したときに、自動的に IP ルーティングテーブルの経路情報を更新するかどうかを設定する。 B 0 (0：自動更新する, 1：自動更新しない)<br>
-10-12-09 IP アドレス（VOIPDB） VOIPDB ユニットの LAN IP アドレスを設定する。 A 172.16.0.10 『付録 2.1. IP アドレス』（⇒ P.6-7）を参照<br>10-12-10 サブネットマスク（VOIPDB） VOIPDB ユニットのサブネットマスクを設定する。 A 255.255.0.0 『付録 2.2. サブネットマスク』（⇒ P.6-8）を参照<br>
-10-12-11 NIC 設定（VOIPDB） VOIPDB ユニット利用時に、接続先の NIC の通信タイプを設定する。 ※通常は、自動検出を設定します。 B 0 (0：自動検出, 1：100M Full, 3：10M Full, 5：1G Full)<br>
-10-12-13 DNS プライマリアドレス プライマリ DNS サーバの IP アドレスを設定する。 A 0.0.0.0 『付録 2.1. IP アドレス』（⇒ P.6-7）を参照<br>
-10-12-14 DNS セカンダリアドレス セカンダリ DNS サーバの IP アドレスを設定する。 A 0.0.0.0 『付録 2.1. IP アドレス』（⇒ P.6-7）を参照<br>
-10-12-15 DNS ポート番号 DNS サーバのポート番号を設定する。 A 53 (1～65535)<br>
-10-12-17 VOIPDB ポート設定 PRG10-12-11 を 0：自動検出以外に設定した場合に MDI/MDI-X を設定する。 B 0 (0：MDI, 1：MDI-X)<br>
-10-12-18 CCPU MTU 値 CCPU ユニットの LAN インタフェースの MTU 値を設定する。 A 1450 (1000～1500)<br>
-10-12-19 VOIPDB MTU 値 VOIPDB ユニットの LAN インタフェースの MTU 値を設定する. A 1450 (1000～1500)<br>
-10-12-20 SSLv3 設定 SMTP 送信で暗号化を使用した場合に SSLv3 を使用するかどうかを設定する。 B 0 (0：使用しない, 1：使用する)<br>
-Hãy thận trọng khi sử dụng mã.
-
-
-
-
-
-																			</summary>
-														<div style="margin-left: 20px;">
-															<p class="note-item">Ghi chú 1: 10-01 時計カレンダー設定 SA ○<br>
-															<p class="note-item">Ghi chú 2: [Nội dung text2222222222222222222222]</p>
-														</div>
-													</details>
-										</li>
-									</ul>
-								</li>
+                                         
 
                                         <li class="collapsible">
                                             <span class="folder-name">10-13 内蔵DHCPサーバ設定</span>
@@ -610,7 +674,248 @@ Hãy thận trọng khi sử dụng mã.
                                         <li class="collapsible"><span class="folder-name">11-07 内線代表呼出番号設定</span><ul><li><span class="item-name">11-07-01-K1</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">11-08 ACI 代表呼出番号設定</span><ul><li><span class="item-name">11-08-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">11-09 外線アクセスダイヤル設定</span><ul><li><span class="item-name">11-09-01</span></li></ul></li>
-                                        <li class="collapsible"><span class="folder-name">11-10 サービス特番(管理者用)設定</span><ul><li><span class="item-name">11-10-01</span></li></ul></li>
+                                        <li class="collapsible"><span class="folder-name">11-10 サービス特番(管理者用)設定</span><ul><li><span class="item-name">11-10-01tokuban<br><table class="data">
+	<tr>
+		<th></th>
+		<th colspan='1'></th>
+	</tr>
+	<tr>
+		<th></th>
+		<th>ダイヤル</th>
+	</tr>
+	<tr class='typ1'>
+		<td>運用モード切替unyou</td>
+		<td>*01</td>
+	</tr>
+	<tr class='typ2'>
+		<td>未使用</td>
+		<td></td>
+	</tr>
+	<tr class='typ1'>
+		<td>時刻データ設定</td>
+		<td>*03</td>
+	</tr>
+	<tr class='typ2'>
+		<td>共通・個別短縮ダイヤル設定</td>
+		<td>*04</td>
+	</tr>
+	<tr class='typ1'>
+		<td>グループ短縮ダイヤル設定</td>
+		<td>*05</td>
+	</tr>
+	<tr class='typ2'>
+		<td>外線毎の自動転送設定</td>
+		<td>*06</td>
+	</tr>
+	<tr class='typ1'>
+		<td>外線毎の自動転送解除</td>
+		<td>*07</td>
+	</tr>
+	<tr class='typ2'>
+		<td>外線毎の自動転送先登録</td>
+		<td>*08</td>
+	</tr>
+	<tr class='typ1'>
+		<td>積算料金表示</td>
+		<td>*09</td>
+	</tr>
+	<tr class='typ2'>
+		<td>積算料金消去</td>
+		<td>*10</td>
+	</tr>
+	<tr class='typ1'>
+		<td>定額料金設定</td>
+		<td>*11</td>
+	</tr>
+	<tr class='typ2'>
+		<td>運用モード切替（他グループ）</td>
+		<td>*12</td>
+	</tr>
+	<tr class='typ1'>
+		<td>料金集計／明細プリントアウト</td>
+		<td>*13</td>
+	</tr>
+	<tr class='typ2'>
+		<td>即時明細プリントアウト</td>
+		<td>*14</td>
+	</tr>
+	<tr class='typ1'>
+		<td>ID登録</td>
+		<td>*15</td>
+	</tr>
+	<tr class='typ2'>
+		<td>伝言設定</td>
+		<td>*16</td>
+	</tr>
+	<tr class='typ1'>
+		<td>ダイヤルブロック(システム管理者による)</td>
+		<td>*17</td>
+	</tr>
+	<tr class='typ2'>
+		<td>ドアホン着信の外線転送</td>
+		<td>*18</td>
+	</tr>
+	<tr class='typ1'>
+		<td>システムアラームメッセージ消去</td>
+		<td>*19</td>
+	</tr>
+	<tr class='typ2'>
+		<td>VRSメッセージ編集</td>
+		<td>*20</td>
+	</tr>
+	<tr class='typ1'>
+		<td>VRS同報メッセージの再生</td>
+		<td>*21</td>
+	</tr>
+	<tr class='typ2'>
+		<td>VRS同報メッセージの録音・消去</td>
+		<td>*22</td>
+	</tr>
+	<tr class='typ1'>
+		<td>内線番号毎のSMDR集計出力</td>
+		<td>*23</td>
+	</tr>
+	<tr class='typ2'>
+		<td>内線グループ毎のSMDR集計出力</td>
+		<td>*24</td>
+	</tr>
+	<tr class='typ1'>
+		<td>アカウントコード毎のSMDR集計出力</td>
+		<td>*25</td>
+	</tr>
+	<tr class='typ2'>
+		<td>強制外線切断(アナログ回線のみ)</td>
+		<td>*26</td>
+	</tr>
+	<tr class='typ1'>
+		<td>外線閉塞</td>
+		<td>*27</td>
+	</tr>
+	<tr class='typ2'>
+		<td>個別内線精算（ダイレクト印刷）</td>
+		<td>*28</td>
+	</tr>
+	<tr class='typ1'>
+		<td>全内線一括精算（ダイレクト印刷）</td>
+		<td>*29</td>
+	</tr>
+	<tr class='typ2'>
+		<td>未使用</td>
+		<td></td>
+	</tr>
+	<tr class='typ1'>
+		<td>未使用</td>
+		<td></td>
+	</tr>
+	<tr class='typ2'>
+		<td>発番号非通知拒否設定</td>
+		<td>*32</td>
+	</tr>
+	<tr class='typ1'>
+		<td>発番号による着信拒否登録</td>
+		<td>*33</td>
+	</tr>
+	<tr class='typ2'>
+		<td>発番号による着信拒否設定</td>
+		<td>*34</td>
+	</tr>
+	<tr class='typ1'>
+		<td>ダイヤルイン呼番号毎のモード切替</td>
+		<td>*35</td>
+	</tr>
+	<tr class='typ2'>
+		<td>外線留守番サービスの送出ガイダンス番号設定</td>
+		<td>*36</td>
+	</tr>
+	<tr class='typ1'>
+		<td>未使用</td>
+		<td></td>
+	</tr>
+	<tr class='typ2'>
+		<td>ガイドホン通報パターン切替</td>
+		<td>*38</td>
+	</tr>
+	<tr class='typ1'>
+		<td>IDグループ集計</td>
+		<td>*39</td>
+	</tr>
+	<tr class='typ2'>
+		<td>ID登録</td>
+		<td>*40</td>
+	</tr>
+	<tr class='typ1'>
+		<td>日付登録</td>
+		<td>*41</td>
+	</tr>
+	<tr class='typ2'>
+		<td>メンテナンス特番</td>
+		<td>*42</td>
+	</tr>
+	<tr class='typ1'>
+		<td>未使用</td>
+		<td></td>
+	</tr>
+	<tr class='typ2'>
+		<td>未使用</td>
+		<td></td>
+	</tr>
+	<tr class='typ1'>
+		<td>未使用</td>
+		<td></td>
+	</tr>
+	<tr class='typ2'>
+		<td>警戒中メッセージ動作設定</td>
+		<td>*46</td>
+	</tr>
+	<tr class='typ1'>
+		<td>警告メッセージ動作設定</td>
+		<td>*47</td>
+	</tr>
+	<tr class='typ2'>
+		<td>センサ自動通報先動作設定</td>
+		<td>*48</td>
+	</tr>
+	<tr class='typ1'>
+		<td>リモート確認動作設定</td>
+		<td>*49</td>
+	</tr>
+	<tr class='typ2'>
+		<td>未使用</td>
+		<td></td>
+	</tr>
+	<tr class='typ1'>
+		<td>パワーセーブ</td>
+		<td>*51</td>
+	</tr>
+	<tr class='typ2'>
+		<td>センターサービス機能手動情報送信</td>
+		<td>*52</td>
+	</tr>
+	<tr class='typ1'>
+		<td>システムアラームレポート消去</td>
+		<td>*53</td>
+	</tr>
+	<tr class='typ2'>
+		<td>RTP統計情報ファイル保存</td>
+		<td>*54</td>
+	</tr>
+	<tr class='typ1'>
+		<td>保留音1曲目変更</td>
+		<td>*55</td>
+	</tr>
+	<tr class='typ2'>
+		<td>保留音2曲目変更</td>
+		<td>*56</td>
+	</tr>
+	<tr class='typ1'>
+		<td>VRS曲目変更</td>
+		<td>*57</td>
+	</tr>
+	<tr class='typ2'>
+		<td>発信者番号選択発信許可ダイヤル設定</td>
+		<td>*58</td>
+	</tr>
+</table></span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">11-11 サービス特番(設定・登録用)設定</span><ul><li><span class="item-name">11-11-01</span></li></ul></li>
                                         <li class="collapsible"><span class="folder-name">11-12 サービス特番(サービスアクセス用)設定</span><ul><li><span class="item-name">11-12-tokuban<br>01-バイパスコール 801<br>
 																																													02- 会議通話 802<br>
@@ -647,11 +952,11 @@ Hãy thận trọng khi sử dụng mã.
 																																													33 - 電話機グループ保留登録 833<br>
 																																													34 - 電話機グループ保留応答 834<br>
 																																													35 - ステーションパーク保留 835<br>
-																																													36 - ドアホン呼出 836 doanhonyobidashi<br>
+																																													36 - ドアホン呼出 836 doahonyobidashi<br>
 																																													37 - 共通サービス設定解除 837<br>
 																																													38-在席表示操作 838<br>
 																																													39- ボイスメールセンター呼出 839<br>
-																																													40-未使用<br>
+																																													
 																																													41-ボイスオーバー 841<br>
 																																													42-フッキング 842<br>
 																																													43- 分散応答 843<br>
@@ -663,15 +968,7 @@ Hãy thận trọng khi sử dụng mã.
 																																													49-PHSデータ通信 849<br>
 																																													50-汎用リレー 850<br>
 																																													51-自ボックスアクセス 851<br>
-																																													52- 未使用<br>
-																																													53-未使用<br>
-																																													54- 未使用<br>
-																																													55-未使用<br>
-																																													56- 未使用<br>
-																																													57-未使用<br>
-																																													58-未使用<br>
-																																													59-未使用<br>
-																																													60-未使用<br>
+																																												
 																																													61- 緊急通報終了 861<br>
 																																													62- セキュリティセンサリセット 862<br>
 																																													63-セキュリティ放送 863<br>

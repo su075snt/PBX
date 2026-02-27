@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ひらがな学習 - Bảng chữ cái Hiragana</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e63946;
+            --bg-color: #fdfaf6;
+            --card-bg: #ffffff;
+            --border-color: #dcd6d0;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 { color: var(--primary-color); margin-bottom: 20px; font-weight: 700; }
+
+        /* Tab System */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: #eee;
+            padding: 5px;
+            border-radius: 50px;
+        }
+
+        .tab-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            background: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .tab-content { display: none; width: 100%; max-width: 900px; }
+        .tab-content.active { display: block; }
+
+        /* Grid Layouts */
+        .grid-5 {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        /* Layout cho âm ghép: 3 chữ ngang, cách nhau 1 ô trống */
+        .grid-yoon {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 5 cột để tạo khoảng trống giữa 3 chữ */
+            gap: 15px;
+        }
+
+        .char-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .char-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-color: var(--primary-color);
+        }
+
+        .empty-card { visibility: hidden; }
+
+        .jp-char { font-size: 2rem; font-weight: bold; margin-bottom: 5px; }
+        .emoji { font-size: 1.5rem; margin-bottom: 5px; }
+        .vocab { font-size: 0.8rem; color: #666; }
+
+        @media (max-width: 600px) {
+            .jp-char { font-size: 1.5rem; }
+            .grid-5, .grid-yoon { gap: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>ひらがな (Hiragana)</h1>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab('seion')">清音 (Thanh âm)</button>
+        <button class="tab-btn" onclick="openTab('dakuon')">濁音 (Âm đục)</button>
+        <button class="tab-btn" onclick="openTab('yoon')">拗音 (Âm ghép)</button>
+    </div>
+
+    <!-- Thanh Âm -->
+    <div id="seion" class="tab-content active">
+        <div class="grid-5" id="seion-container"></div>
+    </div>
+
+    <!-- Âm Đục -->
+    <div id="dakuon" class="tab-content">
+        <div class="grid-5" id="dakuon-container"></div>
+    </div>
+
+    <!-- Âm Ghép -->
+    <div id="yoon" class="tab-content">
+        <div class="grid-yoon" id="yoon-container"></div>
+    </div>
+
+    <script>
+        const data = {
+            seion: [
+                ['あ', '🍎', 'あり'], ['い', '🍓', 'いちご'], ['う', '🐰', 'うさぎ'], ['え', '✏️', 'えんぴつ'], ['お', '🍬', 'おかし'],
+                ['か', '🐢', 'かめ'], ['き', '🍄', 'きのこ'], ['く', '🚗', 'くるま'], ['け', '📱', 'けいたい'], ['こ', '🍙', 'おにぎり'],
+                ['さ', '🐟', 'さかな'], ['し', '🦌', 'しか'], ['す', '🍉', 'すいか'], ['せ', '🧼', 'せっけん'], ['そ', '☁️', 'そら'],
+                ['た', '🥚', 'たまご'], ['ち', '🧀', 'ちーず'], ['つ', '🌙', 'つき'], ['て', '🖐️', 'て'], ['と', '🐯', 'とら'],
+                ['な', '🍆', 'なす'], ['に', '🥕', 'にんじん'], ['ぬ', '🐕', 'いぬ'], ['ね', '🐱', 'ねこ'], ['の', '🪵', 'きのこ'],
+                ['は', '🌸', 'はな'], ['ひ', '☀️', 'ひ'], ['ふ', '🚢', 'ふね'], ['へ', '🐍', 'へび'], ['ほ', '🌟', 'ほし'],
+                ['ま', '🪟', 'まど'], ['み', '🍊', 'みかん'], ['む', '🐞', 'むし'], ['め', '👓', 'めがね'], ['も', '🍑', 'もも'],
+                ['や', '⛰️', 'やま'], ['empty', '', ''], ['ゆ', '❄️', 'ゆき'], ['empty', '', ''], ['よ', '🌙', 'よる'],
+                ['ら', '🐪', 'らくだ'], ['り', '🍎', 'りんご'], ['る', '🐒', 'さる'], ['れ', '🍋', 'れもん'], ['ろ', '🕯️', 'ろうそく'],
+                ['わ', '🐊', 'わに'], ['empty', '', ''], ['empty', '', ''], ['empty', '', ''], ['を', '🌊', 'を'],
+                ['ん', '🔔', 'ん']
+            ],
+            dakuon: [
+                ['が', '🦆', 'がちょう'], ['ぎ', '🎸', 'ぎたー'], ['ぐ', '🧤', 'ぐんて'], ['げ', '👞', 'げた'], ['ご', '🦍', 'ごりら'],
+                ['ざ', '📰', 'ざっし'], ['じ', '🚲', 'じてんしゃ'], ['ず', '🗺️', 'ちず'], ['ぜ', '🌀', 'ぜんぶ'], ['ぞ', '🐘', 'ぞう'],
+                ['だ', '🥁', 'たいこ'], ['ぢ', '👃', 'はなぢ'], ['づ', '🐚', 'かいがら'], ['で', '💡', 'でんき'], ['ど', '🚪', 'どあ'],
+                ['ば', '🍌', 'ばなな'], ['び', '🧴', 'びん'], ['ぶ', '🐷', 'ぶた'], ['べ', '🍱', 'べんとう'], ['ぼ', '⚾', 'ぼーる'],
+                ['ぱ', '🐼', 'ぱんだ'], ['ぴ', '🐥', 'ぴよぴよ'], ['ぷ', '🍮', 'ぷりん'], ['ぺ', '🐧', 'ぺんぎん'], ['ぽ', '📮', 'ぽすと']
+            ],
+            yoon: [
+                // Layout: Char1 - Empty - Char2 - Empty - Char3
+                ['きゃ', '🐱', 'きゃく'], ['empty', '', ''], ['きゅ', '🥒', 'きゅうり'], ['empty', '', ''], ['きょ', '🦖', 'きょりゅう'],
+                ['しゃ', '📸', 'しゃしん'], ['empty', '', ''], ['しゅ', '⌛', 'しゅうかん'], ['empty', '', ''], ['しょ', '🥢', 'しょくじ'],
+                ['ちゃ', '🍵', 'おちゃ'], ['empty', '', ''], ['ちゅ', '🐭', 'ちゅう'], ['empty', '', ''], ['ちょ', '🦋', 'ちょう'],
+                ['にゃ', '😺', 'にゃー'], ['empty', '', ''], ['にゅ', '🥛', 'にゅうりょく'], ['empty', '', ''], ['にょ', '🍄', 'にょき'],
+                ['ひゃ', '💯', 'ひゃく'], ['empty', '', ''], ['ひゅ', '🌬️', 'ひゅう'], ['empty', '', ''], ['ひょ', '🐆', 'ひょう'],
+                ['みゃ', '🐈', 'みゃく'], ['empty', '', ''], ['みゅ', '🎵', 'みゅーじっく'], ['empty', '', ''], ['みょ', '🧅', 'みょうが'],
+                ['りゃ', '🐉', 'りゃく'], ['empty', '', ''], ['りゅ', '🎒', 'りゅうがく'], ['empty', '', ''], ['りょ', '🍵', 'りょくちゃ'],
+                ['ぎゃ', '←', 'ぎゃく'], ['empty', '', ''], ['ぎゅ', '🐄', 'ぎゅうにゅう'], ['empty', '', ''], ['ぎょ', '🐟', 'ぎょぎょう'],
+                ['じゃ', '🐍', 'じゃぐち'], ['empty', '', ''], ['じゅ', '🍹', 'じゅーす'], ['empty', '', ''], ['じょ', '👸', 'じょおう'],
+                ['びゃ', '💯', 'さんびゃく'], ['empty', '', ''], ['びゅ', '🚗', 'びゅん'], ['empty', '', ''], ['びょ', '🤧', 'びょうき'],
+                ['ぴゃ', '🏢', 'はっぴゃく'], ['empty', '', ''], ['ぴゅ', '🚀', 'ぴゅん'], ['empty', '', ''], ['ぴょ', '🐰', 'ぴょんぴょん']
+            ]
+        };
+
+        function createCard(item) {
+            if (item[0] === 'empty') {
+                const div = document.createElement('div');
+                div.className = 'empty-card';
+                return div;
+            }
+            const card = document.createElement('div');
+            card.className = 'char-card';
+            card.innerHTML = `
+                <div class="emoji">${item[1]}</div>
+                <div class="jp-char">${item[0]}</div>
+                <div class="vocab">${item[2]}</div>
+            `;
+            card.onclick = () => speak(item[0], item[2]);
+            return card;
+        }
+
+        function speak(char, vocab) {
+            // Hủy các âm thanh đang chờ để tránh bị chồng chéo
+            window.speechSynthesis.cancel();
+            const text = `${char}。${vocab}`;
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'ja-JP';
+            msg.rate = 0.9; // Đọc chậm một chút để dễ nghe
+            window.speechSynthesis.speak(msg);
+        }
+
+        function openTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Render data
+        function render() {
+            Object.keys(data).forEach(key => {
+                const container = document.getElementById(`${key}-container`);
+                data[key].forEach(item => {
+                    container.appendChild(createCard(item));
+                });
+            });
+        }
+
+        render();
+    </script>
+</body>
+</html>

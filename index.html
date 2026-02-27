@@ -543,172 +543,177 @@
         </div>
     </div>
 
-    <script>
-(function() {
-    // Hàm escape các ký tự đặc biệt trong regex
-    function escapeRegex(string) {
-        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    }
+   <script type="module">
+  // 1. Import các hàm từ Firebase SDK (Phiên bản 10.x/11.x trở lên)
+  import { initializeApp } from "https://www.gstatic.com";
+  import { getAnalytics } from "https://www.gstatic.com";
 
-    // Hàm xóa tất cả highlight (các thẻ <mark>) trong cây
-    function removeAllHighlights() {
-        document.querySelectorAll('.tree mark').forEach(mark => {
-            const parent = mark.parentNode;
-            parent.replaceChild(document.createTextNode(mark.textContent), mark);
-            parent.normalize(); // Gộp các text node liền kề
-        });
-    }
+  // 2. Cấu hình Firebase của bạn
+  const firebaseConfig = {
+    apiKey: "AIzaSyBdLjZ1uFNTqRV_K_JQC2kL1GiDnucFKdA",
+    authDomain: "pbx01-8532b.firebaseapp.com",
+    projectId: "pbx01-8532b",
+    storageBucket: "pbx01-8532b.firebasestorage.app",
+    messagingSenderId: "27174658250",
+    appId: "1:27174658250:web:1d243bb547e49708bd5433",
+    measurementId: "G-YG15YRTVLE"
+  };
 
-    // Hàm highlight các từ khóa trong một element (chỉ text node)
-    function highlightElement(element, term) {
-        if (!term || !element) return;
-        const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
-        
-        // Duyệt các text node bên trong element (chỉ cấp con, không lồng sâu)
-        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, {
-            acceptNode: function(node) {
-                // Bỏ qua các node đã nằm trong thẻ mark (tránh highlight lồng)
-                if (node.parentNode.nodeName === 'MARK') return NodeFilter.FILTER_REJECT;
-                return NodeFilter.FILTER_ACCEPT;
-            }
-        });
-        
-        const textNodes = [];
-        while (walker.nextNode()) textNodes.push(walker.currentNode);
-        
-        textNodes.forEach(textNode => {
-            const text = textNode.textContent;
-            const fragments = text.split(regex);
-            if (fragments.length > 1) {
-                const span = document.createElement('span');
-                fragments.forEach(part => {
-                    if (part.match(regex)) {
-                        const mark = document.createElement('mark');
-                        mark.style.backgroundColor = 'yellow';
-                        mark.style.color = 'black';
-                        mark.textContent = part;
-                        span.appendChild(mark);
-                    } else {
-                        span.appendChild(document.createTextNode(part));
-                    }
-                });
-                textNode.parentNode.replaceChild(span, textNode);
-            }
-        });
-    }
+  // 3. Khởi tạo Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 
-    // Khởi tạo sự kiện click cho các thư mục
-    function initCollapse() {
-        document.querySelectorAll('.folder-name').forEach(span => {
-            if (!span.dataset.listener) {
-                span.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const li = this.closest('li');
-                    if (li && li.classList.contains('collapsible')) {
-                        li.classList.toggle('collapsed');
-                    }
-                });
-                span.dataset.listener = 'true';
-            }
-        });
-    }
+  // 4. Logic xử lý Cây (Tree) và Tìm kiếm của bạn
+  (function() {
+      function escapeRegex(string) {
+          return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      }
 
-    // Reset cây về trạng thái ban đầu (tất cả thư mục thu gọn, trừ thư mục gốc) và xóa highlight
-    function resetTree() {
-        document.querySelectorAll('.tree li').forEach(li => {
-            li.style.display = '';
-        });
-        document.querySelectorAll('.tree li.collapsible').forEach(li => {
-            li.classList.add('collapsed');
-        });
-        const rootLi = document.getElementById('root-folder');
-        if (rootLi) rootLi.classList.remove('collapsed');
-        
-        // Xóa tất cả highlight
-        removeAllHighlights();
-    }
+      function removeAllHighlights() {
+          document.querySelectorAll('.tree mark').forEach(mark => {
+              const parent = mark.parentNode;
+              parent.replaceChild(document.createTextNode(mark.textContent), mark);
+              parent.normalize();
+          });
+      }
 
-    // Tìm kiếm và highlight từ khóa
-    function filterTree(term) {
-        const allLis = document.querySelectorAll('.tree li');
-        const allNotes = document.querySelectorAll('.tree p, .tree div, .tree .note-item');
+      function highlightElement(element, term) {
+          if (!term || !element) return;
+          const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
+          
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, {
+              acceptNode: function(node) {
+                  if (node.parentNode.nodeName === 'MARK') return NodeFilter.FILTER_REJECT;
+                  return NodeFilter.FILTER_ACCEPT;
+              }
+          });
+          
+          const textNodes = [];
+          while (walker.nextNode()) textNodes.push(walker.currentNode);
+          
+          textNodes.forEach(textNode => {
+              const text = textNode.textContent;
+              const fragments = text.split(regex);
+              if (fragments.length > 1) {
+                  const span = document.createElement('span');
+                  fragments.forEach(part => {
+                      if (part.match(regex)) {
+                          const mark = document.createElement('mark');
+                          mark.style.backgroundColor = 'yellow';
+                          mark.style.color = 'black';
+                          mark.textContent = part;
+                          span.appendChild(mark);
+                      } else {
+                          span.appendChild(document.createTextNode(part));
+                      }
+                  });
+                  textNode.parentNode.replaceChild(span, textNode);
+              }
+          });
+      }
 
-        // Bước 1: Reset hiển thị và xóa highlight cũ
-        allLis.forEach(li => li.style.display = '');
-        allNotes.forEach(note => note.style.display = '');
-        removeAllHighlights();
+      function initCollapse() {
+          document.querySelectorAll('.folder-name').forEach(span => {
+              if (!span.dataset.listener) {
+                  span.addEventListener('click', function(e) {
+                      e.stopPropagation();
+                      const li = this.closest('li');
+                      if (li && li.classList.contains('collapsible')) {
+                          li.classList.toggle('collapsed');
+                      }
+                  });
+                  span.dataset.listener = 'true';
+              }
+          });
+      }
 
-        // Nếu ô tìm kiếm trống, thoát
-        if (!term || term.trim() === "") return;
+      function resetTree() {
+          document.querySelectorAll('.tree li').forEach(li => {
+              li.style.display = '';
+          });
+          document.querySelectorAll('.tree li.collapsible').forEach(li => {
+              li.classList.add('collapsed');
+          });
+          const rootLi = document.getElementById('root-folder');
+          if (rootLi) rootLi.classList.remove('collapsed');
+          removeAllHighlights();
+      }
 
-        term = term.trim().toLowerCase();
+      function filterTree(term) {
+          const allLis = document.querySelectorAll('.tree li');
+          const allNotes = document.querySelectorAll('.tree p, .tree div, .tree .note-item');
 
-        allLis.forEach(li => {
-            const nameSpan = li.querySelector('.folder-name, .item-name');
-            const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
-            const romajiText = nameSpan ? (nameSpan.getAttribute('data-search') || "").toLowerCase() : "";
-            
-            const notes = li.querySelectorAll('p, div, .note-item'); 
-            let hasVisibleNote = false;
+          allLis.forEach(li => li.style.display = '');
+          allNotes.forEach(note => note.style.display = '');
+          removeAllHighlights();
 
-            // Duyệt từng ghi chú để kiểm tra và highlight
-            notes.forEach(note => {
-                const noteText = note.innerText.toLowerCase();
-                if (noteText.includes(term)) {
-                    note.style.display = '';
-                    highlightElement(note, term);
-                    hasVisibleNote = true;
-                } else {
-                    note.style.display = 'none';
-                }
-            });
+          if (!term || term.trim() === "") return;
+          term = term.trim().toLowerCase();
 
-            const isItemMatch = itemName.includes(term) || romajiText.includes(term);
+          allLis.forEach(li => {
+              const nameSpan = li.querySelector('.folder-name, .item-name');
+              const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
+              const romajiText = nameSpan ? (nameSpan.getAttribute('data-search') || "").toLowerCase() : "";
+              
+              const notes = li.querySelectorAll('p, div, .note-item'); 
+              let hasVisibleNote = false;
 
-            if (isItemMatch || hasVisibleNote) {
-                li.style.display = ''; 
+              notes.forEach(note => {
+                  const noteText = note.innerText.toLowerCase();
+                  if (noteText.includes(term)) {
+                      note.style.display = '';
+                      highlightElement(note, term);
+                      hasVisibleNote = true;
+                  } else {
+                      note.style.display = 'none';
+                  }
+              });
 
-                // Nếu tên mục khớp, hiện tất cả ghi chú và highlight những ghi chú chứa từ khóa
-                if (isItemMatch) {
-                    notes.forEach(n => {
-                        n.style.display = '';
-                        if (n.innerText.toLowerCase().includes(term)) {
-                            highlightElement(n, term);
-                        }
-                    });
-                    // Highlight tên mục
-                    if (nameSpan) highlightElement(nameSpan, term);
-                }
+              const isItemMatch = itemName.includes(term) || romajiText.includes(term);
 
-                // Mở tất cả các cấp cha để hiển thị kết quả
-                let parent = li.parentElement.closest('li');
-                while (parent) {
-                    parent.style.display = '';
-                    parent.classList.remove('collapsed');
-                    const details = parent.querySelector('details');
-                    if (details) details.open = true;
-                    parent = parent.parentElement.closest('li');
-                }
-            } else {
-                li.style.display = 'none';
-            }
-        });
-    }
+              if (isItemMatch || hasVisibleNote) {
+                  li.style.display = ''; 
+                  if (isItemMatch) {
+                      notes.forEach(n => {
+                          n.style.display = '';
+                          if (n.innerText.toLowerCase().includes(term)) {
+                              highlightElement(n, term);
+                          }
+                      });
+                      if (nameSpan) highlightElement(nameSpan, term);
+                  }
 
-    // Gán sự kiện cho ô tìm kiếm và nút xóa
-    const searchInput = document.getElementById('searchInput');
-    const clearBtn = document.getElementById('clearBtn');
-    searchInput.addEventListener('input', function() {
-        filterTree(this.value);
-    });
-    clearBtn.addEventListener('click', function() {
-        searchInput.value = '';
-        resetTree();
-    });
+                  let parent = li.parentElement.closest('li');
+                  while (parent) {
+                      parent.style.display = '';
+                      parent.classList.remove('collapsed');
+                      const details = parent.querySelector('details');
+                      if (details) details.open = true;
+                      parent = parent.parentElement.closest('li');
+                  }
+              } else {
+                  li.style.display = 'none';
+              }
+          });
+      }
 
-    initCollapse();
-    resetTree(); // Ban đầu tất cả các thư mục đều thu gọn, chỉ mở thư mục gốc
-})();
+      const searchInput = document.getElementById('searchInput');
+      const clearBtn = document.getElementById('clearBtn');
+      if (searchInput) {
+          searchInput.addEventListener('input', function() {
+              filterTree(this.value);
+          });
+      }
+      if (clearBtn) {
+          clearBtn.addEventListener('click', function() {
+              searchInput.value = '';
+              resetTree();
+          });
+      }
+
+      initCollapse();
+      resetTree();
+  })();
 </script>
 </body>
 </html>

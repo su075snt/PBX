@@ -3,191 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cây thư mục cấu hình PBX (Quản trị)</title>
-   <style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f4f4f4;
-        margin: 20px;
-    }
-    .container {
-        max-width: 1100px;
-        margin: auto;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        padding: 20px;
-    }
-
-    /* --- SEARCH BOX --- */
-    .search-box {
-        display: flex;
-        margin-bottom: 20px;
-        gap: 10px;
-    }
-    #searchInput {
-        flex: 1;
-        padding: 8px 12px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 16px;
-    }
-    #clearBtn {
-        padding: 8px 16px;
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    /* --- NUT ADMIN --- */
-    .admin-controls {
-        margin-bottom: 15px;
-        display: flex;
-        gap: 10px;
-        align-items: center;
-    }
-    .btn {
-        padding: 6px 12px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
-    }
-    .btn-primary {
-        background-color: #007bff;
-        color: white;
-    }
-    .btn-danger {
-        background-color: #dc3545;
-        color: white;
-    }
-    .btn-sm {
-        padding: 2px 6px;
-        font-size: 12px;
-        margin-left: 8px;
-    }
-    .delete-folder-btn {
-        background: none;
-        border: none;
-        color: red;
-        font-size: 16px;
-        cursor: pointer;
-        margin-left: 8px;
-    }
-    .delete-row-btn {
-        background: none;
-        border: none;
-        color: red;
-        cursor: pointer;
-        font-size: 14px;
-    }
-    .add-row-btn {
-        margin-top: 5px;
-        background-color: #28a745;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        padding: 4px 8px;
-        cursor: pointer;
-        font-size: 13px;
-    }
-    .note-item[contenteditable="true"] {
-        background-color: #fff9c4;
-        border: 1px dashed #aaa;
-        padding: 5px;
-    }
-    td[contenteditable="true"] {
-        background-color: #fff9c4;
-    }
-
-    /* --- TREE STRUCTURE --- */
-    .tree ul {
-        list-style-type: none;
-        padding-left: 25px;
-        margin: 5px 0;
-    }
-    .tree li {
-        margin: 6px 0;
-        line-height: 1.6;
-        position: relative;
-        list-style: none;
-    }
-    .tree li::before {
-        content: none !important;
-    }
-
-    .tree li.collapsible > .folder-name::before {
-        content: "📁 ";
-        color: #f7d354;
-        font-size: 1.1em;
-        margin-right: 5px;
-    }
-    .root > li.collapsible > .folder-name::before {
-        content: "📂 ";
-    }
-    .tree li:not(.collapsible) summary::before,
-    .tree li:not(.collapsible) .item-name::before {
-        content: "📄 ";
-        font-size: 1em;
-        margin-right: 8px;
-        color: #1a73e8;
-    }
-
-    li.collapsible > .folder-name::before {
-        display: inline-block;
-        transition: transform 0.2s;
-    }
-    li.collapsible > .folder-name {
-        cursor: pointer;
-        font-weight: 500;
-    }
-    li.collapsible > .folder-name::after {
-        content: " ▼";
-        font-size: 0.7em;
-        color: #999;
-    }
-    li.collapsible.collapsed > .folder-name::after {
-        content: " ▶";
-    }
-    li.collapsible.collapsed > ul {
-        display: none;
-    }
-
-    .note-item {
-        margin: 5px 0;
-        padding: 10px;
-        background-color: #fcfcfc;
-        border-left: 3px solid #1a73e8;
-        font-size: 14px;
-        color: #333;
-    }
-
-    mark {
-        background-color: #ffeb3b;
-        color: #000;
-        padding: 0 2px;
-        border-radius: 2px;
-        font-weight: bold;
-    }
-
-    .tree li.hidden {
-        display: none;
-    }
-    mark {
-        background-color: yellow !important;
-        color: black !important;
-        display: inline-block;
-        padding: 0 2px;
-        border-radius: 2px;
-    }
-    .login-hint {
-        color: #666;
-        font-size: 13px;
-        margin-left: 15px;
-    }
-</style>
+    <title>Cây thư mục cấu hình PBX (Firebase)</title>
+    <style>
+        /* (Giữ nguyên toàn bộ CSS bạn đã có) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .search-box {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        #searchInput {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        #clearBtn {
+            padding: 8px 16px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .admin-controls {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-sm {
+            padding: 2px 6px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+        .delete-folder-btn {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+        .delete-row-btn {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .add-row-btn {
+            margin-top: 5px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .note-item[contenteditable="true"] {
+            background-color: #fff9c4;
+            border: 1px dashed #aaa;
+            padding: 5px;
+        }
+        td[contenteditable="true"] {
+            background-color: #fff9c4;
+        }
+        .tree ul {
+            list-style-type: none;
+            padding-left: 25px;
+            margin: 5px 0;
+        }
+        .tree li {
+            margin: 6px 0;
+            line-height: 1.6;
+            position: relative;
+            list-style: none;
+        }
+        .tree li::before {
+            content: none !important;
+        }
+        .tree li.collapsible > .folder-name::before {
+            content: "📁 ";
+            color: #f7d354;
+            font-size: 1.1em;
+            margin-right: 5px;
+        }
+        .root > li.collapsible > .folder-name::before {
+            content: "📂 ";
+        }
+        .tree li:not(.collapsible) summary::before,
+        .tree li:not(.collapsible) .item-name::before {
+            content: "📄 ";
+            font-size: 1em;
+            margin-right: 8px;
+            color: #1a73e8;
+        }
+        li.collapsible > .folder-name::before {
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        li.collapsible > .folder-name {
+            cursor: pointer;
+            font-weight: 500;
+        }
+        li.collapsible > .folder-name::after {
+            content: " ▼";
+            font-size: 0.7em;
+            color: #999;
+        }
+        li.collapsible.collapsed > .folder-name::after {
+            content: " ▶";
+        }
+        li.collapsible.collapsed > ul {
+            display: none;
+        }
+        .note-item {
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #fcfcfc;
+            border-left: 3px solid #1a73e8;
+            font-size: 14px;
+            color: #333;
+            white-space: pre-wrap; /* Giữ xuống dòng */
+        }
+        mark {
+            background-color: #ffeb3b;
+            color: #000;
+            padding: 0 2px;
+            border-radius: 2px;
+            font-weight: bold;
+        }
+        .tree li.hidden {
+            display: none;
+        }
+        mark {
+            background-color: yellow !important;
+            color: black !important;
+            display: inline-block;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        .login-hint {
+            color: #666;
+            font-size: 13px;
+            margin-left: 15px;
+        }
+    </style>
+    <!-- Firebase SDK (compat) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 </head>
 <body>
     <div class="container">
@@ -197,514 +191,504 @@
             <span class="login-hint">(Nhấn Ctrl+L để đăng nhập admin)</span>
         </div>
 
-        <!-- Khu vực điều khiển admin (sẽ hiện khi đăng nhập) -->
+        <!-- Khu vực điều khiển admin -->
         <div id="adminControls" class="admin-controls" style="display: none;">
             <button id="addFolderBtn" class="btn btn-primary">➕ Thêm thư mục</button>
             <span style="color: green;">Đã đăng nhập (admin)</span>
         </div>
 
-        <div class="tree" id="treeContainer">
-            <!-- Cây thư mục sẽ được render động từ dữ liệu (hoặc load từ localStorage) -->
-        </div>
+        <div class="tree" id="treeContainer"></div>
     </div>
 
-<script>
-(function() {
-    // ---------- DỮ LIỆU MẪU BAN ĐẦU ----------
-    const defaultTreeData = [
-        {
-            name: "通話録音",
-            rows: [
-                { prog: "10-01-01", value: "text111111" },
-                { prog: "10-01-02", value: "text111111" },
-                { prog: "10-01-03", value: "text111111" },
-                { prog: "10-01-04", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" }
-            ],
-            note: "tsuroku;"
-        },
-        {
-            name: "遡りー通話録音",
-            rows: [
-                { prog: "10-01-01", value: "text111111" },
-                { prog: "10-01-02", value: "text111111" },
-                { prog: "10-01-03", value: "text111111" },
-                { prog: "10-01-04", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" }
-            ],
-            note: "sakanobori;"
-        },
-        {
-            name: "着信拒否",
-            rows: [
-                { prog: "13-02", value: "G64 1000-1999" },
-                { prog: "14-01-27", value: "☑️" },
-                { prog: "22-16-01", value: "G(64)" },
-                { prog: "40-10-07<br>発番号による着信拒否<br>", value: "VRS なし　０、　VRS 番号101とか" },
-                { prog: "40-10-06<br>発番号非通知-doi voi cuoc goi an so", value: "VRS なし　０、　VRS 番号101とか" },
-                { prog: "10-01-05", value: "text111111" }
-            ],
-            note: "chakukyohi<br>SP *34      開始と解除<br>着信を拒否する電話番号を登録する<br>ＳＰ＊３３　登録　登録したい番号　登録<br>発信者番号が非通知の着信を拒否する<br>Ｓｐ＊３２　開始と解除"
-        },
-        {
-            name: "留守電",
-            rows: [
-                { prog: "10-01-01", value: "text111111" },
-                { prog: "10-01-02", value: "text111111" },
-                { prog: "10-01-03", value: "text111111" },
-                { prog: "10-01-04", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" }
-            ],
-            note: "rusu;"
-        },
-        {
-            name: "着信代行",
-            rows: [
-                { prog: "10-01-01", value: "text111111" },
-                { prog: "10-01-02", value: "text111111" },
-                { prog: "10-01-03", value: "text111111" },
-                { prog: "10-01-04", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" }
-            ],
-            note: "ghi chu"
-        },
-        {
-            name: "IP 多機能電話",
-            rows: [
-                { prog: "10-01-01", value: "text111111" },
-                { prog: "10-01-02", value: "text111111" },
-                { prog: "10-01-03", value: "text111111" },
-                { prog: "10-01-04", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" }
-            ],
-            note: "ghi chu"
-        },
-        {
-            name: "PHS",
-            rows: [
-                { prog: "10-01-01", value: "text111111" },
-                { prog: "10-01-02", value: "text111111" },
-                { prog: "10-01-03", value: "text111111" },
-                { prog: "10-01-04", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" }
-            ],
-            note: "ghi chu"
-        },
-        {
-            name: "初期",
-            rows: [
-                { prog: "IPTU", value: "text111111" },
-                { prog: "10-01-02", value: "text111111" },
-                { prog: "10-01-03", value: "text111111" },
-                { prog: "10-01-04", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" },
-                { prog: "10-01-05", value: "text111111" }
-            ],
-            note: "ghi chu"
-        }
-    ];
+    <script>
+    (function() {
+        // ---------- CẤU HÌNH FIREBASE ----------
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdLjZ1uFNTqRV_K_JQC2kL1GiDnucFKdA",
+            authDomain: "pbx01-8532b.firebaseapp.com",
+            databaseURL: "https://pbx01-8532b-default-rtdb.firebaseio.com", // KIỂM TRA LẠI URL NÀY
+            projectId: "pbx01-8532b",
+            storageBucket: "pbx01-8532b.firebasestorage.app",
+            messagingSenderId: "27174658250",
+            appId: "1:27174658250:web:1d243bb547e49708bd5433",
+            measurementId: "G-YG15YRTVLE"
+        };
+        // Khởi tạo Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const treeRef = database.ref('treeData');
 
-    // ---------- BIẾN TOÀN CỤC ----------
-    let isAdmin = false;
-    let treeData = [];
-    const STORAGE_KEY = 'pbx_tree_data';
-    const treeContainer = document.getElementById('treeContainer');
-    const adminControls = document.getElementById('adminControls');
-    const searchInput = document.getElementById('searchInput');
-    const clearBtn = document.getElementById('clearBtn');
+        // ---------- DỮ LIỆU MẪU ----------
+        const defaultTreeData = [
+            {
+                name: "通話録音",
+                rows: [
+                    { prog: "10-01-01", value: "text111111" },
+                    { prog: "10-01-02", value: "text111111" },
+                    { prog: "10-01-03", value: "text111111" },
+                    { prog: "10-01-04", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" }
+                ],
+                note: "tsuroku;"
+            },
+            {
+                name: "遡りー通話録音",
+                rows: [
+                    { prog: "10-01-01", value: "text111111" },
+                    { prog: "10-01-02", value: "text111111" },
+                    { prog: "10-01-03", value: "text111111" },
+                    { prog: "10-01-04", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" }
+                ],
+                note: "sakanobori;"
+            },
+            {
+                name: "着信拒否",
+                rows: [
+                    { prog: "13-02", value: "G64 1000-1999" },
+                    { prog: "14-01-27", value: "☑️" },
+                    { prog: "22-16-01", value: "G(64)" },
+                    { prog: "40-10-07<br>発番号による着信拒否<br>", value: "VRS なし　０、　VRS 番号101とか" },
+                    { prog: "40-10-06<br>発番号非通知-doi voi cuoc goi an so", value: "VRS なし　０、　VRS 番号101とか" },
+                    { prog: "10-01-05", value: "text111111" }
+                ],
+                note: "chakukyohi<br>SP *34      開始と解除<br>着信を拒否する電話番号を登録する<br>ＳＰ＊３３　登録　登録したい番号　登録<br>発信者番号が非通知の着信を拒否する<br>Ｓｐ＊３２　開始と解除"
+            },
+            {
+                name: "留守電",
+                rows: [
+                    { prog: "10-01-01", value: "text111111" },
+                    { prog: "10-01-02", value: "text111111" },
+                    { prog: "10-01-03", value: "text111111" },
+                    { prog: "10-01-04", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" }
+                ],
+                note: "rusu;"
+            },
+            {
+                name: "着信代行",
+                rows: [
+                    { prog: "10-01-01", value: "text111111" },
+                    { prog: "10-01-02", value: "text111111" },
+                    { prog: "10-01-03", value: "text111111" },
+                    { prog: "10-01-04", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" }
+                ],
+                note: "ghi chu"
+            },
+            {
+                name: "IP 多機能電話",
+                rows: [
+                    { prog: "10-01-01", value: "text111111" },
+                    { prog: "10-01-02", value: "text111111" },
+                    { prog: "10-01-03", value: "text111111" },
+                    { prog: "10-01-04", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" }
+                ],
+                note: "ghi chu"
+            },
+            {
+                name: "PHS",
+                rows: [
+                    { prog: "10-01-01", value: "text111111" },
+                    { prog: "10-01-02", value: "text111111" },
+                    { prog: "10-01-03", value: "text111111" },
+                    { prog: "10-01-04", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" }
+                ],
+                note: "ghi chu"
+            },
+            {
+                name: "初期",
+                rows: [
+                    { prog: "IPTU", value: "text111111" },
+                    { prog: "10-01-02", value: "text111111" },
+                    { prog: "10-01-03", value: "text111111" },
+                    { prog: "10-01-04", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" },
+                    { prog: "10-01-05", value: "text111111" }
+                ],
+                note: "ghi chu"
+            }
+        ];
 
-    // ---------- HÀM LƯU / TẢI DỮ LIỆU ----------
-    function loadData() {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-            try {
-                treeData = JSON.parse(stored);
-            } catch (e) {
+        // ---------- BIẾN TOÀN CỤC ----------
+        let isAdmin = false;
+        let treeData = [];
+        const treeContainer = document.getElementById('treeContainer');
+        const adminControls = document.getElementById('adminControls');
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // ---------- HÀM LƯU / TẢI DỮ LIỆU (FIREBASE) ----------
+        function loadData() {
+            treeRef.once('value').then(snapshot => {
+                const data = snapshot.val();
+                if (data && Array.isArray(data)) {
+                    treeData = data;
+                } else {
+                    treeData = defaultTreeData;
+                    // Lưu dữ liệu mẫu lên Firebase lần đầu
+                    saveData();
+                }
+                renderTree();
+            }).catch(error => {
+                console.error("Lỗi đọc dữ liệu từ Firebase:", error);
                 treeData = defaultTreeData;
-            }
-        } else {
-            treeData = defaultTreeData;
-        }
-    }
-
-    function saveData() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(treeData));
-    }
-
-    // Escape HTML cho nội dung ô (prog, value) nhưng giữ nguyên note để hỗ trợ <br>
-    function escapeHtml(unsafe) {
-        if (!unsafe) return '';
-        return unsafe
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
-
-    // ---------- RENDER CÂY ----------
-    function renderTree() {
-        let html = '<ul class="root">';
-        treeData.forEach((folder, folderIndex) => {
-            html += `<li class="collapsible" data-folder-index="${folderIndex}">`;
-            html += `<span class="folder-name" style="font-weight: bold; cursor: pointer;">${escapeHtml(folder.name)}</span>`;
-            if (isAdmin) {
-                html += `<button class="delete-folder-btn" data-folder-index="${folderIndex}" title="Xóa thư mục">❌</button>`;
-            }
-            html += `<ul>`;
-            html += `<li class="item-name">`;
-            html += `<div style="margin-left: 20px;">`;
-            // Bảng
-            html += `<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 14px;">`;
-            html += `<thead><tr style="background-color: #f2f2f2;"><th style="border: 1px solid #ccc; padding: 8px;">ProG</th><th style="border: 1px solid #ccc; padding: 8px;">tsuroku</th>`;
-            if (isAdmin) html += `<th style="border: 1px solid #ccc; padding: 8px; width: 30px;">Xóa</th>`;
-            html += `</tr></thead><tbody>`;
-            folder.rows.forEach((row, rowIndex) => {
-                html += `<tr data-row-index="${rowIndex}">`;
-                html += `<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;" ${isAdmin ? 'contenteditable="true"' : ''}>${escapeHtml(row.prog)}</td>`;
-                html += `<td style="border: 1px solid #ccc; padding: 8px;" ${isAdmin ? 'contenteditable="true"' : ''}>${escapeHtml(row.value)}</td>`;
-                if (isAdmin) {
-                    html += `<td style="border: 1px solid #ccc; padding: 8px; text-align: center;"><button class="delete-row-btn" data-folder="${folderIndex}" data-row="${rowIndex}">🗑️</button></td>`;
-                }
-                html += `</tr>`;
+                renderTree();
             });
-            html += `</tbody></table>`;
-            if (isAdmin) {
-                html += `<button class="add-row-btn" data-folder="${folderIndex}">➕ Thêm dòng</button>`;
-            }
-            // Ghi chú - không escape để giữ <br> và các tag đơn giản
-            html += `<p class="note-item" style="margin-top: 5px; font-style: italic;" ${isAdmin ? 'contenteditable="true"' : ''}>${folder.note}</p>`;
-            html += `</div>`;
-            html += `</li>`;
-            html += `</ul>`;
-            html += `</li>`;
-        });
-        html += '</ul>';
-        treeContainer.innerHTML = html;
-
-        // Mặc định đóng các thư mục nếu không phải admin
-        if (!isAdmin) {
-            document.querySelectorAll('.tree li.collapsible').forEach(li => li.classList.add('collapsed'));
-        } else {
-            document.querySelectorAll('.tree li.collapsible').forEach(li => li.classList.remove('collapsed'));
         }
 
-        attachCollapseEvents();
-        if (searchInput.value.trim() !== '') {
-            filterTree(searchInput.value);
+        function saveData() {
+            treeRef.set(treeData)
+                .then(() => console.log("Đã lưu dữ liệu lên Firebase"))
+                .catch(error => console.error("Lỗi lưu dữ liệu lên Firebase:", error));
         }
-    }
 
-    function attachCollapseEvents() {
-        document.querySelectorAll('.folder-name').forEach(span => {
-            span.removeEventListener('click', toggleCollapse);
-            span.addEventListener('click', toggleCollapse);
-        });
-    }
-
-    function toggleCollapse(e) {
-        const li = e.currentTarget.closest('li');
-        if (li && li.classList.contains('collapsible')) {
-            li.classList.toggle('collapsed');
+        // Escape HTML cho nội dung ô (prog, value) nhưng giữ nguyên note để hỗ trợ <br>
+        function escapeHtml(unsafe) {
+            if (!unsafe) return '';
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
         }
-    }
 
-    // Đồng bộ dữ liệu từ DOM vào treeData
-    function syncDataFromDOM() {
-        const folderLis = document.querySelectorAll('.tree .root > li.collapsible');
-        treeData = [];
-        folderLis.forEach((li) => {
-            const folderNameSpan = li.querySelector('.folder-name');
-            const folderName = folderNameSpan ? folderNameSpan.innerText.trim() : 'Unnamed';
-            const rows = [];
-            const tbody = li.querySelector('tbody');
-            if (tbody) {
-                const trs = tbody.querySelectorAll('tr');
-                trs.forEach(tr => {
-                    const tds = tr.querySelectorAll('td[contenteditable="true"]');
-                    if (tds.length >= 2) {
-                        rows.push({
-                            prog: tds[0].innerText.trim(),
-                            value: tds[1].innerText.trim()
-                        });
-                    } else {
-                        // fallback nếu không tìm thấy contenteditable (khi không admin)
-                        const progTd = tr.querySelector('td:first-child');
-                        const valTd = tr.querySelector('td:nth-child(2)');
-                        if (progTd && valTd) {
-                            rows.push({
-                                prog: progTd.innerText.trim(),
-                                value: valTd.innerText.trim()
-                            });
-                        }
+        // ---------- RENDER CÂY ----------
+        function renderTree() {
+            let html = '<ul class="root">';
+            treeData.forEach((folder, folderIndex) => {
+                html += `<li class="collapsible" data-folder-index="${folderIndex}">`;
+                html += `<span class="folder-name" style="font-weight: bold; cursor: pointer;">${escapeHtml(folder.name)}</span>`;
+                if (isAdmin) {
+                    html += `<button class="delete-folder-btn" data-folder-index="${folderIndex}" title="Xóa thư mục">❌</button>`;
+                }
+                html += `<ul>`;
+                html += `<li class="item-name">`;
+                html += `<div style="margin-left: 20px;">`;
+                // Bảng
+                html += `<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 14px;">`;
+                html += `<thead><tr style="background-color: #f2f2f2;"><th style="border: 1px solid #ccc; padding: 8px;">ProG</th><th style="border: 1px solid #ccc; padding: 8px;">tsuroku</th>`;
+                if (isAdmin) html += `<th style="border: 1px solid #ccc; padding: 8px; width: 30px;">Xóa</th>`;
+                html += `</tr></thead><tbody>`;
+                folder.rows.forEach((row, rowIndex) => {
+                    html += `<tr data-row-index="${rowIndex}">`;
+                    html += `<td style="border: 1px solid #ccc; padding: 8px; font-weight: bold;" ${isAdmin ? 'contenteditable="true"' : ''}>${escapeHtml(row.prog)}</td>`;
+                    html += `<td style="border: 1px solid #ccc; padding: 8px;" ${isAdmin ? 'contenteditable="true"' : ''}>${escapeHtml(row.value)}</td>`;
+                    if (isAdmin) {
+                        html += `<td style="border: 1px solid #ccc; padding: 8px; text-align: center;"><button class="delete-row-btn" data-folder="${folderIndex}" data-row="${rowIndex}">🗑️</button></td>`;
                     }
+                    html += `</tr>`;
                 });
-            }
-            const noteP = li.querySelector('.note-item');
-            const note = noteP ? noteP.innerHTML.trim() : ''; // dùng innerHTML để lấy cả <br>
-            treeData.push({ name: folderName, rows, note });
-        });
-        saveData();
-    }
-
-    // ---------- XỬ LÝ SỰ KIỆN ADMIN (delegation) ----------
-    function setupAdminEventDelegation() {
-        treeContainer.addEventListener('click', function(e) {
-            if (!isAdmin) return;
-
-            if (e.target.classList.contains('delete-folder-btn')) {
-                e.preventDefault();
-                const folderIndex = e.target.getAttribute('data-folder-index');
-                if (folderIndex !== null && confirm('Xóa thư mục này?')) {
-                    treeData.splice(folderIndex, 1);
-                    saveData();
-                    renderTree();
+                html += `</tbody></table>`;
+                if (isAdmin) {
+                    html += `<button class="add-row-btn" data-folder="${folderIndex}">➕ Thêm dòng</button>`;
                 }
-                return;
-            }
+                // Ghi chú - dùng div thay p để hỗ trợ block, thêm white-space
+                html += `<div class="note-item" style="margin-top: 5px; font-style: italic;" ${isAdmin ? 'contenteditable="true"' : ''}>${folder.note}</div>`;
+                html += `</div>`;
+                html += `</li>`;
+                html += `</ul>`;
+                html += `</li>`;
+            });
+            html += '</ul>';
+            treeContainer.innerHTML = html;
 
-            if (e.target.classList.contains('delete-row-btn')) {
-                e.preventDefault();
-                const folderIdx = e.target.getAttribute('data-folder');
-                const rowIdx = e.target.getAttribute('data-row');
-                if (folderIdx !== null && rowIdx !== null && confirm('Xóa dòng này?')) {
-                    treeData[folderIdx].rows.splice(rowIdx, 1);
-                    saveData();
-                    renderTree();
-                }
-                return;
-            }
-
-            if (e.target.classList.contains('add-row-btn')) {
-                e.preventDefault();
-                const folderIdx = e.target.getAttribute('data-folder');
-                if (folderIdx !== null) {
-                    treeData[folderIdx].rows.push({ prog: 'mới', value: 'mới' });
-                    saveData();
-                    renderTree();
-                }
-                return;
-            }
-        });
-
-        // Cập nhật dữ liệu khi rời khỏi ô contenteditable
-        treeContainer.addEventListener('blur', function(e) {
-            if (!isAdmin) return;
-            if (e.target.matches('td[contenteditable="true"], .note-item[contenteditable="true"]')) {
-                syncDataFromDOM();
-            }
-        }, true);
-    }
-
-    // ---------- TÌM KIẾM (giữ nguyên) ----------
-    function escapeRegex(string) {
-        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    }
-
-    function removeAllHighlights() {
-        document.querySelectorAll('.tree mark').forEach(mark => {
-            const parent = mark.parentNode;
-            if (parent) {
-                const textNode = document.createTextNode(mark.textContent);
-                parent.replaceChild(textNode, mark);
-                parent.normalize();
-            }
-        });
-    }
-
-    function highlightElement(element, term) {
-        if (!term || !element) return;
-        const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
-        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
-        const textNodes = [];
-        let node;
-        while (node = walker.nextNode()) {
-            if (node.parentNode.nodeName !== 'MARK') {
-                textNodes.push(node);
-            }
-        }
-        textNodes.forEach(textNode => {
-            const text = textNode.textContent;
-            if (regex.test(text)) {
-                const fragment = document.createDocumentFragment();
-                const parts = text.split(regex);
-                parts.forEach(part => {
-                    if (part.toLowerCase() === term.toLowerCase()) {
-                        const mark = document.createElement('mark');
-                        mark.style.backgroundColor = 'yellow';
-                        mark.style.color = 'black';
-                        mark.textContent = part;
-                        fragment.appendChild(mark);
-                    } else {
-                        fragment.appendChild(document.createTextNode(part));
-                    }
-                });
-                textNode.parentNode.replaceChild(fragment, textNode);
-            }
-        });
-    }
-
-    function filterTree(term) {
-        const allLis = document.querySelectorAll('.tree li');
-        const allNotes = document.querySelectorAll('.tree p, .tree div, .tree .note-item');
-        allLis.forEach(li => li.style.display = 'none');
-        allNotes.forEach(note => note.style.display = 'none');
-        removeAllHighlights();
-        if (!term || term.trim() === "") {
-            allLis.forEach(li => li.style.display = '');
-            allNotes.forEach(note => note.style.display = '');
-            return;
-        }
-        term = term.trim().toLowerCase();
-        const matchingLis = new Set();
-        const matchingNotes = new Set();
-        allLis.forEach(li => {
-            const nameSpan = li.querySelector('.folder-name, .item-name, summary');
-            const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
-            if (itemName.includes(term)) {
-                matchingLis.add(li);
-                highlightElement(nameSpan, term);
-            }
-        });
-        allNotes.forEach(note => {
-            if (note.innerText.toLowerCase().includes(term)) {
-                matchingNotes.add(note);
-                const parentLi = note.closest('li');
-                if (parentLi) matchingLis.add(parentLi);
-                highlightElement(note, term);
-            }
-        });
-        const ancestors = new Set();
-        matchingLis.forEach(li => {
-            let parent = li.parentElement.closest('li');
-            while (parent) {
-                ancestors.add(parent);
-                parent = parent.parentElement.closest('li');
-            }
-        });
-        const toShow = new Set([...matchingLis, ...ancestors]);
-        toShow.forEach(li => {
-            li.style.display = '';
-            let parent = li.parentElement.closest('li');
-            while (parent) {
-                parent.style.display = '';
-                parent.classList.remove('collapsed');
-                const details = parent.querySelector(':scope > details');
-                if (details) details.open = true;
-                parent = parent.parentElement.closest('li');
-            }
-        });
-        allNotes.forEach(note => {
-            const parentLi = note.closest('li');
-            if (parentLi && toShow.has(parentLi) && matchingNotes.has(note)) {
-                note.style.display = '';
-            } else {
-                note.style.display = 'none';
-            }
-        });
-    }
-
-    // ---------- KÍCH HOẠT ADMIN ----------
-    function enableAdminMode() {
-        isAdmin = true;
-        adminControls.style.display = 'flex';
-        renderTree();
-        searchInput.focus();
-    }
-
-    // ---------- XỬ LÝ PHÍM TẮT VÀ FOCUS ----------
-    document.addEventListener('keydown', function(event) {
-        // Đăng nhập Ctrl+L
-        if (event.ctrlKey && event.key.toLowerCase() === 'l') {
-            event.preventDefault();
-            if (isAdmin) {
-                alert('Bạn đã là admin.');
-                return;
-            }
-            const pwd = prompt('Nhập mật khẩu admin:');
-            if (pwd === 'admin') {
-                enableAdminMode();
-            } else {
-                alert('Sai mật khẩu!');
-            }
-            return;
-        }
-
-        // Tự động focus vào ô tìm kiếm khi gõ phím chữ/số,
-        // nhưng bỏ qua nếu đang ở trong ô nhập liệu (input, textarea, contenteditable)
-        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.isContentEditable) {
-            return;
-        }
-        if (event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey) {
-            searchInput.focus();
-        }
-    });
-
-    // ---------- KHỞI TẠO ----------
-    function init() {
-        loadData();
-        renderTree();
-        setupAdminEventDelegation();
-
-        document.getElementById('addFolderBtn').addEventListener('click', function() {
-            if (isAdmin) {
-                const name = prompt('Nhập tên thư mục mới:');
-                if (name) {
-                    treeData.push({
-                        name: name,
-                        rows: [{ prog: 'mới', value: 'mới' }],
-                        note: 'ghi chú mới'
-                    });
-                    saveData();
-                    renderTree();
-                }
-            }
-        });
-
-        searchInput.addEventListener('input', function() {
-            filterTree(this.value);
-        });
-
-        clearBtn.addEventListener('click', function() {
-            searchInput.value = '';
-            filterTree('');
             if (!isAdmin) {
                 document.querySelectorAll('.tree li.collapsible').forEach(li => li.classList.add('collapsed'));
+            } else {
+                document.querySelectorAll('.tree li.collapsible').forEach(li => li.classList.remove('collapsed'));
+            }
+
+            attachCollapseEvents();
+            if (searchInput.value.trim() !== '') {
+                filterTree(searchInput.value);
+            }
+        }
+
+        function attachCollapseEvents() {
+            document.querySelectorAll('.folder-name').forEach(span => {
+                span.removeEventListener('click', toggleCollapse);
+                span.addEventListener('click', toggleCollapse);
+            });
+        }
+
+        function toggleCollapse(e) {
+            const li = e.currentTarget.closest('li');
+            if (li && li.classList.contains('collapsible')) {
+                li.classList.toggle('collapsed');
+            }
+        }
+
+        // Đồng bộ dữ liệu từ DOM vào treeData và lưu lên Firebase
+        function syncDataFromDOM() {
+            const folderLis = document.querySelectorAll('.tree .root > li.collapsible');
+            treeData = [];
+            folderLis.forEach((li) => {
+                const folderNameSpan = li.querySelector('.folder-name');
+                const folderName = folderNameSpan ? folderNameSpan.innerText.trim() : 'Unnamed';
+                const rows = [];
+                const tbody = li.querySelector('tbody');
+                if (tbody) {
+                    const trs = tbody.querySelectorAll('tr');
+                    trs.forEach(tr => {
+                        const tds = tr.querySelectorAll('td[contenteditable="true"]');
+                        if (tds.length >= 2) {
+                            rows.push({
+                                prog: tds[0].innerText.trim(),
+                                value: tds[1].innerText.trim()
+                            });
+                        } else {
+                            const progTd = tr.querySelector('td:first-child');
+                            const valTd = tr.querySelector('td:nth-child(2)');
+                            if (progTd && valTd) {
+                                rows.push({
+                                    prog: progTd.innerText.trim(),
+                                    value: valTd.innerText.trim()
+                                });
+                            }
+                        }
+                    });
+                }
+                const noteDiv = li.querySelector('.note-item');
+                const note = noteDiv ? noteDiv.innerHTML.trim() : '';
+                treeData.push({ name: folderName, rows, note });
+            });
+            saveData(); // Lưu lên Firebase
+        }
+
+        // ---------- XỬ LÝ SỰ KIỆN ADMIN (delegation) ----------
+        function setupAdminEventDelegation() {
+            treeContainer.addEventListener('click', function(e) {
+                if (!isAdmin) return;
+
+                if (e.target.classList.contains('delete-folder-btn')) {
+                    e.preventDefault();
+                    const folderIndex = e.target.getAttribute('data-folder-index');
+                    if (folderIndex !== null && confirm('Xóa thư mục này?')) {
+                        treeData.splice(folderIndex, 1);
+                        saveData();
+                        renderTree();
+                    }
+                    return;
+                }
+
+                if (e.target.classList.contains('delete-row-btn')) {
+                    e.preventDefault();
+                    const folderIdx = e.target.getAttribute('data-folder');
+                    const rowIdx = e.target.getAttribute('data-row');
+                    if (folderIdx !== null && rowIdx !== null && confirm('Xóa dòng này?')) {
+                        treeData[folderIdx].rows.splice(rowIdx, 1);
+                        saveData();
+                        renderTree();
+                    }
+                    return;
+                }
+
+                if (e.target.classList.contains('add-row-btn')) {
+                    e.preventDefault();
+                    const folderIdx = e.target.getAttribute('data-folder');
+                    if (folderIdx !== null) {
+                        treeData[folderIdx].rows.push({ prog: 'mới', value: 'mới' });
+                        saveData();
+                        renderTree();
+                    }
+                    return;
+                }
+            });
+
+            treeContainer.addEventListener('blur', function(e) {
+                if (!isAdmin) return;
+                if (e.target.matches('td[contenteditable="true"], .note-item[contenteditable="true"]')) {
+                    syncDataFromDOM();
+                }
+            }, true);
+        }
+
+        // ---------- TÌM KIẾM (giữ nguyên) ----------
+        function escapeRegex(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        function removeAllHighlights() {
+            document.querySelectorAll('.tree mark').forEach(mark => {
+                const parent = mark.parentNode;
+                if (parent) {
+                    const textNode = document.createTextNode(mark.textContent);
+                    parent.replaceChild(textNode, mark);
+                    parent.normalize();
+                }
+            });
+        }
+
+        function highlightElement(element, term) {
+            if (!term || !element) return;
+            const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+            const textNodes = [];
+            let node;
+            while (node = walker.nextNode()) {
+                if (node.parentNode.nodeName !== 'MARK') {
+                    textNodes.push(node);
+                }
+            }
+            textNodes.forEach(textNode => {
+                const text = textNode.textContent;
+                if (regex.test(text)) {
+                    const fragment = document.createDocumentFragment();
+                    const parts = text.split(regex);
+                    parts.forEach(part => {
+                        if (part.toLowerCase() === term.toLowerCase()) {
+                            const mark = document.createElement('mark');
+                            mark.style.backgroundColor = 'yellow';
+                            mark.style.color = 'black';
+                            mark.textContent = part;
+                            fragment.appendChild(mark);
+                        } else {
+                            fragment.appendChild(document.createTextNode(part));
+                        }
+                    });
+                    textNode.parentNode.replaceChild(fragment, textNode);
+                }
+            });
+        }
+
+        function filterTree(term) {
+            const allLis = document.querySelectorAll('.tree li');
+            const allNotes = document.querySelectorAll('.tree .note-item');
+            allLis.forEach(li => li.style.display = 'none');
+            allNotes.forEach(note => note.style.display = 'none');
+            removeAllHighlights();
+            if (!term || term.trim() === "") {
+                allLis.forEach(li => li.style.display = '');
+                allNotes.forEach(note => note.style.display = '');
+                return;
+            }
+            term = term.trim().toLowerCase();
+            const matchingLis = new Set();
+            const matchingNotes = new Set();
+            allLis.forEach(li => {
+                const nameSpan = li.querySelector('.folder-name, .item-name, summary');
+                const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
+                if (itemName.includes(term)) {
+                    matchingLis.add(li);
+                    highlightElement(nameSpan, term);
+                }
+            });
+            allNotes.forEach(note => {
+                if (note.innerText.toLowerCase().includes(term)) {
+                    matchingNotes.add(note);
+                    const parentLi = note.closest('li');
+                    if (parentLi) matchingLis.add(parentLi);
+                    highlightElement(note, term);
+                }
+            });
+            const ancestors = new Set();
+            matchingLis.forEach(li => {
+                let parent = li.parentElement.closest('li');
+                while (parent) {
+                    ancestors.add(parent);
+                    parent = parent.parentElement.closest('li');
+                }
+            });
+            const toShow = new Set([...matchingLis, ...ancestors]);
+            toShow.forEach(li => {
+                li.style.display = '';
+                let parent = li.parentElement.closest('li');
+                while (parent) {
+                    parent.style.display = '';
+                    parent.classList.remove('collapsed');
+                    const details = parent.querySelector(':scope > details');
+                    if (details) details.open = true;
+                    parent = parent.parentElement.closest('li');
+                }
+            });
+            allNotes.forEach(note => {
+                const parentLi = note.closest('li');
+                if (parentLi && toShow.has(parentLi) && matchingNotes.has(note)) {
+                    note.style.display = '';
+                } else {
+                    note.style.display = 'none';
+                }
+            });
+        }
+
+        // ---------- KÍCH HOẠT ADMIN ----------
+        function enableAdminMode() {
+            isAdmin = true;
+            adminControls.style.display = 'flex';
+            renderTree();
+            searchInput.focus();
+        }
+
+        // ---------- XỬ LÝ PHÍM TẮT VÀ FOCUS ----------
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && event.key.toLowerCase() === 'l') {
+                event.preventDefault();
+                if (isAdmin) {
+                    alert('Bạn đã là admin.');
+                    return;
+                }
+                const pwd = prompt('Nhập mật khẩu admin:');
+                if (pwd === 'admin') {
+                    enableAdminMode();
+                } else {
+                    alert('Sai mật khẩu!');
+                }
+                return;
+            }
+
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.isContentEditable) {
+                return;
+            }
+            if (event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey) {
+                searchInput.focus();
             }
         });
-    }
 
-    init();
-})();
-</script>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+        // ---------- KHỞI TẠO ----------
+        function init() {
+            loadData(); // Tải dữ liệu từ Firebase
+            setupAdminEventDelegation();
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBdLjZ1uFNTqRV_K_JQC2kL1GiDnucFKdA",
-    authDomain: "pbx01-8532b.firebaseapp.com",
-    projectId: "pbx01-8532b",
-    storageBucket: "pbx01-8532b.firebasestorage.app",
-    messagingSenderId: "27174658250",
-    appId: "1:27174658250:web:1d243bb547e49708bd5433",
-    measurementId: "G-YG15YRTVLE"
-  };
+            document.getElementById('addFolderBtn').addEventListener('click', function() {
+                if (isAdmin) {
+                    const name = prompt('Nhập tên thư mục mới:');
+                    if (name) {
+                        treeData.push({
+                            name: name,
+                            rows: [{ prog: 'mới', value: 'mới' }],
+                            note: 'ghi chú mới'
+                        });
+                        saveData();
+                        renderTree();
+                    }
+                }
+            });
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+            searchInput.addEventListener('input', function() {
+                filterTree(this.value);
+            });
+
+            clearBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                filterTree('');
+                if (!isAdmin) {
+                    document.querySelectorAll('.tree li.collapsible').forEach(li => li.classList.add('collapsed'));
+                }
+            });
+        }
+
+        init();
+    })();
+    </script>
 </body>
 </html>

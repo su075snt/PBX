@@ -1,0 +1,73 @@
+*{font-family:Tahoma,Century Gothic,Verdana; font-size:8pt; color:black;}
+
+body{background-color:#EFEFEF;}
+
+a {text-decoration:none; color:black;}
+a:hover {text-decoration:none; color:#0046D5}
+
+
+div.typ1 {background-color:#ECE9D8;}
+div.typ2 {background-color:#DEE3E7;}
+
+p {margin-top:10px; margin-bottom:10px;}
+
+p.title{
+	font-weight:bold;
+	background-color:#A5BED7;
+	border-bottom:5px solid #00138C;
+	padding-top:5px;
+	padding-bottom:5px;
+	margin-bottom:30px;
+	}
+
+table{empty-cells: show;}
+th{vertical-align:top; color:#003EDD; font-size:8pt; font-weight:normal;}
+td{vertical-align:top;}
+
+table.allowableValues{
+	border-collapse: collapse;
+	border:2px solid #D1D7DC;
+	background-color:white;
+}
+.allowableValues th {
+	text-align:left;
+	border:2px solid #D1D7DC;
+	padding-left:4px;
+	background-color:#C2D3FC;
+}
+.allowableValues td {
+	text-align:left;
+	border:2px solid #D1D7DC;
+	padding-left:4px;
+}
+
+table.data{
+	border-collapse: collapse;
+	border:2px solid #D1D7DC;
+	background-color:white;
+}
+.data tr.typ1{background-color:white;}
+.data tr.typ2{background-color:#EFEFEF;}
+.data th {
+	text-align:left;
+	border:2px solid #D1D7DC;
+	padding-left:4px;
+	background-color:#C2D3FC;
+}
+.data td {
+	text-align:left;
+	border:2px solid #D1D7DC;
+	padding-left:4px;
+}
+
+ul{margin:0; margin-left:15px;}
+
+span.note{color:#BB0000}
+span.errTxt{color:red;}
+
+h3 {
+	padding:0px;
+	margin:0px;
+	margin-top:10px;
+	margin:bottom:2px;
+}

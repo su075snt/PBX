@@ -3,63 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Kanji Lớp 1 - 80 Chữ</title>
+    <title>Kanji Lớp 1 - Pro</title>
     <style>
-        :root { --primary: #0984e3; --danger: #d63031; --bg: #ffffff; }
+        :root { --danger: #d63031; --bg: #ffffff; --header-bg: #f8f9fa; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); overflow: hidden; height: 100vh; }
 
-        /* MÀN HÌNH CHÍNH (DANH MỤC 80 CHỮ) */
+        /* MÀN HÌNH CHÍNH */
         #home-screen { 
             height: 100vh; display: flex; flex-direction: column; 
             padding: env(safe-area-inset-top) 15px; overflow-y: auto; 
         }
-        .header-title { text-align: center; padding: 20px 0; font-size: 22px; color: #2d3436; }
         .grid-kanji { 
             display: grid; grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); 
-            gap: 12px; padding-bottom: 50px;
+            gap: 12px; padding: 20px 0 50px 0;
         }
         .card-kanji { 
             aspect-ratio: 1/1; border: 1.5px solid #333; border-radius: 10px;
             display: flex; align-items: center; justify-content: center; 
             font-size: 22px; font-weight: bold; cursor: pointer;
         }
-        .card-kanji:active { background: #dfe6e9; transform: scale(0.9); }
 
         /* MÀN HÌNH LUYỆN TẬP */
         #learn-screen { 
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
             background: white; display: none; flex-direction: column; z-index: 100;
         }
+
+        /* THANH ĐIỀU HƯỚNG TRÊN CÙNG (Đã sửa lỗi iPhone) */
         .nav-top { 
             padding: 10px 15px; border-bottom: 1px solid #eee; display: flex; 
             justify-content: space-between; align-items: center; 
-            padding-top: env(safe-area-inset-top);
+            background: var(--header-bg);
+            padding-top: calc(10px + env(safe-area-inset-top)); /* Tránh tai thỏ */
         }
-        .btn-back { padding: 8px 15px; border: none; background: #eee; border-radius: 8px; font-weight: bold; font-size: 14px; }
+        .btn-nav { padding: 8px 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; }
+        .btn-back { background: #eee; color: #333; }
+        .btn-clear { background: var(--danger); color: white; }
 
-        /* Bố cục chính */
+        /* KHU VỰC HIỂN THỊ CHÍNH (Full Screen) */
         .main-view { flex: 1; display: flex; flex-direction: row; overflow: hidden; }
-        .box { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; }
+        .box { flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; position: relative; }
         
-        #kanji-gif { max-width: 90%; max-height: 95%; border-radius: 10px; }
+        #kanji-gif { max-width: 95%; max-height: 95%; border-radius: 10px; }
 
-        /* Bảng vẽ Canvas */
-        .canvas-container { position: relative; width: 95%; aspect-ratio: 1/1; max-width: 400px; border: 2px solid #333; background: white; }
+        /* BẢNG VẼ */
+        .canvas-container { position: relative; width: 95%; aspect-ratio: 1/1; max-width: 450px; border: 2px solid #333; background: white; }
         canvas { width: 100%; height: 100%; touch-action: none; 
             background-image: linear-gradient(#f0f0f0 1px, transparent 1px), linear-gradient(90deg, #f0f0f0 1px, transparent 1px); 
             background-size: 50% 50%; 
         }
         #trace-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 220px; color: rgba(0,0,0,0.05); pointer-events: none; }
 
-        /* Footer cho iPhone (Xóa bảng) */
-        .footer { 
-            padding: 15px; border-top: 1px solid #eee; display: flex; justify-content: center;
-            padding-bottom: calc(15px + env(safe-area-inset-bottom));
-        }
-        .btn-clear { width: 85%; max-width: 300px; padding: 14px; border: none; border-radius: 12px; background: var(--danger); color: white; font-weight: bold; font-size: 16px; }
-
-        /* ĐIỀU CHỈNH KHI XOAY DỌC (MOBILE) */
+        /* ĐIỀU CHỈNH KHI XOAY DỌC (Mobile) */
         @media (max-aspect-ratio: 1/1) {
             .main-view { flex-direction: column; }
             .box { height: 50%; width: 100%; }
@@ -68,26 +64,21 @@
 </head>
 <body>
 
-    <!-- MÀN HÌNH CHÍNH (80 CHỮ) -->
     <div id="home-screen">
-        <h2 class="header-title">80 Kanji Cơ Bản (Lớp 1)</h2>
-        <div class="grid-kanji" id="kanjiGrid">
-            <!-- Tự động sinh nút bấm bằng JavaScript bên dưới -->
-        </div>
+        <h2 style="text-align: center; padding: 20px 0;">80 Kanji Lớp 1</h2>
+        <div class="grid-kanji" id="kanjiGrid"></div>
     </div>
 
-    <!-- MÀN HÌNH LUYỆN TẬP -->
     <div id="learn-screen">
         <div class="nav-top">
-            <button class="btn-back" onclick="goHome()">← Quay lại</button>
-            <h2 id="current-title">字</h2>
-            <div style="width: 50px;"></div>
+            <button class="btn-nav btn-back" onclick="goHome()">← QUAY LẠI</button>
+            <h2 id="current-title" style="font-size: 18px;">一</h2>
+            <button class="btn-nav btn-clear" onclick="clearBoard()">XÓA BẢNG</button>
         </div>
 
         <div class="main-view">
             <div class="box">
-                <!-- Hiển thị GIF hướng dẫn -->
-                <img id="kanji-gif" src="" alt="Đang tải...">
+                <img id="kanji-gif" src="" alt="GIF">
             </div>
             <div class="box">
                 <div class="canvas-container">
@@ -96,21 +87,10 @@
                 </div>
             </div>
         </div>
-
-        <div class="footer">
-            <button class="btn-clear" onclick="clearBoard()">XÓA BẢNG VẼ</button>
-        </div>
     </div>
 
     <script>
-        // DỮ LIỆU 80 CHỮ KANJI BẠN CUNG CẤP
-        const kanjiData = [
-            "一", "右", "雨", "円", "王", "音", "下", "火", "花", "貝", "学", "気", "九", "休", "玉", "金", 
-            "空", "月", "犬", "見", "五", "口", "校", "左", "三", "山", "子", "四", "糸", "字", "耳", "七", 
-            "車", "手", "十", "出", "女", "小", "上", "森", "人", "水", "正", "生", "青", "夕", "石", "赤", 
-            "千", "川", "先", "早", "草", "足", "村", "大", "男", "竹", "中", "虫", "町", "天", "田", "土", 
-            "二", "日", "入", "年", "白", "八", "百", "文", "木", "本", "名", "目", "立", "力", "林"
-        ];
+        const kanjiData = ["一", "右", "雨", "円", "王", "音", "下", "火", "花", "貝", "学", "気", "九", "休", "玉", "金", "空", "月", "犬", "見", "五", "口", "校", "左", "三", "山", "子", "四", "糸", "字", "耳", "七", "車", "手", "十", "出", "女", "小", "上", "森", "人", "水", "正", "生", "青", "夕", "石", "赤", "千", "川", "先", "早", "草", "足", "村", "大", "男", "竹", "中", "虫", "町", "天", "田", "土", "二", "日", "入", "年", "白", "八", "百", "文", "木", "本", "名", "目", "立", "力", "林"];
 
         const home = document.getElementById('home-screen');
         const learn = document.getElementById('learn-screen');
@@ -121,10 +101,6 @@
         const trace = document.getElementById('trace-text');
         let drawing = false;
 
-        // Tên thư mục chứa ảnh (Nếu để cùng file HTML thì để "")
-        const folder = ""; 
-
-        // 1. Tạo danh sách nút bấm
         kanjiData.forEach(k => {
             const div = document.createElement('div');
             div.className = 'card-kanji';
@@ -133,16 +109,12 @@
             grid.appendChild(div);
         });
 
-        // 2. Vào chế độ học
         function startLearn(k) {
             home.style.display = 'none';
             learn.style.display = 'flex';
             document.getElementById('current-title').innerText = "Chữ: " + k;
             trace.innerText = k;
-
-            // Khớp file: TênChữ-order.gif (Ví dụ: 一-order.gif)
-            gif.src = folder + k + "-order.gif";
-
+            gif.src = k + "-order.gif"; // Khớp file của bạn
             setTimeout(resize, 200); 
         }
 
@@ -152,7 +124,6 @@
             gif.src = ""; 
         }
 
-        // 3. Logic vẽ Paint
         function resize() {
             const container = canvas.parentElement;
             canvas.width = container.clientWidth;
@@ -164,8 +135,8 @@
 
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
-            const cx = e.touches ? e.touches.clientX : e.clientX;
-            const cy = e.touches ? e.touches.clientY : e.clientY;
+            const cx = e.touches ? e.touches[0].clientX : e.clientX;
+            const cy = e.touches ? e.touches[0].clientY : e.clientY;
             return { x: cx - rect.left, y: cy - rect.top };
         }
 
@@ -186,7 +157,6 @@
         canvas.addEventListener('touchstart', (e) => { start(e); }, {passive: false});
         canvas.addEventListener('touchmove', (e) => { draw(e); }, {passive: false});
         window.addEventListener('touchend', stop);
-
         window.addEventListener('resize', resize);
         window.addEventListener('orientationchange', () => setTimeout(resize, 400));
     </script>

@@ -32,7 +32,7 @@
             background: white; display: none; flex-direction: column; z-index: 100;
         }
 
-        /* THANH ĐIỀU HƯỚNG TRÊN CÙNG - có safe area */
+        /* THANH ĐIỀU HƯỚNG TRÊN CÙNG */
         .nav-top { 
             padding: 10px 15px; border-bottom: 1px solid #eee; display: flex; 
             justify-content: space-between; align-items: center; 
@@ -61,14 +61,16 @@
         }
         
         #kanji-gif { 
-            max-width: 100%; max-height: 100%; width: auto; height: auto; 
-            object-fit: contain; border-radius: 12px; 
+            max-width: 80%;      /* giảm 20% so với kích thước box */
+            max-height: 80%;
+            object-fit: contain; 
+            border-radius: 12px; 
         }
 
         /* BẢNG VẼ */
         .canvas-container { 
             position: relative; width: 100%; aspect-ratio: 1/1; 
-            max-width: min(500px, 50vh, 50vw);
+            max-width: min(400px, 40vh, 40vw); /* giảm 20% so với trước */
             border: 2px solid #333; background: white; border-radius: 8px;
         }
         canvas { 
@@ -83,11 +85,11 @@
             pointer-events: none; white-space: nowrap; line-height: 1;
         }
 
-        /* XOAY DỌC: xếp chồng */
+        /* XOAY DỌC */
         @media (max-aspect-ratio: 1/1) {
             .main-view { flex-direction: column; }
             .box { height: 50%; width: 100%; padding: 8px; }
-            .canvas-container { max-width: min(450px, 90vw); }
+            .canvas-container { max-width: min(360px, 72vw); } /* giảm 20% so với 450px,90vw */
         }
     </style>
 </head>
@@ -119,7 +121,7 @@
     </div>
 
     <script>
-        // Khai báo các hàm global để có thể gọi từ onclick
+        // Khai báo biến toàn cục
         let canvas, ctx, gif, trace, title, home, learn;
         let drawing = false;
         const kanjiData = ["一", "右", "雨", "円", "王", "音", "下", "火", "花", "貝", "学", "気", "九", "休", "玉", "金", "空", "月", "犬", "見", "五", "口", "校", "左", "三", "山", "子", "四", "糸", "字", "耳", "七", "車", "手", "十", "出", "女", "小", "上", "森", "人", "水", "正", "生", "青", "夕", "石", "赤", "千", "川", "先", "早", "草", "足", "村", "大", "男", "竹", "中", "虫", "町", "天", "田", "土", "二", "日", "入", "年", "白", "八", "百", "文", "木", "本", "名", "目", "立", "力", "林"];
@@ -166,14 +168,14 @@
             requestAnimationFrame(() => setTimeout(resizeCanvas, 50));
         }
 
-        // Hàm global để nút back gọi
+        // Hàm global cho nút back
         function goHome() {
             home.style.display = 'flex';
             learn.style.display = 'none';
             gif.src = '';
         }
 
-        // Hàm global để nút xóa gọi
+        // Hàm global cho nút xóa
         function clearBoard() {
             if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
@@ -185,7 +187,7 @@
             const h = container.clientHeight;
             canvas.width = w;
             canvas.height = h;
-            clearBoard(); // xóa sau khi resize
+            clearBoard();
         }
 
         function getPos(e) {
@@ -232,7 +234,6 @@
             ctx.moveTo(p.x, p.y);
         }
 
-        // Khởi tạo sau khi DOM sẵn sàng
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>

@@ -2,77 +2,93 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Tối ưu hiển thị trên iPhone -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- Cấu hình để chạy như 1 App (Xóa thanh địa chỉ và thanh tìm kiếm Safari) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Checklist">
+
     <title>Checklist</title>
     <style>
-        body {
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-            background-color: #ffffff;
-            margin: 0;
-            padding: 15px;
+        :root {
+            --safe-area-top: env(safe-area-inset-top);
         }
 
-        /* Phần ghi chú phía trên */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            /* Tránh bị che bởi "tai thỏ" iPhone */
+            padding: calc(var(--safe-area-top) + 15px) 15px 20px 15px;
+            color: #000;
+        }
+
+        /* 3 hàng ghi chú */
         .notes-section {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .note-line {
             display: flex;
             align-items: flex-end;
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #333;
+            margin-bottom: 15px;
         }
 
         .note-line span {
-            margin-right: 10px;
-            white-space: nowrap;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 8px;
+            color: #555;
+            min-width: 55px;
         }
 
         .note-line input {
             border: none;
             border-bottom: 1px solid #ccc;
             flex: 1;
-            padding: 5px;
+            padding: 5px 0;
             font-size: 16px;
             outline: none;
             background: transparent;
         }
 
-        /* Phần danh sách */
+        /* Danh sách checklist */
         .container {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+            flex-direction: column;
+            gap: 0;
         }
 
         .column {
-            flex: 1;
-            min-width: 300px;
+            width: 100%;
         }
 
         .checklist-item {
             display: flex;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 14px 0;
+            border-bottom: 0.5px solid #d1d1d6; /* Đường kẻ mảnh kiểu iOS */
         }
 
+        /* Checkbox to, dễ bấm cho ngón tay */
         input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            margin-right: 12px;
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
             cursor: pointer;
+            -webkit-appearance: checkbox;
         }
 
         label {
-            font-size: 16px;
-            color: #000;
+            font-size: 17px;
+            flex: 1;
             cursor: pointer;
-            white-space: nowrap;
+            word-break: break-all;
         }
 
+        /* Hiển thị 2 cột nếu quay ngang màn hình hoặc dùng iPad */
         @media (min-width: 600px) {
             .container {
                 display: grid;
@@ -84,18 +100,18 @@
 </head>
 <body>
 
-    <!-- 3 hàng ghi chú -->
+    <!-- 3 hàng ghi chú trên cùng -->
     <div class="notes-section">
-        <div class="note-line"><span>Note 1:</span> <input type="text"></div>
-        <div class="note-line"><span>Note 2:</span> <input type="text"></div>
-        <div class="note-line"><span>Note 3:</span> <input type="text"></div>
+        <div class="note-line"><span>NOTE 1</span> <input type="text" placeholder="..."></div>
+        <div class="note-line"><span>NOTE 2</span> <input type="text" placeholder="..."></div>
+        <div class="note-line"><span>NOTE 3</span> <input type="text" placeholder="..."></div>
     </div>
 
     <div class="container">
         <!-- Cột bên trái -->
         <div class="column">
             <div class="checklist-item"><input type="checkbox" id="i1"><label for="i1">ケーブル　TEL-LAN　？</label></div>
-            <div class="checklist-item"><input type="checkbox" id="i2"><label for="i2">キヒモ</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i2"><label for="i2">ヒモ</label></div>
             <div class="checklist-item"><input type="checkbox" id="i3"><label for="i3">プラグ　RJ 45　RJ 11</label></div>
             <div class="checklist-item"><input type="checkbox" id="i4"><label for="i4">端子ーローゼット</label></div>
             <div class="checklist-item"><input type="checkbox" id="i5"><label for="i5">モール　系</label></div>

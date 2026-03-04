@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>iOS Paint App</title>
+    <style>
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            overflow: hidden; background-color: #fff;
+            touch-action: none; /* Ngăn chặn cuộn trang mặc định trên mobile */
+        }
+        canvas {
+            display: block;
+            touch-action: none;
+        }
+        .btn-delete {
+            position: absolute;
+            top: calc(15px + env(safe-area-inset-top));
+            right: calc(15px + env(safe-area-inset-right));
+            width: 45px; height: 45px;
+            background-color: rgba(255, 77, 77, 0.9);
+            color: white; border: none; border-radius: 50%;
+            font-size: 24px; z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-delete" onclick="clearCanvas()">✕</button>
+    <canvas id="paintCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('paintCanvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+
+        // Tự động điều chỉnh kích thước canvas theo màn hình
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000';
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Xử lý vẽ (Hỗ trợ cả Mouse và Touch)
+        function startPosition(e) {
+            drawing = true;
+            draw(e);
+        }
+
+        function finishedPosition() {
+            drawing = false;
+            ctx.beginPath(); // Reset đường vẽ mới
+        }
+
+        function draw(e) {
+            if (!drawing) return;
+            
+            // Lấy tọa độ (xử lý cả chuột và cảm ứng)
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        // Sự kiện chuột
+        canvas.addEventListener('mousedown', startPosition);
+        canvas.addEventListener('mouseup', finishedPosition);
+        canvas.addEventListener('mousemove', draw);
+
+        // Sự kiện cảm ứng iOS (Touch Events)
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Chống cuộn trang khi chạm vào canvas
+            startPosition(e);
+        }, { passive: false });
+        
+        canvas.addEventListener('touchend', finishedPosition);
+        
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            draw(e);
+        }, { passive: false });
+
+        // Hàm xóa toàn bộ màn hình
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    </script>
+</body>
+</html>

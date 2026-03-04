@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <!-- Cấu hình để chạy như 1 App độc lập khi lưu ra màn hình chính -->
+    <!-- Cấu hình chạy Full màn hình khi lưu ra Home Screen -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Paint App">
@@ -20,20 +20,21 @@
             touch-action: none;
             background-color: #fff;
         }
-        /* Nút xóa ở góc dưới bên phải */
+        /* Nút xóa ở góc trên bên phải */
         .btn-delete {
             position: absolute;
-            bottom: calc(30px + env(safe-area-inset-bottom)); /* Tránh thanh gạt về Home của iPhone */
-            right: calc(20px + env(safe-area-inset-right));
-            width: 55px; height: 55px;
-            background-color: #ff3b30; /* Màu đỏ đặc trưng iOS */
+            top: calc(15px + env(safe-area-inset-top));
+            right: calc(15px + env(safe-area-inset-right));
+            width: 45px; height: 45px;
+            background-color: #ff3b30;
             color: white; border: none; border-radius: 50%;
-            font-size: 28px; z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            font-size: 24px; z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             display: flex; justify-content: center; align-items: center;
+            -webkit-tap-highlight-color: transparent; /* Xóa khung xanh khi chạm trên iOS */
         }
         .btn-delete:active {
-            background-color: #c42b23;
+            background-color: #cc2b23;
             transform: scale(0.9);
         }
     </style>
@@ -41,7 +42,8 @@
 <body>
 
     <canvas id="paintCanvas"></canvas>
-    <button class="btn-delete" onclick="clearCanvas()">✕</button>
+    <!-- Sử dụng ontouchstart để xóa nhanh hơn trên iPhone -->
+    <button class="btn-delete" ontouchstart="clearCanvas()" onclick="clearCanvas()">✕</button>
 
     <script>
         const canvas = document.getElementById('paintCanvas');
@@ -63,15 +65,19 @@
 
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return {
-                x: clientX - rect.left,
-                y: clientY - rect.top
-            };
+            let clientX, clientY;
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            return { x: clientX - rect.left, y: clientY - rect.top };
         }
 
         function startPosition(e) {
+            if(e.target.tagName === 'BUTTON') return;
             drawing = true;
             const pos = getPos(e);
             ctx.beginPath();
@@ -89,12 +95,12 @@
             ctx.stroke();
         }
 
-        // Mouse Events
+        // Sự kiện chuột
         canvas.addEventListener('mousedown', startPosition);
         canvas.addEventListener('mouseup', finishedPosition);
         canvas.addEventListener('mousemove', draw);
 
-        // Touch Events cho iOS
+        // Sự kiện cảm ứng iOS
         canvas.addEventListener('touchstart', (e) => {
             if(e.target.tagName !== 'BUTTON') e.preventDefault();
             startPosition(e);
@@ -108,9 +114,7 @@
         canvas.addEventListener('touchend', finishedPosition);
 
         function clearCanvas() {
-            if(confirm("Xóa toàn bộ bản vẽ?")) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
     </script>
 </body>

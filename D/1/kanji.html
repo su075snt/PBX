@@ -12,17 +12,19 @@
         /* MÀN HÌNH CHÍNH */
         #home-screen { 
             height: 100vh; display: flex; flex-direction: column; 
-            padding: env(safe-area-inset-top) 15px; overflow-y: auto; 
+            padding: env(safe-area-inset-top) 15px env(safe-area-inset-bottom) 15px; overflow-y: auto; 
         }
         .grid-kanji { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); 
             gap: 12px; padding: 20px 0 50px 0;
         }
         .card-kanji { 
-            aspect-ratio: 1/1; border: 1.5px solid #333; border-radius: 10px;
+            aspect-ratio: 1/1; border: 1.5px solid #333; border-radius: 12px;
             display: flex; align-items: center; justify-content: center; 
-            font-size: 22px; font-weight: bold; cursor: pointer;
+            font-size: clamp(22px, 6vw, 28px); font-weight: 600; cursor: pointer;
+            background: white; transition: 0.2s;
         }
+        .card-kanji:active { background: #f0f0f0; }
 
         /* MÀN HÌNH LUYỆN TẬP */
         #learn-screen { 
@@ -30,42 +32,69 @@
             background: white; display: none; flex-direction: column; z-index: 100;
         }
 
-        /* THANH ĐIỀU HƯỚNG TRÊN CÙNG (Đã sửa lỗi iPhone) */
+        /* THANH ĐIỀU HƯỚNG TRÊN CÙNG - có safe area */
         .nav-top { 
             padding: 10px 15px; border-bottom: 1px solid #eee; display: flex; 
             justify-content: space-between; align-items: center; 
             background: var(--header-bg);
-            padding-top: calc(10px + env(safe-area-inset-top)); /* Tránh tai thỏ */
+            padding-top: max(10px, env(safe-area-inset-top)); 
+            padding-left: max(15px, env(safe-area-inset-left));
+            padding-right: max(15px, env(safe-area-inset-right));
         }
-        .btn-nav { padding: 8px 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; }
-        .btn-back { background: #eee; color: #333; }
+        .btn-nav { 
+            padding: 8px 14px; border: none; border-radius: 10px; font-weight: 600; 
+            font-size: 15px; cursor: pointer; background: #eee; color: #333;
+            transition: opacity 0.2s; 
+        }
+        .btn-nav:active { opacity: 0.7; }
+        .btn-back { background: #e0e0e0; }
         .btn-clear { background: var(--danger); color: white; }
 
-        /* KHU VỰC HIỂN THỊ CHÍNH (Full Screen) */
-        .main-view { flex: 1; display: flex; flex-direction: row; overflow: hidden; }
-        .box { flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; position: relative; }
+        /* KHU VỰC HIỂN THỊ CHÍNH */
+        .main-view { 
+            flex: 1; display: flex; flex-direction: row; overflow: hidden;
+            padding: 0 env(safe-area-inset-left) 0 env(safe-area-inset-right);
+        }
+        .box { 
+            flex: 1; display: flex; align-items: center; justify-content: center; 
+            padding: 12px; position: relative; 
+        }
         
-        #kanji-gif { max-width: 95%; max-height: 95%; border-radius: 10px; }
+        #kanji-gif { 
+            max-width: 100%; max-height: 100%; width: auto; height: auto; 
+            object-fit: contain; border-radius: 12px; 
+        }
 
         /* BẢNG VẼ */
-        .canvas-container { position: relative; width: 95%; aspect-ratio: 1/1; max-width: 450px; border: 2px solid #333; background: white; }
-        canvas { width: 100%; height: 100%; touch-action: none; 
-            background-image: linear-gradient(#f0f0f0 1px, transparent 1px), linear-gradient(90deg, #f0f0f0 1px, transparent 1px); 
-            background-size: 50% 50%; 
+        .canvas-container { 
+            position: relative; width: 100%; aspect-ratio: 1/1; 
+            max-width: min(500px, 50vh, 50vw);
+            border: 2px solid #333; background: white; border-radius: 8px;
         }
-        #trace-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 220px; color: rgba(0,0,0,0.05); pointer-events: none; }
+        canvas { 
+            width: 100%; height: 100%; touch-action: none; display: block;
+            background-image: linear-gradient(#f0f0f0 1px, transparent 1px), 
+                              linear-gradient(90deg, #f0f0f0 1px, transparent 1px); 
+            background-size: 20% 20%;
+        }
+        #trace-text { 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            font-size: min(200px, 25vw, 25vh); color: rgba(0,0,0,0.05); 
+            pointer-events: none; white-space: nowrap; line-height: 1;
+        }
 
-        /* ĐIỀU CHỈNH KHI XOAY DỌC (Mobile) */
+        /* XOAY DỌC: xếp chồng */
         @media (max-aspect-ratio: 1/1) {
             .main-view { flex-direction: column; }
-            .box { height: 50%; width: 100%; }
+            .box { height: 50%; width: 100%; padding: 8px; }
+            .canvas-container { max-width: min(450px, 90vw); }
         }
     </style>
 </head>
 <body>
 
     <div id="home-screen">
-        <h2 style="text-align: center; padding: 20px 0;">80 Kanji Lớp 1</h2>
+        <h2 style="text-align: center; padding: 20px 0 10px;">80 Kanji Lớp 1</h2>
         <div class="grid-kanji" id="kanjiGrid"></div>
     </div>
 
@@ -78,7 +107,7 @@
 
         <div class="main-view">
             <div class="box">
-                <img id="kanji-gif" src="" alt="GIF">
+                <img id="kanji-gif" src="" alt="GIF" onerror="this.style.display='none'">
             </div>
             <div class="box">
                 <div class="canvas-container">
@@ -90,75 +119,121 @@
     </div>
 
     <script>
+        // Khai báo các hàm global để có thể gọi từ onclick
+        let canvas, ctx, gif, trace, title, home, learn;
+        let drawing = false;
         const kanjiData = ["一", "右", "雨", "円", "王", "音", "下", "火", "花", "貝", "学", "気", "九", "休", "玉", "金", "空", "月", "犬", "見", "五", "口", "校", "左", "三", "山", "子", "四", "糸", "字", "耳", "七", "車", "手", "十", "出", "女", "小", "上", "森", "人", "水", "正", "生", "青", "夕", "石", "赤", "千", "川", "先", "早", "草", "足", "村", "大", "男", "竹", "中", "虫", "町", "天", "田", "土", "二", "日", "入", "年", "白", "八", "百", "文", "木", "本", "名", "目", "立", "力", "林"];
 
-        const home = document.getElementById('home-screen');
-        const learn = document.getElementById('learn-screen');
-        const grid = document.getElementById('kanjiGrid');
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const gif = document.getElementById('kanji-gif');
-        const trace = document.getElementById('trace-text');
-        let drawing = false;
+        function init() {
+            home = document.getElementById('home-screen');
+            learn = document.getElementById('learn-screen');
+            canvas = document.getElementById('canvas');
+            ctx = canvas.getContext('2d');
+            gif = document.getElementById('kanji-gif');
+            trace = document.getElementById('trace-text');
+            title = document.getElementById('current-title');
 
-        kanjiData.forEach(k => {
-            const div = document.createElement('div');
-            div.className = 'card-kanji';
-            div.innerText = k;
-            div.onclick = () => startLearn(k);
-            grid.appendChild(div);
-        });
+            const grid = document.getElementById('kanjiGrid');
+            kanjiData.forEach(k => {
+                const div = document.createElement('div');
+                div.className = 'card-kanji';
+                div.innerText = k;
+                div.onclick = () => startLearn(k);
+                grid.appendChild(div);
+            });
+
+            // Gán sự kiện vẽ
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseleave', stopDrawing);
+            canvas.addEventListener('touchstart', startDrawing, { passive: false });
+            canvas.addEventListener('touchmove', draw, { passive: false });
+            canvas.addEventListener('touchend', stopDrawing);
+            canvas.addEventListener('touchcancel', stopDrawing);
+
+            window.addEventListener('resize', () => requestAnimationFrame(resizeCanvas));
+            window.addEventListener('orientationchange', () => setTimeout(() => requestAnimationFrame(resizeCanvas), 100));
+        }
 
         function startLearn(k) {
             home.style.display = 'none';
             learn.style.display = 'flex';
-            document.getElementById('current-title').innerText = "Chữ: " + k;
+            title.innerText = 'Chữ: ' + k;
             trace.innerText = k;
-            gif.src = k + "-order.gif"; // Khớp file của bạn
-            setTimeout(resize, 200); 
+            gif.src = k + '-order.gif';
+            gif.style.display = ''; // hiện lại nếu trước đó bị lỗi
+            requestAnimationFrame(() => setTimeout(resizeCanvas, 50));
         }
 
+        // Hàm global để nút back gọi
         function goHome() {
             home.style.display = 'flex';
             learn.style.display = 'none';
-            gif.src = ""; 
+            gif.src = '';
         }
 
-        function resize() {
+        // Hàm global để nút xóa gọi
+        function clearBoard() {
+            if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function resizeCanvas() {
+            if (!canvas || !canvas.parentElement) return;
             const container = canvas.parentElement;
-            canvas.width = container.clientWidth;
-            canvas.height = container.clientHeight;
-            clearBoard();
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            canvas.width = w;
+            canvas.height = h;
+            clearBoard(); // xóa sau khi resize
         }
-
-        function clearBoard() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
 
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
-            const cx = e.touches ? e.touches[0].clientX : e.clientX;
-            const cy = e.touches ? e.touches[0].clientY : e.clientY;
-            return { x: cx - rect.left, y: cy - rect.top };
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let clientX, clientY;
+            if (e.touches) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            return {
+                x: Math.min(Math.max((clientX - rect.left) * scaleX, 0), canvas.width),
+                y: Math.min(Math.max((clientY - rect.top) * scaleY, 0), canvas.height)
+            };
         }
 
-        function start(e) { drawing = true; draw(e); }
-        function stop() { drawing = false; ctx.beginPath(); }
+        function startDrawing(e) {
+            e.preventDefault?.();
+            drawing = true;
+            ctx.beginPath();
+            draw(e);
+        }
+
+        function stopDrawing() {
+            drawing = false;
+            ctx.beginPath();
+        }
+
         function draw(e) {
             if (!drawing) return;
+            e.preventDefault?.();
             const p = getPos(e);
-            ctx.lineWidth = 14; ctx.lineCap = 'round'; ctx.strokeStyle = '#2d3436';
-            ctx.lineTo(p.x, p.y); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(p.x, p.y);
-            if(e.touches) e.preventDefault();
+            ctx.lineWidth = Math.max(8, canvas.width / 40);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.strokeStyle = '#2d3436';
+            ctx.lineTo(p.x, p.y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
         }
 
-        canvas.addEventListener('mousedown', start);
-        canvas.addEventListener('mousemove', draw);
-        window.addEventListener('mouseup', stop);
-        canvas.addEventListener('touchstart', (e) => { start(e); }, {passive: false});
-        canvas.addEventListener('touchmove', (e) => { draw(e); }, {passive: false});
-        window.addEventListener('touchend', stop);
-        window.addEventListener('resize', resize);
-        window.addEventListener('orientationchange', () => setTimeout(resize, 400));
+        // Khởi tạo sau khi DOM sẵn sàng
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>

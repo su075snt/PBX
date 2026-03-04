@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Checklist</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 15px;
+        }
+
+        /* Phần ghi chú phía trên */
+        .notes-section {
+            margin-bottom: 20px;
+        }
+
+        .note-line {
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .note-line span {
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+        .note-line input {
+            border: none;
+            border-bottom: 1px solid #ccc;
+            flex: 1;
+            padding: 5px;
+            font-size: 16px;
+            outline: none;
+            background: transparent;
+        }
+
+        /* Phần danh sách */
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        label {
+            font-size: 16px;
+            color: #000;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        @media (min-width: 600px) {
+            .container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                column-gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 3 hàng ghi chú -->
+    <div class="notes-section">
+        <div class="note-line"><span>Note 1:</span> <input type="text"></div>
+        <div class="note-line"><span>Note 2:</span> <input type="text"></div>
+        <div class="note-line"><span>Note 3:</span> <input type="text"></div>
+    </div>
+
+    <div class="container">
+        <!-- Cột bên trái -->
+        <div class="column">
+            <div class="checklist-item"><input type="checkbox" id="i1"><label for="i1">ケーブル　TEL-LAN　？</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i2"><label for="i2">ヒモ</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i3"><label for="i3">プラグ　RJ 45　RJ 11</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i4"><label for="i4">端子ーローゼット</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i5"><label for="i5">モール　系</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i6"><label for="i6">インシュロック</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i7"><label for="i7">ベルクロ</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i8"><label for="i8">脚立　？</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i9"><label for="i9">上履き</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i10"><label for="i10">ジャンパー線</label></div>
+        </div>
+
+        <!-- Cột bên phải -->
+        <div class="column">
+            <div class="checklist-item"><input type="checkbox" id="i11"><label for="i11">図面　？下見図面？</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i12"><label for="i12">オーダー</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i13"><label for="i13">納品　？TEL　HUB？</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i14"><label for="i14">ラック　？</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i15"><label for="i15">完了書</label></div>
+            <div class="checklist-item"><input type="checkbox" id="i16"><label for="i16">ライセンス</label></div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -2,102 +2,151 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=none">
-    <title>Kanji Lớp 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Học Kanji Lớp 1</title>
     <style>
-        :root { --bg: #f8f9fa; --text: #2d3436; --accent: #0984e3; }
+        :root { --primary: #0984e3; --danger: #d63031; --bg: #ffffff; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { font-family: sans-serif; background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); overflow: hidden; height: 100vh; }
 
-        /* Danh sách chữ - Cuộn ngang trên mobile, lưới trên desktop */
-        .kanji-nav { 
-            display: flex; gap: 8px; padding: 10px; background: white; 
-            overflow-x: auto; border-bottom: 1px solid #ddd; white-space: nowrap;
-            scrollbar-width: none; /* Ẩn scrollbar Firefox */
+        /* MÀN HÌNH CHÍNH (DANH MỤC) */
+        #home-screen { 
+            height: 100vh; display: flex; flex-direction: column; padding: env(safe-area-inset-top) 20px; 
+            overflow-y: auto; 
         }
-        .kanji-nav::-webkit-scrollbar { display: none; } /* Ẩn scrollbar Chrome */
-        
-        .btn-kanji { 
-            min-width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
-            background: #eee; border-radius: 8px; cursor: pointer; font-size: 20px; font-weight: bold;
+        .grid-kanji { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); 
+            gap: 15px; padding: 20px 0;
         }
-        .btn-kanji:active { background: var(--accent); color: white; }
+        .card-kanji { 
+            aspect-ratio: 1/1; border: 2px solid #333; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold;
+            cursor: pointer; transition: 0.2s;
+        }
+        .card-kanji:active { background: #eee; transform: scale(0.9); }
 
-        /* Bố cục chính: Full màn hình */
-        .main-view { flex: 1; display: flex; flex-wrap: wrap; height: 100%; }
+        /* MÀN HÌNH HỌC */
+        #learn-screen { 
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+            background: white; display: none; flex-direction: column; z-index: 100;
+        }
+        .nav-top { 
+            padding: 10px 20px; border-bottom: 1px solid #eee; display: flex; 
+            justify-content: space-between; align-items: center; padding-top: env(safe-area-inset-top);
+        }
+        .btn-back { padding: 8px 15px; border: none; background: #eee; border-radius: 8px; font-weight: bold; }
 
-        /* Khung bên trái (GIF) & Phải (Vẽ) */
-        .box { flex: 1; min-width: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; border: 1px solid #eee; }
+        /* Bố cục chia đôi Trái - Phải */
+        .main-view { flex: 1; display: flex; flex-direction: row; overflow: hidden; }
+        .box { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; }
         
-        #kanji-gif { width: 90%; max-width: 350px; height: auto; border-radius: 12px; }
+        #kanji-gif { max-width: 90%; max-height: 90%; border-radius: 12px; border: 1px solid #eee; }
 
         /* Bảng vẽ */
-        .canvas-container { position: relative; width: 90%; max-width: 350px; aspect-ratio: 1/1; background: white; border: 2px solid #333; border-radius: 8px; }
-        canvas { width: 100%; height: 100%; cursor: crosshair; touch-action: none; 
-            background-image: linear-gradient(#eee 1px, transparent 1px), linear-gradient(90deg, #eee 1px, transparent 1px);
-            background-size: 50% 50%;
+        .canvas-container { position: relative; width: 95%; aspect-ratio: 1/1; max-width: 400px; border: 2px solid #333; background: white; }
+        canvas { width: 100%; height: 100%; touch-action: none; background-image: linear-gradient(#f0f0f0 1px, transparent 1px), linear-gradient(90deg, #f0f0f0 1px, transparent 1px); background-size: 50% 50%; }
+        #trace-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 200px; color: rgba(0,0,0,0.05); pointer-events: none; }
+
+        /* Footer cho iPhone */
+        .footer { 
+            padding: 15px; border-top: 1px solid #eee; display: flex; justify-content: center;
+            padding-bottom: calc(15px + env(safe-area-inset-bottom));
         }
+        .btn-clear { width: 80%; max-width: 300px; padding: 15px; border: none; border-radius: 12px; background: var(--danger); color: white; font-weight: bold; font-size: 16px; }
 
-        /* Nút điều khiển */
-        .controls { width: 100%; display: flex; justify-content: center; padding: 15px; background: white; }
-        .btn-clear { width: 80%; max-width: 400px; padding: 12px; background: #ff7675; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; }
-
-        @media (max-width: 600px) {
-            .main-view { flex-direction: column; overflow-y: auto; }
-            .box { min-width: 100%; height: 50%; }
+        /* XOAY DỌC (Mobile) */
+        @media (max-aspect-ratio: 1/1) {
+            .main-view { flex-direction: column; }
+            .box { height: 50%; width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Danh sách chữ (Bạn chỉ cần copy thêm các chữ khác vào đây) -->
-    <div class="kanji-nav">
-        <div class="btn-kanji" onclick="load('一')">一</div>
-        <div class="btn-kanji" onclick="load('二')">二</div>
-        <div class="btn-kanji" onclick="load('三')">三</div>
-        <div class="btn-kanji" onclick="load('五')">五</div>
-        <div class="btn-kanji" onclick="load('西')">西</div>
-        <!-- Thêm các chữ khác... -->
+    <!-- MÀN HÌNH CHÍNH -->
+    <div id="home-screen">
+        <h2 style="text-align:center; margin-top:10px;">Kanji Lớp 1</h2>
+        <div class="grid-kanji" id="kanjiGrid">
+            <!-- Danh sách 80 chữ - Bạn có thể thêm tiếp vào đây -->
+            <script>
+                const kanjiList = ["一", "二", "三", "五", "西", "日", "月", "火", "水", "木", "金", "土", "山", "川", "田"];
+                document.write(kanjiList.map(k => `<div class="card-kanji" onclick="startLearn('${k}')">${k}</div>`).join(''));
+            </script>
+        </div>
     </div>
 
-    <div class="main-view">
-        <div class="box">
-            <img id="kanji-gif" src="" alt="GIF">
+    <!-- MÀN HÌNH LUYỆN TẬP -->
+    <div id="learn-screen">
+        <div class="nav-top">
+            <button class="btn-back" onclick="goHome()">← Quay lại</button>
+            <h2 id="current-title">字</h2>
+            <div style="width: 50px;"></div>
         </div>
-        <div class="box">
-            <div class="canvas-container">
-                <canvas id="canvas"></canvas>
+
+        <div class="main-view">
+            <div class="box">
+                <!-- KHUNG HIỂN THỊ FILE GIF -->
+                <img id="kanji-gif" src="" alt="Đang tải hướng dẫn...">
+            </div>
+            <div class="box">
+                <div class="canvas-container">
+                    <div id="trace-text">一</div>
+                    <canvas id="canvas"></canvas>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="controls">
-        <button class="btn-clear" onclick="clearBoard()">XÓA BẢNG</button>
+        <div class="footer">
+            <button class="btn-clear" onclick="clearBoard()">XÓA BẢNG VẼ</button>
+        </div>
     </div>
 
     <script>
+        const home = document.getElementById('home-screen');
+        const learn = document.getElementById('learn-screen');
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         const gif = document.getElementById('kanji-gif');
+        const trace = document.getElementById('trace-text');
         let drawing = false;
 
-        // Tự động điều chỉnh kích thước canvas khi load
-        function resize() {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
+        // ĐƯỜNG DẪN THƯ MỤC ẢNH (Bỏ trống nếu ảnh nằm cùng thư mục file html)
+        // Nếu bạn để ảnh trong thư mục 'images', hãy sửa thành: const folder = "images/";
+        const folder = ""; 
+
+        function startLearn(k) {
+            home.style.display = 'none';
+            learn.style.display = 'flex';
+            document.getElementById('current-title').innerText = "Chữ: " + k;
+            trace.innerText = k;
+
+            // KHỚP TÊN FILE: TênChữ + "-order.gif" (Ví dụ: 西-order.gif)
+            gif.src = folder + k + "-order.gif";
+
+            setTimeout(resize, 100); 
         }
 
-        function load(char) {
-            gif.src = char + "-order.gif"; // Khớp file 一-order.gif trong thư mục của bạn
+        function goHome() {
+            home.style.display = 'flex';
+            learn.style.display = 'none';
+            gif.src = ""; // Dừng tải ảnh khi quay lại
+        }
+
+        function resize() {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
             clearBoard();
         }
 
-        // Logic vẽ mượt mà
+        function clearBoard() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+        // LOGIC VẼ (Tối ưu iPhone & Xoay màn hình)
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return { x: clientX - rect.left, y: clientY - rect.top };
+            const cx = e.touches ? e.touches[0].clientX : e.clientX;
+            const cy = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: cx - rect.left, y: cy - rect.top };
         }
 
         function start(e) { drawing = true; draw(e); }
@@ -105,26 +154,21 @@
         function draw(e) {
             if (!drawing) return;
             const p = getPos(e);
-            ctx.lineWidth = 10;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = '#2d3436';
-            ctx.lineTo(p.x, p.y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
+            ctx.lineWidth = 12; ctx.lineCap = 'round'; ctx.strokeStyle = '#2d3436';
+            ctx.lineTo(p.x, p.y); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(p.x, p.y);
+            if(e.touches) e.preventDefault();
         }
-
-        function clearBoard() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
 
         canvas.addEventListener('mousedown', start);
         canvas.addEventListener('mousemove', draw);
         window.addEventListener('mouseup', stop);
-        canvas.addEventListener('touchstart', (e) => { start(e); e.preventDefault(); }, {passive: false});
-        canvas.addEventListener('touchmove', (e) => { draw(e); e.preventDefault(); }, {passive: false});
+        canvas.addEventListener('touchstart', (e) => { start(e); }, {passive: false});
+        canvas.addEventListener('touchmove', (e) => { draw(e); }, {passive: false});
         window.addEventListener('touchend', stop);
 
-        window.onload = () => { resize(); load('一'); };
-        window.onresize = resize;
+        window.addEventListener('resize', resize);
+        window.addEventListener('orientationchange', () => setTimeout(resize, 300));
     </script>
 </body>
 </html>

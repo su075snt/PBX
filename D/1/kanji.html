@@ -64,7 +64,7 @@
         }
         .box { 
             display: flex; align-items: center; justify-content: center; 
-            padding: 4px; /* giảm padding để tận dụng không gian */
+            padding: 0; /* Không padding để tận dụng tối đa không gian vẽ */
             position: relative; 
         }
         
@@ -72,14 +72,12 @@
             max-width: 80%; max-height: 80%; object-fit: contain; border-radius: 12px; 
         }
 
-        /* BẢNG VẼ - bỏ viền đen bên ngoài */
+        /* BẢNG VẼ - chiếm toàn bộ box bên phải */
         .canvas-container { 
-            position: relative; width: 100%; aspect-ratio: 1/1; 
-            max-width: min(450px, 45vh, 45vw);
-            border: none; /* loại bỏ viền đen */
+            position: relative; width: 100%; height: 100%; 
+            border: none; 
             background: white; 
-            border-radius: 8px;
-            container-type: inline-size;
+            container-type: size; /* Cho phép container query dựa trên cả chiều rộng và cao */
         }
         canvas { 
             width: 100%; height: 100%; touch-action: none; display: block;
@@ -91,9 +89,10 @@
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
             color: rgba(0,0,0,0.05); 
             pointer-events: none; white-space: nowrap; line-height: 1;
-            /* Fallback */
+            /* Fallback cho trình duyệt cũ */
             font-size: min(400px, 40vw, 40vh);
         }
+        /* Container query: kích thước chữ bằng 80% kích thước nhỏ hơn của container */
         @container (min-width: 1px) {
             #trace-text {
                 font-size: min(80cqi, 80cqh);
@@ -109,10 +108,7 @@
             .main-view .box:last-child {
                 flex: 3;
             }
-            .box { padding: 4px; }
-            .canvas-container { 
-                max-width: min(400px, 80vw);
-            }
+            .box { padding: 0; }
         }
     </style>
 </head>

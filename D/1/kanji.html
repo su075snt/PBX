@@ -47,6 +47,14 @@
             padding-left: max(15px, env(safe-area-inset-left));
             padding-right: max(15px, env(safe-area-inset-right));
         }
+        .nav-bottom {
+            padding: 8px 15px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            background: #f0f2f5;
+            border-bottom: 1px solid #ddd;
+        }
         .btn-nav { 
             padding: 8px 14px; border: none; border-radius: 10px; font-weight: 600; 
             font-size: 15px; cursor: pointer; background: #eee; color: #333;
@@ -55,6 +63,12 @@
         .btn-nav:active { opacity: 0.7; }
         .btn-back { background: #e0e0e0; }
         .btn-clear { background: var(--danger); color: white; }
+        .btn-prev-next {
+            min-width: 80px;
+            background: #ffffff;
+            border: 1px solid #aaa;
+            font-size: 16px;
+        }
 
         .main-view { 
             flex: 1; display: flex; flex-direction: row; overflow: hidden;
@@ -114,6 +128,12 @@
             <button class="btn-nav btn-clear" onclick="clearBoard()">消す</button>
         </div>
 
+        <!-- Hai nút điều hướng thêm vào -->
+        <div class="nav-bottom">
+            <button class="btn-nav btn-prev-next" onclick="prevKanji()">← 前</button>
+            <button class="btn-nav btn-prev-next" onclick="nextKanji()">次 →</button>
+        </div>
+
         <div class="main-view">
             <div class="box">
                 <img id="kanji-gif" src="" alt="GIF" onerror="this.style.display='none'">
@@ -153,7 +173,7 @@
                 "百":6, "文":4, "木":4, "本":5, "名":6, "目":5, "立":5, "力":2, "林":8
             };
 
-            // --- CÁCH ĐỌC (furigana) cho mỗi Kanji (hiragana, thể hiện như たま, いち, おんな) ---
+            // --- CÁCH ĐỌC (furigana) cho mỗi Kanji ---
             const readings = {
                 "一": "いち", "右": "みぎ", "雨": "あめ", "円": "えん", "王": "おう",
                 "音": "おと", "下": "した", "火": "ひ", "花": "はな", "貝": "かい",
@@ -179,6 +199,7 @@
             // --- BIẾN TOÀN CỤC ---
             let canvas, ctx, gif, trace, title, home, learn;
             let drawing = false;
+            let currentIndex = 0;          // chỉ số kanji hiện tại trong kanjiData
 
             function init() {
                 home = document.getElementById('home-screen');
@@ -213,28 +234,54 @@
                 window.addEventListener('orientationchange', () => setTimeout(() => requestAnimationFrame(resizeCanvas), 100));
             }
 
-            function startLearn(k) {
-                home.style.display = 'none';
-                learn.style.display = 'flex';
-
-                // Hiển thị chữ kèm cách đọc (nếu có)
+            // Cập nhật màn hình học với kanji k
+            function updateLearnScreen(k) {
                 const reading = readings[k] || '';
-                title.innerText = '' + k +  (reading ? ' (' + reading + ')' : '');
-
-                trace.innerText = k;  // chữ mờ để tập viết
-                gif.src = k + '-order.gif';  // giả định file ảnh động theo tên
+                title.innerText = k + (reading ? ' (' + reading + ')' : '');
+                trace.innerText = k;
+                gif.src = k + '-order.gif';   // file ảnh động theo tên
                 gif.style.display = '';
+                clearBoard();                  // xóa nét vẽ cũ
                 requestAnimationFrame(() => setTimeout(resizeCanvas, 50));
             }
 
-            // Hàm global cho nút back
+            // Bắt đầu học một kanji từ grid
+            function startLearn(k) {
+                home.style.display = 'none';
+                learn.style.display = 'flex';
+                currentIndex = kanjiData.indexOf(k);
+                if (currentIndex === -1) currentIndex = 0; // dự phòng
+                updateLearnScreen(k);
+            }
+
+            // Điều hướng: Kanji trước đó
+            window.prevKanji = function() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateLearnScreen(kanjiData[currentIndex]);
+                } else {
+                    // có thể thông báo nhẹ (tuỳ chọn)
+                }
+            };
+
+            // Điều hướng: Kanji tiếp theo
+            window.nextKanji = function() {
+                if (currentIndex < kanjiData.length - 1) {
+                    currentIndex++;
+                    updateLearnScreen(kanjiData[currentIndex]);
+                } else {
+                    // đã là cuối cùng
+                }
+            };
+
+            // Về màn hình chính
             window.goHome = function() {
                 home.style.display = 'flex';
                 learn.style.display = 'none';
                 gif.src = '';
             };
 
-            // Hàm global cho nút xóa
+            // Xóa bảng vẽ
             window.clearBoard = function() {
                 if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
             };

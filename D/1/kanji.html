@@ -40,34 +40,42 @@
         }
 
         .nav-top { 
-            padding: 10px 15px; border-bottom: 1px solid #eee; display: flex; 
-            justify-content: space-between; align-items: center; 
+            padding: 10px 15px; 
+            border-bottom: 1px solid #eee; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
             background: var(--header-bg);
             padding-top: max(10px, env(safe-area-inset-top)); 
             padding-left: max(15px, env(safe-area-inset-left));
             padding-right: max(15px, env(safe-area-inset-right));
         }
-        .nav-bottom {
-            padding: 8px 15px;
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            background: #f0f2f5;
-            border-bottom: 1px solid #ddd;
-        }
         .btn-nav { 
-            padding: 8px 14px; border: none; border-radius: 10px; font-weight: 600; 
-            font-size: 15px; cursor: pointer; background: #eee; color: #333;
+            padding: 8px 10px; 
+            border: none; 
+            border-radius: 10px; 
+            font-weight: 600; 
+            font-size: 15px; 
+            cursor: pointer; 
+            background: #eee; 
+            color: #333;
             transition: opacity 0.2s; 
+            white-space: nowrap;
         }
         .btn-nav:active { opacity: 0.7; }
         .btn-back { background: #e0e0e0; }
         .btn-clear { background: var(--danger); color: white; }
         .btn-prev-next {
-            min-width: 80px;
             background: #ffffff;
             border: 1px solid #aaa;
-            font-size: 16px;
+        }
+        #current-title {
+            font-size: 18px;
+            margin: 0 5px;
+            text-align: center;
+            flex: 0 1 auto;
         }
 
         .main-view { 
@@ -122,16 +130,13 @@
     </div>
 
     <div id="learn-screen">
+        <!-- Thanh trên cùng với 5 nút:戻る 前 title 次 消す -->
         <div class="nav-top">
             <button class="btn-nav btn-back" onclick="goHome()">←戻る</button>
+            <button class="btn-nav btn-prev-next" onclick="prevKanji()">←前</button>
             <h2 id="current-title" style="font-size: 18px;">一</h2>
+            <button class="btn-nav btn-prev-next" onclick="nextKanji()">次→</button>
             <button class="btn-nav btn-clear" onclick="clearBoard()">消す</button>
-        </div>
-
-        <!-- Hai nút điều hướng thêm vào -->
-        <div class="nav-bottom">
-            <button class="btn-nav btn-prev-next" onclick="prevKanji()">← 前</button>
-            <button class="btn-nav btn-prev-next" onclick="nextKanji()">次 →</button>
         </div>
 
         <div class="main-view">

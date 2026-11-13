@@ -145,7 +145,7 @@
         function listenToNotes(uid) {
          const q = collection(db, "notes");
             unsubscribeNotes = onSnapshot(q, (snapshot) => {
-                allNotes = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+               allNotes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 window.searchNotes();
             }, (error) => {
                 alert("Chưa cấp quyền Firestore hoặc lỗi kết nối: " + error.message);

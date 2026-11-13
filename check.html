@@ -143,11 +143,7 @@
 
         // Chỉ lắng nghe ghi chú của chính người dùng đang đăng nhập
         function listenToNotes(uid) {
-            const q = query(
-                collection(db, "notes"),
-                where("uid", "==", uid),
-                orderBy("createdAt", "desc")
-            );
+         const q = collection(db, "notes");
             unsubscribeNotes = onSnapshot(q, (snapshot) => {
                 allNotes = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
                 window.searchNotes();

@@ -28,6 +28,7 @@
         .card-actions { position: absolute; top: 15px; right: 15px; display: flex; gap: 5px; }
         .action-btn { background: #f1f5f9; border: none; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; color: #475569; }
         .del-btn { color: #dc2626; }
+        .empty-state { text-align: center; color: #94a3b8; padding: 60px 20px; font-size: 15px; grid-column: 1 / -1; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; z-index: 100; }
         .modal-content { background: #fff; padding: 25px; border-radius: 14px; width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 12px; }
         .modal-content input, .modal-content select, .modal-content textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; }
@@ -35,10 +36,11 @@
         .modal-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
         .btn-save { background: #0284c7; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
         .btn-cancel { background: #e2e8f0; color: #334155; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; }
+        .user-info { color: #94a3b8; font-size: 12px; padding: 0 15px 10px; word-break: break-all; }
         @media (max-width: 768px) {
             body { flex-direction: column; }
             .sidebar { width: 100%; flex-direction: row; overflow-x: auto; padding: 10px; gap: 8px; align-items: center; }
-            .sidebar h2 { display: none; }
+            .sidebar h2, .user-info { display: none; }
             .add-btn, .folder-btn, .logout-btn { margin: 0; white-space: nowrap; padding: 9px 12px; }
         }
     </style>
@@ -58,6 +60,7 @@
         <button class="folder-btn" onclick="filterFolder('hoc-tap', this)">📚 Học tập</button>
         <button class="folder-btn" onclick="filterFolder('tai-chinh', this)">💰 Tài chính</button>
         <button class="folder-btn" onclick="filterFolder('ca-nhan', this)">🏠 Cá nhân</button>
+        <div class="user-info" id="userInfo"></div>
         <button class="logout-btn" id="logoutBtn">Đăng xuất</button>
     </div>
 
@@ -84,14 +87,23 @@
             </div>
         </div>
     </div>
-    <script type="module">
-        import { initializeApp } from "https://gstatic.com";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://gstatic.com";
-        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://gstatic.com";
 
+    <!-- Firebase SDK (bản CDN, dùng được trực tiếp trong file HTML, không cần npm/build) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+        import {
+            getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import {
+            getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
+            onSnapshot, query, orderBy, where
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Config lấy đúng từ Firebase Console mà bạn cung cấp
         const firebaseConfig = {
             apiKey: "AIzaSyBUlAoGuqXozE3b6v9Ok4gCqrHQyu4VQPM",
-            authDomain: "://firebaseapp.com",
+            authDomain: "ghichu-b7c6a.firebaseapp.com",
             projectId: "ghichu-b7c6a",
             storageBucket: "ghichu-b7c6a.firebasestorage.app",
             messagingSenderId: "320675514223",
@@ -100,6 +112,7 @@
         };
 
         const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
         const auth = getAuth(app);
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
@@ -107,24 +120,36 @@
         let allNotes = [];
         let currentFolder = 'all';
         let unsubscribeNotes = null;
+        let currentUser = null;
 
-        document.getElementById('loginBtn').onclick = () => signInWithPopup(auth, provider).catch(e => alert("Lỗi đăng nhập: " + e.message));
+        document.getElementById('loginBtn').onclick = () => {
+            signInWithPopup(auth, provider).catch(e => alert("Lỗi đăng nhập: " + e.message));
+        };
         document.getElementById('logoutBtn').onclick = () => signOut(auth);
 
         onAuthStateChanged(auth, (user) => {
+            currentUser = user;
             if (user) {
                 document.getElementById('loginScreen').style.display = 'none';
-                listenToNotes();
+                document.getElementById('userInfo').innerText = user.email || user.displayName || '';
+                listenToNotes(user.uid);
             } else {
                 document.getElementById('loginScreen').style.display = 'flex';
                 if (unsubscribeNotes) unsubscribeNotes();
+                allNotes = [];
+                document.getElementById('notesContainer').innerHTML = '';
             }
         });
 
-        function listenToNotes() {
-            const q = query(collection(db, "notes"), orderBy("createdAt", "desc"));
+        // Chỉ lắng nghe ghi chú của chính người dùng đang đăng nhập
+        function listenToNotes(uid) {
+            const q = query(
+                collection(db, "notes"),
+                where("uid", "==", uid),
+                orderBy("createdAt", "desc")
+            );
             unsubscribeNotes = onSnapshot(q, (snapshot) => {
-                allNotes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                allNotes = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
                 window.searchNotes();
             }, (error) => {
                 alert("Chưa cấp quyền Firestore hoặc lỗi kết nối: " + error.message);
@@ -132,6 +157,7 @@
         }
 
         document.getElementById('saveNoteBtn').onclick = async () => {
+            if (!currentUser) return alert("Bạn chưa đăng nhập!");
             const id = document.getElementById('editNoteId').value;
             const folderVal = document.getElementById('noteFolder').value.split('|');
             const title = document.getElementById('noteTitle').value.trim();
@@ -148,6 +174,7 @@
                     });
                 } else {
                     await addDoc(collection(db, "notes"), {
+                        uid: currentUser.uid,
                         folder: folderVal[0],
                         folderName: folderVal[1],
                         title: title,
@@ -164,6 +191,7 @@
         window.openAddModal = () => {
             document.getElementById('modalTitle').innerText = "✍️ Thêm ghi chú mới";
             document.getElementById('editNoteId').value = "";
+            document.getElementById('noteFolder').value = "ca-nhan|Cá nhân";
             document.getElementById('noteTitle').value = "";
             document.getElementById('noteContent').value = "";
             document.getElementById('noteModal').style.display = 'flex';
@@ -182,7 +210,11 @@
 
         window.deleteNote = async (id) => {
             if (!confirm("Bạn có chắc muốn xóa ghi chú này?")) return;
-            await deleteDoc(doc(db, "notes", id));
+            try {
+                await deleteDoc(doc(db, "notes", id));
+            } catch (e) {
+                alert("Lỗi khi xóa: " + e.message);
+            }
         };
 
         window.closeModal = () => document.getElementById('noteModal').style.display = 'none';
@@ -193,6 +225,13 @@
             btn.classList.add('active');
             window.searchNotes();
         };
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
 
         function removeAccents(str) {
             return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
@@ -206,16 +245,22 @@
                 return matchFolder && fullText.includes(keyword);
             });
 
-            document.getElementById('notesContainer').innerHTML = filtered.map(note => `
+            const container = document.getElementById('notesContainer');
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state">Không có ghi chú nào. Hãy thêm ghi chú mới!</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(note => `
                 <div class="note-card">
                     <div class="card-actions">
                         <button class="action-btn" onclick="copyText('${note.id}', this)">Chép</button>
                         <button class="action-btn" onclick="openEditModal('${note.id}')">Sửa</button>
                         <button class="action-btn del-btn" onclick="deleteNote('${note.id}')">Xóa</button>
                     </div>
-                    <span class="note-tag">${note.folderName}</span>
-                    <div class="note-title">${note.title}</div>
-                    <div class="note-content">${note.content}</div>
+                    <span class="note-tag">${escapeHtml(note.folderName)}</span>
+                    <div class="note-title">${escapeHtml(note.title)}</div>
+                    <div class="note-content">${escapeHtml(note.content)}</div>
                 </div>
             `).join('');
         };

@@ -1,4 +1,236 @@
 <!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sổ Tay Ghi Chú Cá Nhân</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { display: flex; height: 100vh; background: #f4f6f8; color: #333; }
+        #loginScreen { position: fixed; inset: 0; background: #0f172a; color: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999; padding: 20px; text-align: center; }
+        #loginScreen h1 { font-size: 26px; margin-bottom: 10px; color: #38bdf8; }
+        #loginScreen p { color: #94a3b8; margin-bottom: 25px; font-size: 15px; }
+        .google-btn { background: #fff; color: #0f172a; border: none; padding: 14px 28px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .sidebar { width: 260px; background: #1e293b; color: #fff; display: flex; flex-direction: column; padding: 20px; }
+        .sidebar h2 { font-size: 18px; margin-bottom: 15px; color: #38bdf8; }
+        .add-btn { background: #0284c7; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; margin-bottom: 20px; }
+        .folder-btn { background: none; border: none; color: #cbd5e1; text-align: left; padding: 11px 15px; border-radius: 8px; cursor: pointer; font-size: 15px; margin-bottom: 5px; }
+        .folder-btn:hover, .folder-btn.active { background: #334155; color: #fff; font-weight: bold; }
+        .logout-btn { margin-top: auto; background: #334155; color: #f87171; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: bold; }
+        .main { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
+        .search-box { width: 100%; padding: 12px 16px; font-size: 16px; border: 2px solid #cbd5e1; border-radius: 10px; outline: none; margin-bottom: 20px; }
+        .search-box:focus { border-color: #0284c7; }
+        .notes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+        .note-card { background: #fff; padding: 18px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); border-left: 4px solid #0284c7; position: relative; }
+        .note-tag { font-size: 12px; background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 5px; display: inline-block; margin-bottom: 8px; font-weight: 600; }
+        .note-title { font-size: 17px; font-weight: bold; margin-bottom: 8px; color: #0f172a; padding-right: 95px; }
+        .note-content { font-size: 14px; line-height: 1.6; color: #475569; white-space: pre-line; }
+        .card-actions { position: absolute; top: 15px; right: 15px; display: flex; gap: 5px; }
+        .action-btn { background: #f1f5f9; border: none; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 12px; color: #475569; }
+        .del-btn { color: #dc2626; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 15px; z-index: 100; }
+        .modal-content { background: #fff; padding: 25px; border-radius: 14px; width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 12px; }
+        .modal-content input, .modal-content select, .modal-content textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; }
+        .modal-content textarea { height: 140px; resize: vertical; }
+        .modal-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
+        .btn-save { background: #0284c7; color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-cancel { background: #e2e8f0; color: #334155; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; }
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; flex-direction: row; overflow-x: auto; padding: 10px; gap: 8px; align-items: center; }
+            .sidebar h2 { display: none; }
+            .add-btn, .folder-btn, .logout-btn { margin: 0; white-space: nowrap; padding: 9px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="loginScreen">
+        <h1>🔒 Sổ Tay Ghi Chú Riêng Tư</h1>
+        <p>Đăng nhập bằng tài khoản Google của bạn để truy cập dữ liệu đám mây</p>
+        <button class="google-btn" id="loginBtn">Đăng nhập với Google</button>
+    </div>
+
+    <div class="sidebar">
+        <h2>📁 SỔ TAY</h2>
+        <button class="add-btn" onclick="openAddModal()">+ Thêm mới</button>
+        <button class="folder-btn active" onclick="filterFolder('all', this)">📌 Tất cả</button>
+        <button class="folder-btn" onclick="filterFolder('cong-viec', this)">💼 Công việc</button>
+        <button class="folder-btn" onclick="filterFolder('hoc-tap', this)">📚 Học tập</button>
+        <button class="folder-btn" onclick="filterFolder('tai-chinh', this)">💰 Tài chính</button>
+        <button class="folder-btn" onclick="filterFolder('ca-nhan', this)">🏠 Cá nhân</button>
+        <button class="logout-btn" id="logoutBtn">Đăng xuất</button>
+    </div>
+
+    <div class="main">
+        <input type="text" id="searchInput" class="search-box" onkeyup="searchNotes()" placeholder="🔍 Tìm kiếm ghi chú (hỗ trợ gõ không dấu)...">
+        <div class="notes-grid" id="notesContainer"></div>
+    </div>
+
+    <div class="modal" id="noteModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">✍️ Thêm ghi chú mới</h3>
+            <input type="hidden" id="editNoteId">
+            <select id="noteFolder">
+                <option value="ca-nhan|Cá nhân">🏠 Cá nhân</option>
+                <option value="cong-viec|Công việc">💼 Công việc</option>
+                <option value="hoc-tap|Học tập">📚 Học tập</option>
+                <option value="tai-chinh|Tài chính">💰 Tài chính</option>
+            </select>
+            <input type="text" id="noteTitle" placeholder="Nhập tiêu đề ghi chú...">
+            <textarea id="noteContent" placeholder="Nhập nội dung chi tiết..."></textarea>
+            <div class="modal-btns">
+                <button class="btn-cancel" onclick="closeModal()">Hủy</button>
+                <button class="btn-save" id="saveNoteBtn">Lưu lại</button>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://gstatic.com";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://gstatic.com";
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://gstatic.com";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBUlAoGuqXozE3b6v9Ok4gCqrHQyu4VQPM",
+            authDomain: "://firebaseapp.com",
+            projectId: "ghichu-b7c6a",
+            storageBucket: "ghichu-b7c6a.firebasestorage.app",
+            messagingSenderId: "320675514223",
+            appId: "1:320675514223:web:40c4aa0bbcf5f1cb218a9a",
+            measurementId: "G-1JRJ3RC1D5"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        let allNotes = [];
+        let currentFolder = 'all';
+        let unsubscribeNotes = null;
+
+        document.getElementById('loginBtn').onclick = () => signInWithPopup(auth, provider).catch(e => alert("Lỗi đăng nhập: " + e.message));
+        document.getElementById('logoutBtn').onclick = () => signOut(auth);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('loginScreen').style.display = 'none';
+                listenToNotes();
+            } else {
+                document.getElementById('loginScreen').style.display = 'flex';
+                if (unsubscribeNotes) unsubscribeNotes();
+            }
+        });
+
+        function listenToNotes() {
+            const q = query(collection(db, "notes"), orderBy("createdAt", "desc"));
+            unsubscribeNotes = onSnapshot(q, (snapshot) => {
+                allNotes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                window.searchNotes();
+            }, (error) => {
+                alert("Chưa cấp quyền Firestore hoặc lỗi kết nối: " + error.message);
+            });
+        }
+
+        document.getElementById('saveNoteBtn').onclick = async () => {
+            const id = document.getElementById('editNoteId').value;
+            const folderVal = document.getElementById('noteFolder').value.split('|');
+            const title = document.getElementById('noteTitle').value.trim();
+            const content = document.getElementById('noteContent').value.trim();
+            if (!title || !content) return alert("Vui lòng nhập đủ tiêu đề và nội dung!");
+
+            try {
+                if (id) {
+                    await updateDoc(doc(db, "notes", id), {
+                        folder: folderVal[0],
+                        folderName: folderVal[1],
+                        title: title,
+                        content: content
+                    });
+                } else {
+                    await addDoc(collection(db, "notes"), {
+                        folder: folderVal[0],
+                        folderName: folderVal[1],
+                        title: title,
+                        content: content,
+                        createdAt: Date.now()
+                    });
+                }
+                window.closeModal();
+            } catch (e) {
+                alert("Lỗi khi lưu: " + e.message);
+            }
+        };
+
+        window.openAddModal = () => {
+            document.getElementById('modalTitle').innerText = "✍️ Thêm ghi chú mới";
+            document.getElementById('editNoteId').value = "";
+            document.getElementById('noteTitle').value = "";
+            document.getElementById('noteContent').value = "";
+            document.getElementById('noteModal').style.display = 'flex';
+        };
+
+        window.openEditModal = (id) => {
+            const note = allNotes.find(n => n.id === id);
+            if (!note) return;
+            document.getElementById('modalTitle').innerText = "✏️ Sửa ghi chú";
+            document.getElementById('editNoteId').value = note.id;
+            document.getElementById('noteFolder').value = `${note.folder}|${note.folderName}`;
+            document.getElementById('noteTitle').value = note.title;
+            document.getElementById('noteContent').value = note.content;
+            document.getElementById('noteModal').style.display = 'flex';
+        };
+
+        window.deleteNote = async (id) => {
+            if (!confirm("Bạn có chắc muốn xóa ghi chú này?")) return;
+            await deleteDoc(doc(db, "notes", id));
+        };
+
+        window.closeModal = () => document.getElementById('noteModal').style.display = 'none';
+
+        window.filterFolder = (folder, btn) => {
+            currentFolder = folder;
+            document.querySelectorAll('.folder-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            window.searchNotes();
+        };
+
+        function removeAccents(str) {
+            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
+        }
+
+        window.searchNotes = () => {
+            const keyword = removeAccents(document.getElementById('searchInput').value);
+            const filtered = allNotes.filter(note => {
+                const matchFolder = (currentFolder === 'all' || note.folder === currentFolder);
+                const fullText = removeAccents(note.title + ' ' + note.content + ' ' + note.folderName);
+                return matchFolder && fullText.includes(keyword);
+            });
+
+            document.getElementById('notesContainer').innerHTML = filtered.map(note => `
+                <div class="note-card">
+                    <div class="card-actions">
+                        <button class="action-btn" onclick="copyText('${note.id}', this)">Chép</button>
+                        <button class="action-btn" onclick="openEditModal('${note.id}')">Sửa</button>
+                        <button class="action-btn del-btn" onclick="deleteNote('${note.id}')">Xóa</button>
+                    </div>
+                    <span class="note-tag">${note.folderName}</span>
+                    <div class="note-title">${note.title}</div>
+                    <div class="note-content">${note.content}</div>
+                </div>
+            `).join('');
+        };
+
+        window.copyText = (id, btn) => {
+            const note = allNotes.find(n => n.id === id);
+            if (!note) return;
+            navigator.clipboard.writeText(note.content);
+            btn.innerText = "Xong!";
+            setTimeout(() => btn.innerText = "Chép", 1500);
+        };
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">

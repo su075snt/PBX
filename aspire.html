@@ -4,48 +4,142 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cây thư mục cấu hình PBX</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; margin: 20px; }
-        .container { max-width: 1100px; margin: auto; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 20px; }
-        .search-box { display: flex; margin-bottom: 20px; gap: 10px; }
-        #searchInput { flex: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
-        #clearBtn { padding: 8px 16px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        .tree ul { list-style-type: none; padding-left: 25px; margin: 5px 0; }
-        .tree li { margin: 6px 0; line-height: 1.6; position: relative; list-style: none; }
-        .tree li::before { content: none !important; }
-        .tree li.collapsible > .folder-name::before { content: "📁 "; color: #f7d354; font-size: 1.1em; margin-right: 5px; }
-        .root > li.collapsible > .folder-name::before { content: "📂 "; }
-        .tree li:not(.collapsible) summary::before,
-        .tree li:not(.collapsible) .item-name::before { content: "📄 "; font-size: 1em; margin-right: 8px; color: #1a73e8; }
-        li.collapsible > .folder-name::before { display: inline-block; transition: transform 0.2s; }
-        li.collapsible > .folder-name { cursor: pointer; font-weight: 500; }
-        li.collapsible > .folder-name::after { content: " ▼"; font-size: 0.7em; color: #999; }
-        li.collapsible.collapsed > .folder-name::after { content: " ▶"; }
-        li.collapsible.collapsed > ul { display: none; }
-        .note-item { margin: 5px 0; padding: 10px; background-color: #fcfcfc; border-left: 3px solid #1a73e8; font-size: 14px; color: #333; position: relative; }
-        mark { background-color: yellow !important; color: black !important; display: inline-block; padding: 0 2px; border-radius: 2px; }
-        .tree li.hidden { display: none; }
+   <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4;
+        margin: 20px;
+    }
+    .container {
+        max-width: 1100px;
+        margin: auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 20px;
+    }
 
-        /* ===== NOTE TOOLBAR / EDIT ===== */
-        .note-actions { float: right; display: inline-flex; gap: 3px; margin-left: 8px; opacity: 0.3; transition: opacity 0.15s; user-select: none; }
-        .note-item:hover .note-actions { opacity: 1; }
-        .note-btn { background: white; border: 1px solid #ccc; border-radius: 3px; padding: 1px 5px; cursor: pointer; font-size: 11px; line-height: 1; font-family: inherit; }
-        .note-btn:hover { background: #f0f0f0; }
-        .note-btn.del-btn:hover { background: #ffebee; border-color: #dc3545; }
-        .note-item[contenteditable="true"] { outline: 2px solid #1a73e8; background: #f0f8ff; }
-        .edit-actions { display: block; margin-top: 6px; }
-        .edit-actions button { padding: 2px 10px; border-radius: 3px; border: 1px solid #ccc; cursor: pointer; font-size: 12px; font-family: inherit; margin-right: 4px; }
-        .edit-actions .save-btn { background: #1a73e8; color: white; border-color: #1a73e8; }
-        .edit-actions .cancel-btn { background: white; color: #333; }
-        .note-item[data-deleted="true"] { display: none !important; }
+    /* --- SEARCH BOX --- */
+    .search-box {
+        display: flex;
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+    #searchInput {
+        flex: 1;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    #clearBtn {
+        padding: 8px 16px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 
-        #toast { position: fixed; bottom: 20px; right: 20px; background: #333; color: #fff; padding: 10px 20px; border-radius: 6px; font-size: 14px; opacity: 0; transition: opacity 0.3s; z-index: 10001; pointer-events: none; }
-        #toast.show { opacity: 1; }
-        #toast.error { background: #dc3545; }
-    </style>
+    /* --- TREE STRUCTURE --- */
+    .tree ul {
+        list-style-type: none;
+        padding-left: 25px;
+        margin: 5px 0;
+    }
+    .tree li {
+        margin: 6px 0;
+        line-height: 1.6;
+        position: relative;
+        list-style: none; /* Đảm bảo không có dấu chấm mặc định */
+    }
+
+    /* Xóa bỏ icon mặc định của tất cả li để tránh bị thừa */
+    .tree li::before {
+        content: none !important;
+    }
+
+    /* --- ICON CHO FOLDER (THƯ MỤC CHA) --- */
+    /* Chỉ áp dụng cho li có class collapsible */
+    .tree li.collapsible > .folder-name::before {
+        content: "📁 ";
+        color: #f7d354;
+        font-size: 1.1em;
+        margin-right: 5px;
+    }
+
+    /* Thư mục gốc (Root) */
+    .root > li.collapsible > .folder-name::before {
+        content: "📂 ";
+    }
+
+    /* --- ICON CHO FILE (ITEM CON NHƯ 15-07-01) --- */
+    /* Nhắm vào summary hoặc item-name của những li KHÔNG phải collapsible */
+    .tree li:not(.collapsible) summary::before,
+    .tree li:not(.collapsible) .item-name::before {
+        content: "📄 ";
+        font-size: 1em;
+        margin-right: 8px;
+        color: #1a73e8;
+    }
+
+    /* --- HIỆU ỨNG ĐÓNG MỞ (CHO FOLDER) --- */
+    li.collapsible > .folder-name::before {
+        display: inline-block;
+        transition: transform 0.2s;
+    }
+    /* Mũi tên nhỏ bên cạnh tên folder */
+    li.collapsible > .folder-name {
+        cursor: pointer;
+        font-weight: 500;
+    }
+    li.collapsible > .folder-name::after {
+        content: " ▼";
+        font-size: 0.7em;
+        color: #999;
+    }
+    li.collapsible.collapsed > .folder-name::after {
+        content: " ▶";
+    }
+    li.collapsible.collapsed > ul {
+        display: none;
+    }
+
+    /* --- PHẦN GHI CHÚ (NOTE-ITEM) --- */
+    .note-item {
+        margin: 5px 0;
+        padding: 10px;
+        background-color: #fcfcfc;
+        border-left: 3px solid #1a73e8;
+        font-size: 14px;
+        color: #333;
+    }
+
+    /* --- HIGHLIGHT KHI TÌM KIẾM --- */
+    mark {
+        background-color: #ffeb3b;
+        color: #000;
+        padding: 0 2px;
+        border-radius: 2px;
+        font-weight: bold;
+    }
+
+    /* Ẩn các phần tử khi lọc không khớp */
+    .tree li.hidden {
+        display: none;
+    }
+	mark {
+    background-color: yellow !important;
+    color: black !important;
+    display: inline-block;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+</style>
 </head>
 <body>
     <div class="container">
+        
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Tìm kiếm thư mục..." autocomplete="off">
             <button id="clearBtn">Xóa</button>
@@ -347,6 +441,7 @@
                                       <li class="collapsible">
 											<span class="folder-name">10-33 SIPRegistrar/Proxy情報基本設定<</span>
 											<ul style="list-style: none; padding-left: 20px; margin: 0;">
+												<!-- Thay class item-name bằng style trực tiếp để tránh bị dính icon folder dư -->
 												<li style="list-style: none; margin-top: 5px;">
 													<details>
 														<summary style="cursor: pointer; list-style: none; outline: none; font-weight: bold; color: #1a73e8; display: flex; align-items: center;">
@@ -396,6 +491,7 @@
                                          <li class="collapsible">
 											<span class="folder-name">IP 多機能電話機サーバ情報設定<</span>
 											<ul style="list-style: none; padding-left: 20px; margin: 0;">
+												<!-- Thay class item-name bằng style trực tiếp để tránh bị dính icon folder dư -->
 												<li style="list-style: none; margin-top: 5px;">
 													<details>
 														<summary style="cursor: pointer; list-style: none; outline: none; font-weight: bold; color: #1a73e8; display: flex; align-items: center;">
@@ -460,6 +556,7 @@
                                      <li class="collapsible">
 											<span class="folder-name">10-54 各種ユニットのライセンス設定<</span>
 											<ul style="list-style: none; padding-left: 20px; margin: 0;">
+												<!-- Thay class item-name bằng style trực tiếp để tránh bị dính icon folder dư -->
 												<li style="list-style: none; margin-top: 5px;">
 													<details>
 														<summary style="cursor: pointer; list-style: none; outline: none; font-weight: bold; color: #1a73e8; display: flex; align-items: center;">
@@ -2166,473 +2263,182 @@ KASOU
             </ul>
         </div>
     </div>
+ <script>
+(function() {
+    // ... CÁC HÀM CŨ CỦA BẠN GIỮ NGUYÊN (escapeRegex, removeAllHighlights, v.v.)
+    function escapeRegex(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
 
-    <div id="toast"></div>
-
-    <!-- Firebase compat SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
-    <script>
-    (function () {
-        'use strict';
-
-        /* ================= TOAST ================= */
-        function showToast(msg, isError) {
-            const t = document.getElementById('toast');
-            if (!t) return;
-            t.textContent = msg;
-            t.className = 'show' + (isError ? ' error' : '');
-            clearTimeout(t._timer);
-            t._timer = setTimeout(() => { t.className = ''; }, 2200);
-        }
-
-        /* ================= FIREBASE ================= */
-        let db = null;
-        let firebaseReady = false;
-        try {
-            if (typeof firebase !== 'undefined' && firebase.initializeApp) {
-                const firebaseConfig = {
-                    apiKey: "AIzaSyBUlAoGuqXozE3b6v9Ok4gCqrHQyu4VQPM",
-                    authDomain: "ghichu-b7c6a.firebaseapp.com",
-                    projectId: "ghichu-b7c6a",
-                    storageBucket: "ghichu-b7c6a.firebasestorage.app",
-                    messagingSenderId: "320675514223",
-                    appId: "1:320675514223:web:40c4aa0bbcf5f1cb218a9a",
-                    measurementId: "G-1JRJ3RC1D5"
-                };
-                firebase.initializeApp(firebaseConfig);
-                db = firebase.firestore();
-                firebaseReady = true;
+    function removeAllHighlights() {
+        document.querySelectorAll('.tree mark').forEach(mark => {
+            const parent = mark.parentNode;
+            if (parent) {
+                const textNode = document.createTextNode(mark.textContent);
+                parent.replaceChild(textNode, mark);
+                parent.normalize();
             }
-        } catch (e) {
-            console.warn('Firebase init failed:', e);
-        }
+        });
+    }
 
-        /* ================= NOTE KEY ================= */
-        function getItemCode(li) {
-            let cur = li;
-            while (cur && cur.tagName === 'LI') {
-                const folder = cur.querySelector(':scope > .folder-name');
-                const item = cur.querySelector(':scope > .item-name');
-                let txt = '';
-                if (folder) txt = folder.textContent;
-                else if (item) {
-                    const s = item.querySelector(':scope > summary');
-                    txt = s ? s.textContent : item.textContent;
-                }
-                const m = txt && txt.match(/(\d{2}(?:-\d{2}){1,2}(?:-[A-Za-z0-9]+)?)/);
-                if (m) return m[1];
-                cur = cur.parentElement ? cur.parentElement.closest('li') : null;
-            }
-            return null;
-        }
-
-        function initNoteKeys() {
-            let fallback = 0;
-            document.querySelectorAll('.note-item').forEach(function (noteEl) {
-                if (noteEl.dataset.noteKey) return;
-                const li = noteEl.closest('li');
-                if (!li) { noteEl.dataset.noteKey = 'unknown_' + (fallback++); return; }
-                const code = getItemCode(li);
-                const all = li.querySelectorAll('.note-item');
-                const idx = Array.prototype.indexOf.call(all, noteEl);
-                noteEl.dataset.noteKey = code ? (code + '__' + idx) : ('unknown_' + (fallback++));
-            });
-        }
-
-        /* ================= LOAD / APPLY / SAVE ================= */
-        async function loadOverrides() {
-            if (!db) return {};
-            try {
-                const snap = await db.collection('ghichu_notes').get();
-                const out = {};
-                snap.forEach(function (d) { out[d.id] = d.data(); });
-                return out;
-            } catch (e) {
-                console.error('Load failed:', e);
-                showToast('Không tải được từ Firestore', true);
-                return {};
+    function highlightElement(element, term) {
+        if (!term || !element) return;
+        const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
+        const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+        const textNodes = [];
+        let node;
+        while (node = walker.nextNode()) {
+            if (node.parentNode.nodeName !== 'MARK') {
+                textNodes.push(node);
             }
         }
-
-        function applyOverrides(overrides) {
-            document.querySelectorAll('.note-item[data-note-key]').forEach(function (noteEl) {
-                const d = overrides[noteEl.dataset.noteKey];
-                if (!d) return;
-                if (d.isDeleted) {
-                    noteEl.style.display = 'none';
-                    noteEl.dataset.deleted = 'true';
-                } else if (typeof d.content === 'string') {
-                    noteEl.innerHTML = d.content;
-                    attachToolbarTo(noteEl);
-                }
-            });
-        }
-
-        async function saveNoteContent(key, content) {
-            if (!db) { showToast('Chưa kết nối DB', true); return false; }
-            try {
-                await db.collection('ghichu_notes').doc(key).set({
-                    content: content,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-                return true;
-            } catch (e) {
-                console.error(e);
-                showToast('Lỗi lưu: ' + e.message, true);
-                return false;
-            }
-        }
-
-        async function softDeleteNote(key) {
-            if (!db) { showToast('Chưa kết nối DB', true); return false; }
-            try {
-                await db.collection('ghichu_notes').doc(key).set({
-                    isDeleted: true,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-                return true;
-            } catch (e) {
-                console.error(e);
-                showToast('Lỗi xóa: ' + e.message, true);
-                return false;
-            }
-        }
-
-        async function createNote(key, content) {
-            if (!db) { showToast('Chưa kết nối DB', true); return false; }
-            try {
-                await db.collection('ghichu_notes').doc(key).set({
-                    content: content,
-                    isDeleted: false,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                return true;
-            } catch (e) {
-                console.error(e);
-                showToast('Lỗi thêm: ' + e.message, true);
-                return false;
-            }
-        }
-
-        /* ================= TOOLBAR + EDIT UI ================= */
-        function attachToolbarTo(noteEl) {
-            if (noteEl.querySelector(':scope > .note-actions')) return;
-            if (noteEl.dataset.deleted === 'true') return;
-
-            const bar = document.createElement('span');
-            bar.className = 'note-actions';
-            bar.setAttribute('data-no-search', 'true');
-            bar.innerHTML =
-                '<button class="note-btn add-btn" title="Thêm ghi chú">＋</button>' +
-                '<button class="note-btn edit-btn" title="Chỉnh sửa">✏️</button>' +
-                '<button class="note-btn del-btn" title="Xóa">🗑️</button>';
-
-            bar.addEventListener('click', async function (e) {
-                const btn = e.target.closest('button');
-                if (!btn) return;
-                e.preventDefault();
-                e.stopPropagation();
-                if (btn.classList.contains('edit-btn')) startEdit(noteEl);
-                else if (btn.classList.contains('del-btn')) await handleDelete(noteEl);
-                else if (btn.classList.contains('add-btn')) await handleAdd(noteEl);
-            });
-
-            noteEl.insertBefore(bar, noteEl.firstChild);
-        }
-
-        function startEdit(noteEl) {
-            if (noteEl.dataset.editing === 'true') return;
-            noteEl.dataset.editing = 'true';
-
-            // capture original (without toolbar)
-            const originalClone = noteEl.cloneNode(true);
-            originalClone.querySelectorAll('.note-actions, .edit-actions').forEach(function (el) { el.remove(); });
-            const originalHTML = originalClone.innerHTML;
-
-            const toolbar = noteEl.querySelector(':scope > .note-actions');
-            if (toolbar) toolbar.style.display = 'none';
-
-            noteEl.contentEditable = 'true';
-            noteEl.focus();
-
-            const editBar = document.createElement('div');
-            editBar.className = 'edit-actions';
-            editBar.setAttribute('data-no-search', 'true');
-            editBar.innerHTML =
-                '<button class="save-btn">💾 Lưu</button>' +
-                '<button class="cancel-btn">✖ Hủy</button>';
-            noteEl.appendChild(editBar);
-
-            const restoreToolbar = function () {
-                if (toolbar && !noteEl.contains(toolbar)) noteEl.insertBefore(toolbar, noteEl.firstChild);
-                if (toolbar) toolbar.style.display = '';
-            };
-
-            const finish = async function (save) {
-                if (noteEl.dataset.editing !== 'true') return;
-                noteEl.dataset.editing = 'false';
-                noteEl.contentEditable = 'false';
-
-                if (editBar.parentNode) editBar.remove();
-                if (toolbar && !noteEl.contains(toolbar)) noteEl.insertBefore(toolbar, noteEl.firstChild);
-                if (toolbar) toolbar.style.display = '';
-
-                if (!save) {
-                    noteEl.innerHTML = originalHTML;
-                    restoreToolbar();
-                    attachToolbarTo(noteEl);
-                    return;
-                }
-
-                // capture content WITHOUT toolbar/editbar/marks
-                const clone = noteEl.cloneNode(true);
-                clone.querySelectorAll('.note-actions, .edit-actions').forEach(function (el) { el.remove(); });
-                clone.querySelectorAll('mark').forEach(function (m) {
-                    m.replaceWith(document.createTextNode(m.textContent));
-                });
-                const content = clone.innerHTML.trim();
-
-                const ok = await saveNoteContent(noteEl.dataset.noteKey, content);
-                if (ok) {
-                    showToast('Đã lưu');
-                } else {
-                    noteEl.innerHTML = originalHTML;
-                }
-                restoreToolbar();
-                attachToolbarTo(noteEl);
-            };
-
-            editBar.querySelector('.save-btn').addEventListener('click', function (e) {
-                e.preventDefault(); e.stopPropagation(); finish(true);
-            });
-            editBar.querySelector('.cancel-btn').addEventListener('click', function (e) {
-                e.preventDefault(); e.stopPropagation(); finish(false);
-            });
-
-            const onKey = function (e) {
-                if (e.key === 'Escape') {
-                    noteEl.removeEventListener('keydown', onKey);
-                    finish(false);
-                }
-            };
-            noteEl.addEventListener('keydown', onKey);
-        }
-
-        async function handleDelete(noteEl) {
-            if (!confirm('Xóa ghi chú này?')) return;
-            const ok = await softDeleteNote(noteEl.dataset.noteKey);
-            if (ok) {
-                noteEl.style.display = 'none';
-                noteEl.dataset.deleted = 'true';
-                showToast('Đã xóa ghi chú');
-            }
-        }
-
-        async function handleAdd(referenceNote) {
-            const content = prompt('Nhập nội dung ghi chú mới:');
-            if (!content || !content.trim()) return;
-
-            const li = referenceNote.closest('li');
-            const code = (li && getItemCode(li)) || 'unknown';
-            const key = code + '__new_' + Date.now();
-            const html = content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
-
-            const newNote = document.createElement('p');
-            newNote.className = 'note-item';
-            newNote.dataset.noteKey = key;
-            newNote.innerHTML = html;
-
-            referenceNote.parentNode.insertBefore(newNote, referenceNote.nextSibling);
-
-            const ok = await createNote(key, html);
-            if (ok) {
-                attachToolbarTo(newNote);
-                showToast('Đã thêm ghi chú');
-            } else {
-                newNote.remove();
-            }
-        }
-
-        /* ================= SEARCH ================= */
-        function escapeRegex(s) {
-            return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        }
-
-        function removeAllHighlights() {
-            document.querySelectorAll('.tree mark').forEach(function (mark) {
-                const parent = mark.parentNode;
-                if (parent) {
-                    parent.replaceChild(document.createTextNode(mark.textContent), mark);
-                    parent.normalize();
-                }
-            });
-        }
-
-        function cleanText(el) {
-            const clone = el.cloneNode(true);
-            clone.querySelectorAll('[data-no-search], .note-actions, .edit-actions, .add-note-btn, mark, button').forEach(function (x) { x.remove(); });
-            return clone.textContent || '';
-        }
-
-        function highlightElement(el, term) {
-            if (!term || !el) return;
-            const regex = new RegExp('(' + escapeRegex(term) + ')', 'gi');
-            const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
-            const textNodes = [];
-            let n;
-            while ((n = walker.nextNode())) {
-                if (n.parentNode.nodeName === 'MARK') continue;
-                if (n.parentNode.closest && n.parentNode.closest('[data-no-search], .note-actions, .edit-actions, button')) continue;
-                textNodes.push(n);
-            }
-            textNodes.forEach(function (tn) {
-                const text = tn.textContent;
-                if (!regex.test(text)) return;
-                regex.lastIndex = 0;
-                const frag = document.createDocumentFragment();
-                text.split(regex).forEach(function (part) {
+        textNodes.forEach(textNode => {
+            const text = textNode.textContent;
+            if (regex.test(text)) {
+                const fragment = document.createDocumentFragment();
+                const parts = text.split(regex);
+                parts.forEach(part => {
                     if (part.toLowerCase() === term.toLowerCase()) {
-                        const m = document.createElement('mark');
-                        m.textContent = part;
-                        frag.appendChild(m);
+                        const mark = document.createElement('mark');
+                        mark.style.backgroundColor = 'yellow';
+                        mark.style.color = 'black';
+                        mark.textContent = part;
+                        fragment.appendChild(mark);
                     } else {
-                        frag.appendChild(document.createTextNode(part));
+                        fragment.appendChild(document.createTextNode(part));
                     }
                 });
-                tn.parentNode.replaceChild(frag, tn);
-            });
-        }
-
-        function filterTree(term) {
-            const allLis = document.querySelectorAll('.tree li');
-            const allNotes = document.querySelectorAll('.tree .note-item');
-            allLis.forEach(function (li) { li.style.display = 'none'; });
-            allNotes.forEach(function (n) { n.style.display = 'none'; });
-            removeAllHighlights();
-
-            if (!term || term.trim() === '') {
-                allLis.forEach(function (li) { li.style.display = ''; });
-                allNotes.forEach(function (n) {
-                    if (n.dataset.deleted !== 'true') n.style.display = '';
-                });
-                return;
+                textNode.parentNode.replaceChild(fragment, textNode);
             }
+        });
+    }
 
-            term = term.trim().toLowerCase();
-            const matching = new Set();
-            const matchingNotes = new Set();
-
-            allLis.forEach(function (li) {
-                const nameSpan = li.querySelector(':scope > .folder-name, :scope > .item-name, :scope > details > summary');
-                if (!nameSpan) return;
-                const text = cleanText(nameSpan).toLowerCase();
-                if (text.indexOf(term) !== -1) {
-                    matching.add(li);
-                    highlightElement(nameSpan, term);
-                }
-            });
-
-            allNotes.forEach(function (note) {
-                if (note.dataset.deleted === 'true') return;
-                if (cleanText(note).toLowerCase().indexOf(term) !== -1) {
-                    matchingNotes.add(note);
-                    const li = note.closest('li');
-                    if (li) matching.add(li);
-                    highlightElement(note, term);
-                }
-            });
-
-            const toShow = new Set(matching);
-            matching.forEach(function (li) {
-                let p = li.parentElement ? li.parentElement.closest('li') : null;
-                while (p) { toShow.add(p); p = p.parentElement ? p.parentElement.closest('li') : null; }
-            });
-
-            toShow.forEach(function (li) {
-                li.style.display = '';
-                li.classList.remove('collapsed');
-                const d = li.querySelector(':scope > details');
-                if (d) d.open = true;
-                let p = li.parentElement ? li.parentElement.closest('li') : null;
-                while (p) {
-                    p.style.display = '';
-                    p.classList.remove('collapsed');
-                    const pd = p.querySelector(':scope > details');
-                    if (pd) pd.open = true;
-                    p = p.parentElement ? p.parentElement.closest('li') : null;
-                }
-            });
-
-            allNotes.forEach(function (note) {
-                if (note.dataset.deleted === 'true') return;
-                if (matchingNotes.has(note)) note.style.display = '';
-            });
-        }
-
-        /* ================= COLLAPSE ================= */
-        function initCollapse() {
-            document.querySelectorAll('.folder-name, summary').forEach(function (span) {
-                if (span.dataset.listener) return;
-                span.addEventListener('click', function (e) {
-                    if (e.target.closest('.note-actions, .edit-actions, .note-btn, .add-note-btn, [contenteditable="true"]')) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        return;
-                    }
+    function initCollapse() {
+        document.querySelectorAll('.folder-name, summary').forEach(span => {
+            if (!span.dataset.listener) {
+                span.addEventListener('click', function(e) {
                     const li = this.closest('li');
                     if (li && li.classList.contains('collapsible')) {
                         li.classList.toggle('collapsed');
                     }
                 });
                 span.dataset.listener = 'true';
-            });
-        }
-
-        function resetTree() {
-            document.querySelectorAll('.tree li').forEach(function (li) { li.style.display = ''; });
-            document.querySelectorAll('.tree li.collapsible').forEach(function (li) { li.classList.add('collapsed'); });
-            document.querySelectorAll('.tree details').forEach(function (d) { d.open = false; });
-            removeAllHighlights();
-            document.querySelectorAll('.tree .note-item').forEach(function (n) {
-                if (n.dataset.deleted !== 'true') n.style.display = '';
-            });
-        }
-
-        /* ================= BOOTSTRAP ================= */
-        async function init() {
-            initNoteKeys();
-
-            if (firebaseReady) {
-                const overrides = await loadOverrides();
-                applyOverrides(overrides);
-            } else {
-                showToast('Firebase chưa kết nối - chế độ chỉ đọc', true);
             }
+        });
+    }
 
-            document.querySelectorAll('.note-item').forEach(attachToolbarTo);
-            initCollapse();
-            resetTree();
+    function resetTree() {
+        document.querySelectorAll('.tree li').forEach(li => {
+            li.style.display = '';
+        });
+        document.querySelectorAll('.tree li.collapsible').forEach(li => {
+            li.classList.add('collapsed');
+        });
+        document.querySelectorAll('.tree details').forEach(d => d.open = false);
+        const rootLi = document.getElementById('root-folder');
+        if (rootLi) rootLi.classList.remove('collapsed');
+        removeAllHighlights();
+        document.querySelectorAll('.tree p, .tree div, .tree .note-item').forEach(note => {
+            note.style.display = '';
+        });
+    }
 
-            const searchInput = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('clearBtn');
+    function filterTree(term) {
+        const allLis = document.querySelectorAll('.tree li');
+        const allNotes = document.querySelectorAll('.tree p, .tree div, .tree .note-item');
+        allLis.forEach(li => li.style.display = 'none');
+        allNotes.forEach(note => note.style.display = 'none');
+        removeAllHighlights();
+        if (!term || term.trim() === "") {
+            allLis.forEach(li => li.style.display = '');
+            allNotes.forEach(note => note.style.display = '');
+            return;
+        }
+        term = term.trim().toLowerCase();
+        const matchingLis = new Set();
+        const matchingNotes = new Set();
+        allLis.forEach(li => {
+            const nameSpan = li.querySelector('.folder-name, .item-name, summary');
+            const itemName = nameSpan ? nameSpan.innerText.toLowerCase() : "";
+            const romajiText = nameSpan ? (nameSpan.getAttribute('data-search') || "").toLowerCase() : "";
+            if (itemName.includes(term) || romajiText.includes(term)) {
+                matchingLis.add(li);
+                highlightElement(nameSpan, term);
+            }
+        });
+        allNotes.forEach(note => {
+            if (note.innerText.toLowerCase().includes(term)) {
+                matchingNotes.add(note);
+                const parentLi = note.closest('li');
+                if (parentLi) matchingLis.add(parentLi);
+                highlightElement(note, term);
+            }
+        });
+        const ancestors = new Set();
+        matchingLis.forEach(li => {
+            let parent = li.parentElement.closest('li');
+            while (parent) {
+                ancestors.add(parent);
+                parent = parent.parentElement.closest('li');
+            }
+        });
+        const toShow = new Set([...matchingLis, ...ancestors]);
+        toShow.forEach(li => {
+            li.style.display = '';
+            let parent = li.parentElement.closest('li');
+            while (parent) {
+                parent.style.display = '';
+                parent.classList.remove('collapsed');
+                const details = parent.querySelector(':scope > details');
+                if (details) details.open = true;
+                parent = parent.parentElement.closest('li');
+            }
+        });
+        allNotes.forEach(note => {
+            const parentLi = note.closest('li');
+            if (parentLi && toShow.has(parentLi) && matchingNotes.has(note)) {
+                note.style.display = '';
+            } else {
+                note.style.display = 'none';
+            }
+        });
+    }
 
-            if (searchInput) searchInput.addEventListener('input', function () { filterTree(this.value); });
-            if (clearBtn) clearBtn.addEventListener('click', function () { if (searchInput) searchInput.value = ''; resetTree(); });
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearBtn');
 
-            document.addEventListener('keydown', function (event) {
-                if (!searchInput) return;
-                if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') return;
-                if (event.target.isContentEditable) return;
-                if (event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey) {
-                    searchInput.focus();
-                }
-            });
+    // --- PHẦN THÊM MỚI: TỰ ĐỘNG FOCUS KHI GÕ PHÍM ---
+    document.addEventListener('keydown', function(event) {
+        if (!searchInput) return;
+
+        // Nếu đang gõ ở một ô input khác hoặc textarea thì không nhảy focus
+        if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+            return;
         }
 
-        init();
-    })();
-    </script>
+        // Bỏ qua các phím điều hướng, phím chức năng (Ctrl, Alt, Shift, CapsLock, v.v.)
+        // event.key.length === 1 đảm bảo đó là phím ký tự (chữ, số, ký hiệu)
+        if (event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey) {
+            searchInput.focus();
+        }
+    });
+    // --- KẾT THÚC PHẦN THÊM MỚI ---
+
+    if(searchInput) {
+        searchInput.addEventListener('input', function() {
+            filterTree(this.value);
+        });
+    }
+    if(clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            resetTree();
+        });
+    }
+
+    initCollapse();
+    resetTree();
+})();
+</script>
 </body>
 </html>
